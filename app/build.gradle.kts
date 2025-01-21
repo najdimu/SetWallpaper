@@ -7,6 +7,10 @@ android {
     namespace = "com.example.setwallpaper"
     compileSdk = 35
 
+    viewBinding{
+        enable = true
+    }
+
     defaultConfig {
         applicationId = "com.example.setwallpaper"
         minSdk = 24
