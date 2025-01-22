@@ -9,7 +9,7 @@
     tools:context=".AddThemeFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/toolbar_"
+        android:id="@+id/toolbar_add_theme_fg"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:backgroundTint="@color/rang2"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/back_btn_add_fg"
+            android:id="@+id/back_btn_add_theme_fg"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_back"
@@ -28,7 +28,7 @@
             android:layout_marginStart="15dp"/>
 
         <TextView
-            android:id="@+id/info_texfght"
+            android:id="@+id/toolbar_title_add_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -49,7 +49,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_add_theme_fg"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,7 +69,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/info_text"
+                    android:id="@+id/info_text_add_theme_fg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
@@ -82,20 +82,20 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
-                    android:id="@+id/enter_name"
+                    android:id="@+id/enter_name_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enter theme name"
+                    android:text="Enter theme's name"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/info_text"
+                    app:layout_constraintTop_toBottomOf="@+id/info_text_add_theme_fg"
                     app:layout_constraintStart_toStartOf="parent" />
                 <EditText
-                    android:id="@+id/content_name"
+                    android:id="@+id/content_name_theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Theme name"
+                    android:hint="Theme's name"
                     android:textColorHint="@color/white1"
                     android:textColor="@color/white"
                     android:inputType="textCapWords"
@@ -107,20 +107,20 @@
                     android:layout_marginTop="5dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enter_name"/>
+                    app:layout_constraintTop_toBottomOf="@+id/enter_name_theme"/>
 
                 <TextView
-                    android:id="@+id/enter_designer"
+                    android:id="@+id/enter_designer_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enter designer name"
+                    android:text="Enter designer's name"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/content_name"
+                    app:layout_constraintTop_toBottomOf="@+id/content_name_theme"
                     app:layout_constraintStart_toStartOf="parent" />
                 <EditText
-                    android:id="@+id/designer_name"
+                    android:id="@+id/designer_name_theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Desinger (optinal)"
@@ -134,20 +134,20 @@
                     android:background="@drawable/custom_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enter_designer"/>
+                    app:layout_constraintTop_toBottomOf="@+id/enter_designer_theme"/>
 
                 <TextView
-                    android:id="@+id/enter_size"
+                    android:id="@+id/enter_size_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Enter theme size"
+                    android:text="Enter theme's size"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/designer_name"
+                    app:layout_constraintTop_toBottomOf="@+id/designer_name_theme"
                     app:layout_constraintStart_toStartOf="parent" />
                 <EditText
-                    android:id="@+id/content_size"
+                    android:id="@+id/content_size_theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -162,20 +162,20 @@
                     android:background="@drawable/custom_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enter_size" />
+                    app:layout_constraintTop_toBottomOf="@+id/enter_size_theme" />
 
                 <TextView
-                    android:id="@+id/enter_link"
+                    android:id="@+id/enter_theme_link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Enter theme link"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/content_size"
+                    app:layout_constraintTop_toBottomOf="@+id/content_size_theme"
                     app:layout_constraintStart_toStartOf="parent" />
                 <EditText
-                    android:id="@+id/content_link"
+                    android:id="@+id/content_link_theme"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="5dp"
@@ -190,7 +190,7 @@
                     android:background="@drawable/custom_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enter_link" />
+                    app:layout_constraintTop_toBottomOf="@+id/enter_theme_link" />
 
                 <TextView
                     android:id="@+id/choose_color_title"
@@ -200,7 +200,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/content_link"
+                    app:layout_constraintTop_toBottomOf="@+id/content_link_theme"
                     app:layout_constraintStart_toStartOf="parent" />
                 <HorizontalScrollView
                     android:id="@+id/nest_scroll"
@@ -492,6 +492,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@drawable/cons_background"
@@ -503,7 +504,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/how_contact"
+                    android:id="@+id/how_contact_title_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="How can we contact with you?"
@@ -520,12 +521,12 @@
                     android:popupBackground="@drawable/background_text"
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/how_contact"/>
+                    app:layout_constraintTop_toBottomOf="@+id/how_contact_title_theme"/>
 
 
 
                 <EditText
-                    android:id="@+id/contact_number"
+                    android:id="@+id/how_contact_edit_text_theme"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="10dp"
@@ -548,7 +549,7 @@
                     android:layout_height="wrap_content"
                     android:text="Submit"
                     android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toBottomOf="@+id/contact_number"
+                    app:layout_constraintTop_toBottomOf="@+id/how_contact_edit_text_theme"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 

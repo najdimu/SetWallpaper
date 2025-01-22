@@ -71,8 +71,10 @@
             android:id="@+id/ic_wallpaper_main_fg"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginStart="5dp"
             android:src="@drawable/ic_wallpaper"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/content_wallpaper_text"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
@@ -81,7 +83,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
+            android:maxLines="1"
             android:text="Wallpaper"
             app:layout_constraintStart_toEndOf="@+id/ic_wallpaper_main_fg"
             app:layout_constraintTop_toTopOf="parent"
@@ -105,6 +108,7 @@
             android:id="@+id/ic_theme_main_fg"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginStart="5dp"
             android:src="@drawable/ic_theme"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -115,7 +119,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="10dp"
             android:text="Theme"
             app:layout_constraintStart_toEndOf="@+id/ic_theme_main_fg"
             app:layout_constraintTop_toTopOf="parent"
