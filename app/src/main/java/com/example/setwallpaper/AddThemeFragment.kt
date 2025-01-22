@@ -22,6 +22,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import coil.Coil
+import coil.load
 import com.example.setwallpaper.databinding.FragmentAddThemeBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -338,7 +340,7 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
     // bitmap converter
     private fun convertBitmapToBase64(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
@@ -357,7 +359,9 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
 
         val jsonObject = JSONObject()
         jsonObject.put("name",name)
-        jsonObject.put("designer",designer)
+        if (designer.isNotEmpty()){
+            jsonObject.put("designer",designer)
+        }
         jsonObject.put("size",size)
         jsonObject.put("link",link)
         jsonObject.put("contact",contact)
@@ -368,6 +372,26 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
         sendJsonToServer(jsonObject)
         println("Yalnyslyk: $jsonObject")
     }
+
+        private fun checkBitmap(drawable: Drawable, imageView: ImageView) {
+
+
+            // Get Bitmap from ImageView
+            val bitmapFromImageView = (drawable as BitmapDrawable).bitmap
+
+            // Convert Bitmap to Base64 String
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmapFromImageView.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream)
+            val byteArray = byteArrayOutputStream.toByteArray()
+            val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
+
+            // Convert Base64 String back to Bitmap
+            val imageBytes = Base64.decode(base64Image, Base64.DEFAULT)
+            val bitmapFromBase64 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+            // Set ImageView with Bitmap from Base64
+            imageView.setImageBitmap(bitmapFromBase64)
+        }
 
 
 }

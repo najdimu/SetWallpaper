@@ -17,7 +17,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
 
         binding.backBtnMainFg.setOnClickListener {
-            TODO("Intent koymali basganda intent bilan bashdaki yera kaytmaly")
+            requireActivity().finish()
         }
 
         binding.wallpaperLayout.setOnClickListener {

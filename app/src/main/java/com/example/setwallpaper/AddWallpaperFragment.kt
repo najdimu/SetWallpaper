@@ -282,7 +282,7 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
     // bitmap converter
     private fun convertBitmapToBase64(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
@@ -297,11 +297,14 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
 
         val jsonObject = JSONObject()
         jsonObject.put("name",name)
-        jsonObject.put("designer",designer)
         jsonObject.put("size",size)
         jsonObject.put("contact",contact)
         jsonObject.put("color",color)
         jsonObject.put("images", base64Image)
+        if (designer.isNotEmpty()){
+            jsonObject.put("designer",designer)
+        }
+
 
         // Send JSON to server
         sendJsonToServer(jsonObject)
