@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 pickImageFromGallery()
             }
             if (checkClick == 2){
-                binding.btnAddImage.visibility = View.INVISIBLE
+                binding.btnAddImage.visibility = View.GONE
             }
 
         }
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
             if (description.isEmpty() || userName.isEmpty() || userEmail.isEmpty()
                     || checkClick == 0 ) {
-                    Toast.makeText(this,"Please fill all information", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,R.string.please_fill, Toast.LENGTH_SHORT).show()
                 }
                 else {
                     uploadTextsAndImages(description, userName, userEmail, listOf(firstImage, secondImage, thirdImage))
@@ -112,10 +112,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 // Notify user (optional)
-                Toast.makeText(this, "Picture add successfully!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.success, Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(this, "Failed to add picture.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show()
             }
         }
 
