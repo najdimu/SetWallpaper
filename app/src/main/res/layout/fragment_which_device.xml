@@ -35,7 +35,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="60dp"
             android:textColor="@color/white"
-            android:text="Publish theme"
+            android:text="@string/publish_theme_toolbar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -52,7 +52,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="Which device's theme do you want to publish?"
+        android:text="@string/which_theme_of_the_device_publish"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_"/>
@@ -125,7 +125,7 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:gravity="center"
-            android:text="Other device"
+            android:text="@string/other_device"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 

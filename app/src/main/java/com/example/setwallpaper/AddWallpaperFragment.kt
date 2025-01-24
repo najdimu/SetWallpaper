@@ -77,16 +77,17 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
             updateButtonBackground(binding.btnRadioGroup, checkedId)
         }
 
+        val items = listOf(getString(R.string.choose_spinner_option), "Telegram", "WhatsApp", "Email")
 
-        val items = listOf("Choose an option", "Telegram", "WhatsApp", "Email")
+
         val adapter = object: ArrayAdapter<String>(requireContext(), R.layout.layout, items){
             override fun isEnabled(position: Int): Boolean {
                 return position != 0
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val textView = view as TextView
+                val view12 = super.getDropDownView(position, convertView, parent)
+                val textView = view12 as TextView
 
                 // Set the color of the disabled item
                 if (position == 0) {
@@ -94,7 +95,7 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
                 } else {
                     textView.setTextColor(resources.getColor(R.color.white1, null))
                 }
-                return view
+                return view12
             }
         }
 
@@ -102,28 +103,24 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
 
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val selectedItem = p0?.getItemAtPosition(p2).toString()
                 when (p2){
                     1->{
                         binding.howContactEditText.visibility = View.VISIBLE
                         binding.howContactEditText.hint = "username"
                         binding.howContactEditText.inputType = android.text.InputType.TYPE_CLASS_TEXT
                         binding.howContactEditText.text.clear()
-                        Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
                     }
                     2->{
                         binding.howContactEditText.visibility = View.VISIBLE
                         binding.howContactEditText.hint = "+888 00 000 000 0"
                         binding.howContactEditText.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_CLASS_PHONE
                         binding.howContactEditText.text.clear()
-                        Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
                     }
                     3->{
                         binding.howContactEditText.visibility = View.VISIBLE
                         binding.howContactEditText.hint = "example@ex.com"
                         binding.howContactEditText.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                         binding.howContactEditText.text.clear()
-                        Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -144,7 +141,7 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
 
             if (wallpaperName.isEmpty() || wallpaperSize.isEmpty() || userContact.isEmpty()
                 || colorId == -1 || addWallCheck) {
-                Toast.makeText(requireContext(),"Please fill all information", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),R.string.please_fill, Toast.LENGTH_SHORT).show()
             }
             else {
                 uploadTextsAndImages(wallpaperName, designerName,
@@ -180,10 +177,10 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
             binding.wallpaperTextView2.visibility = View.GONE
             addWallCheck = false
             // Notify user (optional)
-            Toast.makeText(requireContext(), "picture add successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.success, Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(requireContext(), "Failed to add picture.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -265,15 +262,13 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 if (response.isSuccessful) {
-                    println("Response Yalnyslyk: ${response.body?.string()}")
+                    println("Response: ${response.body?.string()}")
                 } else {
-                    println("Error Yalnyslyk: ${response.message}")
+                    println("Error: ${response.message}")
                 }
             }
 
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-
-                println("Yalnyslyk")
                 e.printStackTrace()
             }
         })
@@ -304,11 +299,8 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
         if (designer.isNotEmpty()){
             jsonObject.put("designer",designer)
         }
-
-
         // Send JSON to server
         sendJsonToServer(jsonObject)
-        println("Yalnyslyk: $jsonObject")
     }
 
 

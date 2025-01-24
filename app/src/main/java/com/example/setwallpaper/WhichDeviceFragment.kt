@@ -23,7 +23,7 @@ class WhichDeviceFragment : Fragment(R.layout.fragment_which_device) {
 
         binding.samsungLayout.setOnClickListener {
             val targetFragment = AddThemeFragment()
-            targetFragment.arguments = Bundle().apply { putString("device","Samsung Galaxy theme") }
+            targetFragment.arguments = Bundle().apply { putString("device","Samsung Galaxy ${getString(R.string.toolbar_name_theme)}") }
             parentFragmentManager.beginTransaction()
                 .replace(R.id.containerFg, targetFragment)
                 .addToBackStack(null)
@@ -31,7 +31,7 @@ class WhichDeviceFragment : Fragment(R.layout.fragment_which_device) {
         }
         binding.oppoRealmeLayout.setOnClickListener {
             val targetFragment = AddThemeFragment()
-            targetFragment.arguments = Bundle().apply { putString("device","Oppo & Realme theme") }
+            targetFragment.arguments = Bundle().apply { putString("device","Oppo & Realme ${getString(R.string.toolbar_name_theme)}") }
             parentFragmentManager.beginTransaction()
                 .replace(R.id.containerFg, targetFragment)
                 .addToBackStack(null)
@@ -39,7 +39,7 @@ class WhichDeviceFragment : Fragment(R.layout.fragment_which_device) {
         }
         binding.otherDeviceLayout.setOnClickListener {
             val targetFragment = AddThemeFragment()
-            targetFragment.arguments = Bundle().apply { putString("device","Other device's theme") }
+            targetFragment.arguments = Bundle().apply { putString("device", getString(R.string.other_device_s_theme)) }
             parentFragmentManager.beginTransaction()
                 .replace(R.id.containerFg, targetFragment)
                 .addToBackStack(null)

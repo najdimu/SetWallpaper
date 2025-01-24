@@ -63,7 +63,6 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
             binding.toolbarTitleAddTheme.text = deviceName
         }
 
-
         // Dynamically create RadioButtons
         colors.forEachIndexed { index, colorHex ->
             val radioButton = RadioButton(requireContext()).apply {
@@ -106,9 +105,7 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
             pickImageFromGallery()
         }
 
-
-
-        val items = listOf("Choose an option", "Telegram", "WhatsApp", "Email")
+        val items = listOf(getString(R.string.choose_spinner_option), "Telegram", "WhatsApp", "Email")
         val adapter = object: ArrayAdapter<String>(requireContext(), R.layout.layout, items){
             override fun isEnabled(position: Int): Boolean {
                 return position != 0
@@ -177,7 +174,7 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
 
             if (themeName.isEmpty() || themeSize.isEmpty() || themeLink.isEmpty()
                 || userContact.isEmpty() || colorId == -1 || addHomeScr || addLockScr || addNotiPanel ) {
-                Toast.makeText(requireContext(),"Please fill all information", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),R.string.please_fill, Toast.LENGTH_SHORT).show()
             }
             else {
                 if (addExtraScr1 && addExtraScr2){
@@ -241,10 +238,10 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
                 }
             }
             // Notify user (optional)
-            Toast.makeText(requireContext(), "Picture add successfully!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.success, Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(requireContext(), "Failed to add picture.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -325,9 +322,9 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 if (response.isSuccessful) {
-                    println("Response Yalnyslyk: ${response.body?.string()}")
+                    println("Response: ${response.body?.string()}")
                 } else {
-                    println("Error Yalnyslyk: ${response.message}")
+                    println("Error: ${response.message}")
                 }
             }
 
@@ -367,15 +364,11 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
         jsonObject.put("contact",contact)
         jsonObject.put("color",color)
         jsonObject.put("images", imageArray)
-
         // Send JSON to server
         sendJsonToServer(jsonObject)
-        println("Yalnyslyk: $jsonObject")
     }
 
         private fun checkBitmap(drawable: Drawable, imageView: ImageView) {
-
-
             // Get Bitmap from ImageView
             val bitmapFromImageView = (drawable as BitmapDrawable).bitmap
 
