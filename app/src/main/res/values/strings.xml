@@ -2,7 +2,6 @@
     <string name="app_name">SetWallpaper</string>
 
 
-
     <string name="toolbar_name_theme">theme</string>
     <string name="you_should_fill_about_theme">You should fill about theme</string>
     <string name="enter_theme_s_name">Enter theme\'s name</string>
@@ -38,6 +37,12 @@
     <string name="success">Picture added successfully!</string>
     <string name="error">Failed to add picture.</string>
 
+
+
+    <string name="btn_response_fg_done">DONE</string>
+    <string name="error_response_message">Something went wrong please try again</string>
+    <string name="success_response_message_theme">Thank you for sharing your preferred theme with us. We are currently reviewing it and will publish it as soon as possible. If we need to clarify any details, we will contact you. We appreciate your patience and support!</string>
+    <string name="success_response_message_wallpaper">Thank you for sharing your preferred picture with us. We are currently reviewing it and will publish it as soon as possible. If we need to clarify any details, we will contact you. We appreciate your patience and support!</string>
 
 
 </resources>

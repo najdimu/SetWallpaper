@@ -1,5 +1,6 @@
 package com.example.setwallpaper
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Base64
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -22,24 +24,48 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import coil.Coil
 import coil.load
 import com.example.setwallpaper.databinding.FragmentAddThemeBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import net.lingala.zip4j.ZipFile
+import net.lingala.zip4j.model.ZipParameters
+import net.lingala.zip4j.model.enums.CompressionLevel
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import okio.IOException
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.io.InputStream
+import java.util.zip.Deflater
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
 
     private lateinit var binding: FragmentAddThemeBinding
     private var clickedImageView: ImageView? = null
+    private var bitmapHome: Bitmap? = null
+    private var bitmapLock: Bitmap? = null
+    private var bitmapNoti: Bitmap? = null
+    private var bitmapExtra1: Bitmap? = null
+    private var bitmapExtra2: Bitmap? = null
     private var addHomeScr = true
     private var addLockScr = true
     private var addNotiPanel = true
@@ -156,32 +182,34 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
         }
 
 
-        binding.btnSubmit.setOnClickListener {
+        binding.btnSendContent.setOnClickListener {
             val themeName = binding.contentNameTheme.text.toString()
             val designerName = binding.designerNameTheme.text.toString()
             val themeSize = binding.contentSizeTheme.text.toString()
             val themeLink = binding.contentLinkTheme.text.toString()
             val userContact = binding.howContactEditTextTheme.text.toString()
 
-            val homeScreen = binding.homeScreen.drawable
-            val lockScreen = binding.lockScreen.drawable
-            val notiPanel = binding.notiPanel.drawable
-            val extra1 = binding.extraScreen1.drawable
-            val extra2 = binding.extraScreen2.drawable
-
-            val imagesWithExtra = listOf(homeScreen, lockScreen, notiPanel, extra1, extra2)
-            val imagesNoExtra = listOf(homeScreen, lockScreen, notiPanel)
+            val bitmapList = listOf(bitmapHome, bitmapLock, bitmapNoti, bitmapExtra1, bitmapExtra2)
 
             if (themeName.isEmpty() || themeSize.isEmpty() || themeLink.isEmpty()
                 || userContact.isEmpty() || colorId == -1 || addHomeScr || addLockScr || addNotiPanel ) {
                 Toast.makeText(requireContext(),R.string.please_fill, Toast.LENGTH_SHORT).show()
             }
             else {
-                if (addExtraScr1 && addExtraScr2){
-                   uploadTextsAndImages(themeName, designerName,themeSize, themeLink, userContact, colorsName[colorId], imagesWithExtra)
-                }
-                else{
-                    uploadTextsAndImages(themeName, designerName,themeSize, themeLink, userContact, colorsName[colorId], imagesNoExtra)
+                try{
+                    val bitmapByteArrayList = bitmapsToListByteArray(bitmapList)
+                    val jsonObject = addTextsToJsonObject(themeName, designerName, themeSize, themeLink, userContact, colorsName[colorId])
+                    val jsonByteArray = jsonToByteArray(jsonObject)
+                    val zipFile = createZipInMemory(jsonByteArray, bitmapByteArrayList)
+                    sendToServerZip(zipFile, "https://yourserver.com/api/upload/theme")
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnSendContent.text = ""
+                    binding.btnSendContent.isEnabled = false
+
+                }catch  (e: Exception) {
+                    buttonClickTrue()
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
                 }
             }
         }
@@ -208,32 +236,41 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
     private fun pictureToImageView(view: ImageView, uri: Uri){
         try {
             val inputStream: InputStream? = requireActivity().contentResolver.openInputStream(uri)
-            val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
+            var bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
+
+            if (bitmap.width > 1000){
+                bitmap = resizeBitmapWidth(bitmap, 1000)
+            }
 
             when (view) {
                 binding.homeScreen ->{
                     binding.homeScreen.setImageBitmap(bitmap)
                     binding.addHome.visibility = View.GONE
+                    bitmapHome = bitmap
                     addHomeScr = false
                 }
                 binding.lockScreen ->{
                     binding.lockScreen.setImageBitmap(bitmap)
                     binding.addLock.visibility = View.GONE
+                    bitmapLock = bitmap
                     addLockScr = false
                 }
                 binding.notiPanel ->{
                     binding.notiPanel.setImageBitmap(bitmap)
                     binding.addNoti.visibility = View.GONE
+                    bitmapNoti = bitmap
                     addNotiPanel = false
                 }
                 binding.extraScreen1 ->{
                     binding.extraScreen1.setImageBitmap(bitmap)
                     binding.addExtra.visibility = View.GONE
+                    bitmapExtra1 = bitmap
                     addExtraScr1 = true
                 }
                 binding.extraScreen2 ->{
                     binding.extraScreen2.setImageBitmap(bitmap)
                     binding.addExtra2.visibility = View.GONE
+                    bitmapExtra2 = bitmap
                     addExtraScr2 = true
                 }
             }
@@ -305,56 +342,29 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
         }
     }
 
+    private fun resizeBitmapWidth(bitmap: Bitmap, newWidth: Int): Bitmap {
+        // Calculate the new height to maintain the aspect ratio
+        val aspectRatio = bitmap.height.toFloat() / bitmap.width
+        val newHeight = (newWidth * aspectRatio).toInt()
 
-
-    //send data to server
-    private fun sendJsonToServer(jsonObject: JSONObject) {
-        val client = OkHttpClient()
-
-        val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
-        val requestBody = jsonObject.toString().toRequestBody(mediaType)
-
-        val request = Request.Builder()
-            .url("https://yourserver.com/api/upload/theme") // Replace with your API endpoint
-            .post(requestBody)
-            .build()
-
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                if (response.isSuccessful) {
-                    println("Response: ${response.body?.string()}")
-                } else {
-                    println("Error: ${response.message}")
-                }
-            }
-
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                e.printStackTrace()
-            }
-        })
+        // Scale the bitmap
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
     }
 
-    // bitmap converter
-    private fun convertBitmapToBase64(bitmap: Bitmap): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream)
-        val byteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    private fun bitmapsToListByteArray(bitmaps: List<Bitmap?>, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG, quality: Int = 75): List<ByteArray> {
+        return bitmaps.map { bitmap ->
+            bitmap?.let {
+                val stream = ByteArrayOutputStream()
+                it.compress(format, quality, stream)
+                stream.toByteArray()
+            } ?: ByteArray(0) // Return an empty ByteArray for null Bitmaps
+        }
     }
-    private fun uploadTextsAndImages(name: String, designer: String, size: String,
-                                     link: String, contact: String, color: String,
-                                     drawables: List<Drawable>) {
-        // Convert ImageViews to Bitmaps
-        val bitmaps = drawables.map { drawable ->
-            (drawable as BitmapDrawable).bitmap
-        }
-        val imageArray = JSONArray()
-        for (image in bitmaps) {
-            val base64Image = convertBitmapToBase64(image) // Convert image to Base64
-            imageArray.put(base64Image)
-        }
 
+    private fun addTextsToJsonObject(name: String, designer: String, size: String,
+                                     link: String, contact: String, color: String) : JSONObject {
         val jsonObject = JSONObject()
+
         jsonObject.put("name",name)
         if (designer.isNotEmpty()){
             jsonObject.put("designer",designer)
@@ -363,28 +373,87 @@ class AddThemeFragment : Fragment(R.layout.fragment_add_theme) {
         jsonObject.put("link",link)
         jsonObject.put("contact",contact)
         jsonObject.put("color",color)
-        jsonObject.put("images", imageArray)
-        // Send JSON to server
-        sendJsonToServer(jsonObject)
+        return jsonObject
     }
 
-        private fun checkBitmap(drawable: Drawable, imageView: ImageView) {
-            // Get Bitmap from ImageView
-            val bitmapFromImageView = (drawable as BitmapDrawable).bitmap
+    private fun jsonToByteArray(jsonObject: JSONObject): ByteArray {
+        return jsonObject.toString().toByteArray(Charsets.UTF_8)
+    }
 
-            // Convert Bitmap to Base64 String
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            bitmapFromImageView.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream)
-            val byteArray = byteArrayOutputStream.toByteArray()
-            val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
+    private fun createZipInMemory(jsonBytes: ByteArray, imageBytes: List<ByteArray>): ByteArray {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val zipOutputStream = ZipOutputStream(byteArrayOutputStream)
 
-            // Convert Base64 String back to Bitmap
-            val imageBytes = Base64.decode(base64Image, Base64.DEFAULT)
-            val bitmapFromBase64 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        // Add JSON to ZIP
+        zipOutputStream.putNextEntry(ZipEntry("data.json"))
+        zipOutputStream.write(jsonBytes)
+        zipOutputStream.closeEntry()
 
-            // Set ImageView with Bitmap from Base64
-            imageView.setImageBitmap(bitmapFromBase64)
+        // Add images to ZIP
+        imageBytes.forEachIndexed { index, image ->
+            zipOutputStream.putNextEntry(ZipEntry("image_$index.jpg"))
+            zipOutputStream.write(image)
+            zipOutputStream.closeEntry()
         }
 
+        zipOutputStream.close() // Finish ZIP
+        return byteArrayOutputStream.toByteArray()
+    }
+
+    private fun sendToServerZip(zipBytes: ByteArray, serverUrl: String) {
+
+        val requestBody = zipBytes.toRequestBody("application/zip".toMediaType())
+
+        val request = Request.Builder()
+            .url(serverUrl)
+            .post(requestBody)
+            .build()
+
+        // Usage in Coroutine Scope
+        lifecycleScope.launch {
+            try {
+                val response = uploadFile(request)
+
+                response.onSuccess {
+                    val targetFragment = ResponseFragment()
+                    targetFragment.arguments = Bundle().apply { putBoolean("message_result", true) }
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.containerFg, targetFragment)
+                        .commit()
+
+                }.onFailure {
+                    buttonClickTrue()
+                    Toast.makeText(requireContext(), R.string.error_response_message, Toast.LENGTH_SHORT).show()
+                    println("Upload failed: ${it.message}")
+                }
+
+            } catch (e: Exception) {
+                buttonClickTrue()
+                Toast.makeText(requireContext(), "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private suspend fun uploadFile(request: Request): Result<String> {
+        return withContext(Dispatchers.IO) {
+            val client = OkHttpClient()
+            try {
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    Result.success("success")
+                } else {
+                    Result.failure(IOException("Error: ${response.message}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+    }
+
+    private fun buttonClickTrue(){
+        binding.progressBar.visibility = View.GONE
+        binding.btnSendContent.text = getString(R.string.send_content_)
+        binding.btnSendContent.isEnabled = true
+    }
 
 }

@@ -309,7 +309,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
                 <Button
-                    android:id="@+id/btn_submit"
+                    android:id="@+id/btn_send_wallpaper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/send_content_"
@@ -317,6 +317,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/how_contact_edit_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="@+id/btn_send_wallpaper"
+                    app:layout_constraintStart_toStartOf="@+id/btn_send_wallpaper"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_send_wallpaper"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_send_wallpaper"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

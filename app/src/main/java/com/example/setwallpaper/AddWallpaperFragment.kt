@@ -23,23 +23,32 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.setwallpaper.databinding.FragmentAddWallpaperBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
 
     private lateinit var binding: FragmentAddWallpaperBinding
 
     private var colorId = -1
-    private var addWallCheck = true
+    private var bitmapWallpaper: Bitmap? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -132,20 +141,32 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
         }
 
 
-        binding.btnSubmit.setOnClickListener {
+        binding.btnSendWallpaper.setOnClickListener {
             val wallpaperName = binding.contentName.text.toString()
             val designerName = binding.designerName.text.toString()
             val wallpaperSize = binding.contentSize.text.toString()
             val userContact = binding.howContactEditText.text.toString()
-            val wallpaper = binding.wallpaperImageView.drawable
 
             if (wallpaperName.isEmpty() || wallpaperSize.isEmpty() || userContact.isEmpty()
-                || colorId == -1 || addWallCheck) {
+                || colorId == -1 || bitmapWallpaper == null) {
                 Toast.makeText(requireContext(),R.string.please_fill, Toast.LENGTH_SHORT).show()
             }
             else {
-                uploadTextsAndImages(wallpaperName, designerName,
-                    wallpaperSize, userContact, colorsName[colorId], wallpaper)
+                try{
+                    val bitmapByteArray = bitmapsToListByteArray(bitmapWallpaper)
+                    val jsonObject = addTextsToJsonObject(wallpaperName, designerName, wallpaperSize, userContact, colorsName[colorId])
+                    val jsonByteArray = jsonToByteArray(jsonObject)
+                    val zipFile = createZipInMemory(jsonByteArray, bitmapByteArray)
+                    sendToServerZip(zipFile, "https://yourserver.com/api/upload/theme")
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnSendWallpaper.text = ""
+                    binding.btnSendWallpaper.isEnabled = false
+
+                }catch  (e: Exception) {
+                    buttonClickTrue()
+                    Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+                    e.printStackTrace()
+                }
             }
         }
 
@@ -173,9 +194,10 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
         try {
             val inputStream: InputStream? = requireActivity().contentResolver.openInputStream(uri)
             val bitmap: Bitmap = BitmapFactory.decodeStream(inputStream)
-            binding.wallpaperImageView.setImageBitmap(bitmap)
+            val resizeBitmap = resizeBitmapWidth(bitmap, 720)
+            binding.wallpaperImageView.setImageBitmap(resizeBitmap)
             binding.wallpaperTextView2.visibility = View.GONE
-            addWallCheck = false
+            bitmapWallpaper = bitmap
             // Notify user (optional)
             Toast.makeText(requireContext(), R.string.success, Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
@@ -247,61 +269,116 @@ class AddWallpaperFragment : Fragment(R.layout.fragment_add_wallpaper) {
 
 
 
-    //send data to server
-    private fun sendJsonToServer(jsonObject: JSONObject) {
-        val client = OkHttpClient()
+    private fun resizeBitmapWidth(bitmap: Bitmap, newWidth: Int): Bitmap {
+        // Calculate the new height to maintain the aspect ratio
+        val aspectRatio = bitmap.height.toFloat() / bitmap.width
+        val newHeight = (newWidth * aspectRatio).toInt()
 
-        val mediaType = "application/json; charset=utf-8".toMediaTypeOrNull()
-        val requestBody = RequestBody.create(mediaType, jsonObject.toString())
-
-        val request = Request.Builder()
-            .url("https://yourserver.com/api/upload/wallpaper") // Replace with your API endpoint
-            .post(requestBody)
-            .build()
-
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                if (response.isSuccessful) {
-                    println("Response: ${response.body?.string()}")
-                } else {
-                    println("Error: ${response.message}")
-                }
-            }
-
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                e.printStackTrace()
-            }
-        })
+        // Scale the bitmap
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
     }
 
-    // bitmap converter
-    private fun convertBitmapToBase64(bitmap: Bitmap): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream)
-        val byteArray = byteArrayOutputStream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    private fun bitmapsToListByteArray(bitmap: Bitmap?, format: Bitmap.CompressFormat =
+        Bitmap.CompressFormat.JPEG, quality: Int = 75): ByteArray {
+        return bitmap?.let {
+            val stream = ByteArrayOutputStream()
+            it.compress(format, quality, stream)
+            stream.toByteArray()
+        } ?: ByteArray(0) // Return an empty ByteArray for null Bitmaps
+
     }
 
-    private fun uploadTextsAndImages(name: String, designer: String, size: String,
-                                     contact: String, color: String,
-                                     drawable: Drawable) {
-        // Convert ImageViews to Bitmaps
-        val bitmap = (drawable as BitmapDrawable).bitmap
-        val base64Image = convertBitmapToBase64(bitmap) // Convert image to Base64
-
-
+    private fun addTextsToJsonObject(name: String, designer: String, size: String,
+                                     contact: String, color: String) : JSONObject {
         val jsonObject = JSONObject()
+
         jsonObject.put("name",name)
-        jsonObject.put("size",size)
-        jsonObject.put("contact",contact)
-        jsonObject.put("color",color)
-        jsonObject.put("images", base64Image)
         if (designer.isNotEmpty()){
             jsonObject.put("designer",designer)
         }
-        // Send JSON to server
-        sendJsonToServer(jsonObject)
+        jsonObject.put("size",size)
+        jsonObject.put("contact",contact)
+        jsonObject.put("color",color)
+        return jsonObject
     }
 
+    private fun jsonToByteArray(jsonObject: JSONObject): ByteArray {
+        return jsonObject.toString().toByteArray(Charsets.UTF_8)
+    }
+
+    private fun createZipInMemory(jsonBytes: ByteArray, imageBytes: ByteArray): ByteArray {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val zipOutputStream = ZipOutputStream(byteArrayOutputStream)
+
+        // Add JSON to ZIP
+        zipOutputStream.putNextEntry(ZipEntry("data.json"))
+        zipOutputStream.write(jsonBytes)
+        zipOutputStream.closeEntry()
+
+        // Add images to ZIP
+        zipOutputStream.putNextEntry(ZipEntry("image_.jpg"))
+        zipOutputStream.write(imageBytes)
+        zipOutputStream.closeEntry()
+
+
+        zipOutputStream.close() // Finish ZIP
+        return byteArrayOutputStream.toByteArray()
+    }
+
+    private fun sendToServerZip(zipBytes: ByteArray, serverUrl: String) {
+
+        val requestBody = zipBytes.toRequestBody("application/zip".toMediaType())
+
+        val request = Request.Builder()
+            .url(serverUrl)
+            .post(requestBody)
+            .build()
+
+        // Usage in Coroutine Scope
+        lifecycleScope.launch {
+            try {
+                val response = uploadFile(request)
+
+                response.onSuccess {
+                    val targetFragment = ResponseFragment()
+                    targetFragment.arguments = Bundle().apply { putBoolean("message_result", false) }
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.containerFg, targetFragment)
+                        .commit()
+
+                }.onFailure {
+                    buttonClickTrue()
+                    Toast.makeText(requireContext(), R.string.error_response_message, Toast.LENGTH_SHORT).show()
+                    println("Upload failed: ${it.message}")
+                }
+
+            } catch (e: Exception) {
+                buttonClickTrue()
+                Toast.makeText(requireContext(), "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private suspend fun uploadFile(request: Request): Result<String> {
+        return withContext(Dispatchers.IO) {
+            val client = OkHttpClient()
+            try {
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    Result.success("success")
+                } else {
+                    Result.failure(IOException("Error: ${response.message}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+    }
+
+    private fun buttonClickTrue(){
+        binding.progressBar.visibility = View.GONE
+        binding.btnSendWallpaper.text = getString(R.string.send_content_)
+        binding.btnSendWallpaper.isEnabled = true
+    }
 
 }

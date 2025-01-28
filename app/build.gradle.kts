@@ -53,6 +53,14 @@ dependencies {
     implementation("com.squareup.okhttp3","okhttp","4.9.3")
     implementation("com.squareup.okhttp3","logging-interceptor","4.9.3")
     implementation("io.coil-kt","coil","2.4.0")
+    implementation("net.lingala.zip4j","zip4j","2.11.5")
+
+    // Coroutines
+    implementation ("org.jetbrains.kotlinx","kotlinx-coroutines-core","1.7.1")
+    implementation ("org.jetbrains.kotlinx","kotlinx-coroutines-android","1.7.1")
+
+    // Coroutine Lifecycle Scopes
+    implementation ("androidx.lifecycle","lifecycle-runtime-ktx","2.6.2")
 
 
 }
