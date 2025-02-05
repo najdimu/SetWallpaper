@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportFragmentManager.beginTransaction().replace(R.id.containerFg, MainFragment())
+        supportFragmentManager.beginTransaction().replace(R.id.containerFg, AddWallpaperFragment())
             .commit()
 
     }

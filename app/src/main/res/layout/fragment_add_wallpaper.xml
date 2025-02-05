@@ -29,12 +29,12 @@
             android:id="@+id/toolbar_add_wall_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="60dp"
             android:textColor="@color/white"
-            android:text="@string/publish_wallpaper"
+            android:text="Выбор тарифа"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -53,282 +53,442 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp">
+            android:padding="15dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/cons_background"
+            >
 
+            <TextView
+                android:id="@+id/subtext_choose_tariff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Наслаждайтесь приложением без отвлекающих рекламных материалов."
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/description_choose_tariff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Для отключеневт рекламы выберите и приобретите один из тарифов ниже. После этого вы сможете пользоваться приложением без рекламы в течение срока, указанного в Выбранном вами тарифе"
+                android:textSize="16sp"
+                android:textColor="@color/white1"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subtext_choose_tariff"/>
+
+            <!-- 1 Week Plan -->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_1"
+                android:layout_marginTop="10dp"
+                android:id="@+id/layout_tariff_week"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cons_background"
-                android:padding="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:paddingVertical="8dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="5dp"
+                android:background="@drawable/unselected_tariff"
+                app:layout_constraintTop_toBottomOf="@+id/description_choose_tariff">
+
+                <TextView
+                    android:id="@+id/tariff_week_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1 неделя — 29 рублей"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Короткий пробный период для знакомства с сервисом!"
+                    android:textSize="14sp"
+                    android:textColor="#B0B0B0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tariff_week_title"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 1 Month Plan -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_tariff_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="8dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="5dp"
+                android:background="@drawable/unselected_tariff"
+                app:layout_constraintTop_toBottomOf="@+id/layout_tariff_week"
                 >
 
                 <TextView
-                    android:id="@+id/info_text"
-                    android:layout_width="0dp"
+                    android:id="@+id/tariff_month_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:text="@string/you_should_fill_about_wallpaper"
+                    android:text="1 месяц — 99 рублей"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    />
 
                 <TextView
-                    android:id="@+id/enter_name_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/enter_wallpaper_s_name"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/info_text"
-                    app:layout_constraintStart_toStartOf="parent" />
-                <EditText
-                    android:id="@+id/content_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_wallpaper_s_name"
-                    android:textColorHint="@color/white1"
-                    android:textColor="@color/white"
-                    android:inputType="textCapWords"
-                    android:maxLines="2"
-                    android:textSize="16sp"
-                    android:paddingVertical="7dp"
-                    android:paddingHorizontal="10dp"
-                    android:background="@drawable/custom_background"
-                    android:layout_marginTop="5dp"
+                    android:text="Месяц комфортного использования без рекламы!"
+                    android:textSize="14sp"
+                    android:textColor="#B0B0B0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enter_name_text"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tariff_month_title"
+                    />
 
                 <TextView
-                    android:id="@+id/enter_designer_text"
+                    android:id="@+id/tariff_month_sale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/enter_designer_s_name"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/content_name"
-                    app:layout_constraintStart_toStartOf="parent" />
-                <EditText
-                    android:id="@+id/designer_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_designer_optional"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"
-                    android:textSize="16sp"
-                    android:textColorHint="@color/white1"
-                    android:textColor="@color/white"
-                    android:paddingVertical="7dp"
-                    android:paddingHorizontal="10dp"
-                    android:background="@drawable/custom_background"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enter_designer_text"/>
+                    android:text="116 рублей"
+                    android:textColor="#D91515"
+                    android:textSize="14sp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintStart_toEndOf="@+id/tariff_month_title"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_month_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/tariff_month_title"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#D91515"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintStart_toStartOf="@+id/tariff_month_sale"
+                    app:layout_constraintBottom_toBottomOf="@id/tariff_month_sale"
+                    app:layout_constraintEnd_toEndOf="@+id/tariff_month_sale"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_month_sale"
+                    />
 
                 <TextView
-                    android:id="@+id/enter_size_text"
+                    android:id="@+id/tariff_month_procent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/enter_wallpaper_s_size"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/designer_name"
-                    app:layout_constraintStart_toStartOf="parent" />
-                <EditText
-                    android:id="@+id/content_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:textSize="16sp"
-                    android:inputType="numberDecimal"
-                    android:hint="7.6"
-                    android:maxLines="1"
-                    android:textColorHint="@color/white1"
-                    android:textColor="@color/white"
-                    android:paddingVertical="7dp"
-                    android:paddingHorizontal="10dp"
-                    android:background="@drawable/custom_background"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="15%"
+                    android:textColor="#28C52E"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/enter_size_text" />
-
-
-                <TextView
-                    android:id="@+id/choose_color_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/choose_primary_color"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintTop_toBottomOf="@+id/content_size"
-                    app:layout_constraintStart_toStartOf="parent" />
-                <HorizontalScrollView
-                    android:id="@+id/nest_scroll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/choose_color_title"
-                    >
-                    <RadioGroup
-                        android:id="@+id/btn_radio_group"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        />
-
-                </HorizontalScrollView>
-
-                <TextView
-                    android:id="@+id/add_wall_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add_wallpaper_text"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toBottomOf="@+id/nest_scroll"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-
-                        <TextView
-                            android:id="@+id/wallpaper_text_view_1"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/required_image_add"
-                            android:gravity="center"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/white"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="60dp"
-                            app:layout_constraintTop_toBottomOf="@+id/add_wall_text"
-                            app:layout_constraintEnd_toEndOf="@+id/wallpaper_card_view"
-                            app:layout_constraintStart_toStartOf="@+id/wallpaper_card_view" />
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/wallpaper_card_view"
-                            android:layout_width="100dp"
-                            android:layout_height="206dp"
-                            app:cardElevation="0dp"
-                            android:layout_marginTop="3dp"
-                            app:cardCornerRadius="12dp"
-                            android:backgroundTint="#00FFFFFF"
-                            app:layout_constraintTop_toBottomOf="@+id/wallpaper_text_view_1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent">
-
-                            <ImageView
-                                android:id="@+id/wallpaper_image_view"
-                                android:layout_width="100dp"
-                                android:layout_height="206dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/wall"/>
-
-                        </androidx.cardview.widget.CardView>
-                        <TextView
-                            android:id="@+id/wallpaper_text_view_2"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/add_wallpaper_on_image"
-                            android:gravity="center"
-                            android:textSize="10sp"
-                            android:textColor="@color/white"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="60dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/wallpaper_card_view"
-                            app:layout_constraintEnd_toEndOf="@+id/wallpaper_card_view"
-                            app:layout_constraintStart_toStartOf="@+id/wallpaper_card_view" />
-
+                    app:layout_constraintTop_toTopOf="@+id/tariff_month_sale"
+                    app:layout_constraintBottom_toBottomOf="@+id/tariff_month_sale"
+                    />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- 3 Months Plan -->
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_2"
+                android:id="@+id/layout_tariff_3_month"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@drawable/cons_background"
-                android:padding="20dp"
-                android:layout_marginVertical="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_1"
-                >
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="8dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="5dp"
+                android:background="@drawable/unselected_tariff"
+                app:layout_constraintTop_toBottomOf="@+id/layout_tariff_month">
 
                 <TextView
-                    android:id="@+id/how_contact_title"
+                    android:id="@+id/tariff_3_months_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/how_can_we_contact_you"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
+                    android:text="3 месяца — 249 рублей"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    />
 
-                <Spinner
-                    android:id="@+id/spinner"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Оптимальный выбор для тех, кто ценит удобство!"
+                    android:textSize="14sp"
+                    android:textColor="#B0B0B0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tariff_3_months_title"
+                    />
+
+                <TextView
+                    android:id="@+id/tariff_3_months_sale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:popupBackground="@drawable/background_text"
+                    android:text="297 рублей"
+                    android:textColor="#D91515"
+                    android:textSize="14sp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintStart_toEndOf="@+id/tariff_3_months_title"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_3_months_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/tariff_3_months_title"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#D91515"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintStart_toStartOf="@+id/tariff_3_months_sale"
+                    app:layout_constraintBottom_toBottomOf="@id/tariff_3_months_sale"
+                    app:layout_constraintEnd_toEndOf="@+id/tariff_3_months_sale"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_3_months_sale"
+                    />
+
+                <TextView
+                    android:id="@+id/tariff_3_month_procent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16%"
+                    android:textColor="#28C52E"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_3_months_sale"
+                    app:layout_constraintBottom_toBottomOf="@+id/tariff_3_months_sale"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 6 Months Plan -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_tariff_6_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="8dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="5dp"
+                android:background="@drawable/unselected_tariff"
+                app:layout_constraintTop_toBottomOf="@+id/layout_tariff_3_month">
+
+                <TextView
+                    android:id="@+id/tariff_6_months_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="6 месяца — 429 рублей"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Полгода полного погружения без рекламы!"
+                    android:textSize="14sp"
+                    android:textColor="#B0B0B0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tariff_6_months_title"
+                    />
+                <TextView
+                    android:id="@+id/tariff_6_month_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="498 рублей"
+                    android:textColor="#D91515"
+                    android:textSize="14sp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintStart_toEndOf="@+id/tariff_6_months_title"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_6_months_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/tariff_6_months_title"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#D91515"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintStart_toStartOf="@+id/tariff_6_month_sale"
+                    app:layout_constraintBottom_toBottomOf="@id/tariff_6_month_sale"
+                    app:layout_constraintEnd_toEndOf="@+id/tariff_6_month_sale"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_6_month_sale"
+                    />
+
+                <TextView
+                    android:id="@+id/tariff_6_months_procent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14%"
+                    android:textColor="#28C52E"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_6_month_sale"
+                    app:layout_constraintBottom_toBottomOf="@+id/tariff_6_month_sale"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 1 Year Plan -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_tariff_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="8dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="5dp"
+                android:background="@drawable/unselected_tariff"
+                app:layout_constraintTop_toBottomOf="@+id/layout_tariff_6_month">
+
+                <TextView
+                    android:id="@+id/tariff_year_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1 год — 799 рублей"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Максимальная выгода — весь год без рекламы!"
+                    android:textSize="14sp"
+                    android:textColor="#B0B0B0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tariff_year_title"
+                    />
+                <TextView
+                    android:id="@+id/tariff_year_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="858 рублей"
+                    android:textColor="#D91515"
+                    android:textSize="14sp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintStart_toEndOf="@+id/tariff_year_title"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_year_title"
+                    app:layout_constraintBottom_toBottomOf="@+id/tariff_year_title"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="#D91515"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintStart_toStartOf="@+id/tariff_year_sale"
+                    app:layout_constraintBottom_toBottomOf="@id/tariff_year_sale"
+                    app:layout_constraintEnd_toEndOf="@+id/tariff_year_sale"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_year_sale"
+                    />
+
+                <TextView
+                    android:id="@+id/tariff_year_procent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="7%"
+                    android:textColor="#28C52E"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tariff_year_sale"
+                    app:layout_constraintBottom_toBottomOf="@+id/tariff_year_sale"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+                <TextView
+                    android:id="@+id/write_email_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="На вашу эл. почту придут код отключения рекламы и чек об оплате"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/how_contact_title"/>
-
-
+                    app:layout_constraintTop_toBottomOf="@id/layout_tariff_year"
+                    />
 
                 <EditText
-                    android:id="@+id/how_contact_edit_text"
+                    android:id="@+id/edittext_email"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
-                    android:inputType="textPhonetic"
-                    android:textSize="16sp"
-                    android:hint="+9684149316"
-                    android:visibility="gone"
-                    android:textColorHint="#6A6A6A"
-                    android:textColor="@color/white"
-                    android:paddingVertical="7dp"
-                    android:paddingHorizontal="10dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Введите ваш email"
                     android:background="@drawable/custom_background"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textColorHint="#A4A4A4"
+                    android:padding="12dp"
+                    android:layout_marginTop="10dp"
+                    android:inputType="textEmailAddress"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner" />
+                    app:layout_constraintTop_toBottomOf="@+id/write_email_textview"
+                    />
+
+                <EditText
+                    android:id="@+id/edittext_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ваше имя (необязательно)"
+                    android:textSize="16sp"
+                    android:background="@drawable/custom_background"
+                    android:textColor="@color/white"
+                    android:textColorHint="#A4A4A4"
+                    android:padding="12dp"
+                    android:layout_marginTop="10dp"
+                    android:inputType="textPersonName"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_email"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Я соглашаюсь "
+                    android:textSize="12sp"
+                    android:checked="true"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_name"
+                    />
+            <TextView
+                android:id="@+id/text_checkbox_conditions_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="с условиями использования"
+                android:textColor="#4CAF50"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_terms"
+                app:layout_constraintTop_toTopOf="@id/checkbox_terms"
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_terms"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="#4CAF50"
+                app:layout_constraintStart_toStartOf="@+id/text_checkbox_conditions_link"
+                app:layout_constraintBottom_toBottomOf="@id/text_checkbox_conditions_link"
+                app:layout_constraintEnd_toEndOf="@+id/text_checkbox_conditions_link"
+                />
+
 
                 <Button
-                    android:id="@+id/btn_send_wallpaper"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btn_buy"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/send_content_"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintTop_toBottomOf="@+id/how_contact_edit_text"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    android:text="Купить"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_terms"/>
 
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="@+id/btn_send_wallpaper"
-                    app:layout_constraintStart_toStartOf="@+id/btn_send_wallpaper"
-                    app:layout_constraintBottom_toBottomOf="@+id/btn_send_wallpaper"
-                    app:layout_constraintEnd_toEndOf="@+id/btn_send_wallpaper"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
