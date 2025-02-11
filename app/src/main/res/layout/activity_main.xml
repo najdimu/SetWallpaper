@@ -1,17 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/rang1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/containerFg"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/toolbar_FAQ_page"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="80dp"
+        android:backgroundTint="@color/rang2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/back_btn_FAQ_page"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_back"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"/>
+
+        <TextView
+            android:id="@+id/FAQ_page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="60dp"
+            android:textColor="@color/white"
+            android:text="FAQ"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_FAQ_page">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/FAQ_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:itemCount="5"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/text_FAQ_page_send_question"
+                />
+
+            <TextView
+                android:id="@+id/text_FAQ_page_send_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                android:text="Didn\'t find the answer you were looking for? Don\'t worry! Send us your question, and we\'ll get back to you as soon as possible."
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/text_FAQ_page_tap_here"/>
+
+            <TextView
+                android:id="@+id/text_FAQ_page_tap_here"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tap here to send question"
+                android:textColor="#2196F3"
+                android:textSize="14sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="#2196F3"
+                app:layout_constraintStart_toStartOf="@+id/text_FAQ_page_tap_here"
+                app:layout_constraintBottom_toBottomOf="@id/text_FAQ_page_tap_here"
+                app:layout_constraintEnd_toEndOf="@+id/text_FAQ_page_tap_here"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

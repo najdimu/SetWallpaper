@@ -52,6 +52,9 @@ dependencies {
 
     implementation("com.squareup.okhttp3","okhttp","4.9.3")
     implementation("com.squareup.okhttp3","logging-interceptor","4.9.3")
+    implementation("com.google.code.gson","gson","2.10.1")
+
+
     implementation("io.coil-kt","coil","2.4.0")
     implementation("net.lingala.zip4j","zip4j","2.11.5")
 
