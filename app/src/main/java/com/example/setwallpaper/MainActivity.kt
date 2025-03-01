@@ -1,68 +1,74 @@
 package com.example.setwallpaper
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.setwallpaper.databinding.ActivityMainBinding
-import com.google.gson.Gson
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import okio.IOException
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: FAQAdapter
+
+    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.backBtnFAQPage.setOnClickListener {
-            finish()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_background)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
 
-        binding.FAQRecyclerview.layoutManager = LinearLayoutManager(this)
-        adapter = FAQAdapter(mutableListOf())
-        binding.FAQRecyclerview.adapter = adapter
+        val sharedPreferences = getSharedPreferences("tasbeh_models", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
 
-        getFAQData() { list ->
-            runOnUiThread {
-                list?.let {
-                    adapter.updateData(it)
-                }
+        count = sharedPreferences.getInt("count_number", 0)
+        binding.counterNum.text = "$count"
+
+
+        binding.btnCounter.setOnClickListener {
+            count = sharedPreferences.getInt("count_number", 0)
+            count++
+            binding.counterNum.text = "$count"
+            editor.putInt("count_number", count)
+            editor.apply()
+        }
+        binding.btnReset.setOnClickListener {
+            count = 0
+            binding.counterNum.text = "$count"
+            editor.putInt("count_number", 0)
+            editor.apply()
+        }
+
+        binding.btnLed.setOnClickListener {
+            val isLed = sharedPreferences.getBoolean("is_led", false)
+            if (!isLed) {
+                binding.mainBackground.setBackgroundResource(R.drawable.background_led)
+                binding.imageBackground.setBackgroundResource(R.drawable.ic_back_full_led)
+                binding.btnReset.setBackgroundResource(R.drawable.ic_button_led)
+                binding.btnCounter.setBackgroundResource(R.drawable.ic_button_led)
+                binding.btnLed.setBackgroundResource(R.drawable.ic_button_led)
+                editor.putBoolean("is_led", true)
+                editor.apply()
+            } else {
+                binding.mainBackground.setBackgroundResource(R.drawable.background)
+                binding.imageBackground.setBackgroundResource(R.drawable.ic_back_full)
+                binding.btnReset.setBackgroundResource(R.drawable.ic_button)
+                binding.btnCounter.setBackgroundResource(R.drawable.ic_button)
+                binding.btnLed.setBackgroundResource(R.drawable.ic_button)
+                editor.putBoolean("is_led", false)
+                editor.apply()
             }
-        }
 
-        binding.textFAQPageTapHere.setOnClickListener {
-            // link to report a problem page
+
         }
 
     }
-
-    private fun getFAQData(onResult: (List<FAQsItem>?) -> Unit) {
-        val client = OkHttpClient()
-        val request = Request.Builder().url("https://raw.githubusercontent.com/najdimu/Stock/refs/heads/main/faq_data.json").build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                onResult(null)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.body?.string()?.let { json ->
-                    println(json)
-                    val faqList = Gson().fromJson(json, Array<FAQsItem>::class.java).toList()
-                    onResult(faqList)
-                } ?: onResult(null)
-            }
-        })
-    }
-
 }
 

@@ -2,111 +2,104 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:background="@color/rang1"
+    android:id="@+id/main_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
+
     tools:context=".MainActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/toolbar_FAQ_page"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:backgroundTint="@color/rang2"
-        app:layout_constraintStart_toStartOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/image_background"
+        android:layout_width="300dp"
+        android:layout_height="600dp"
+        android:background="@drawable/ic_back_full"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/counterNum"
+            android:layout_width="160dp"
+            android:layout_height="70dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="103dp"
+            android:fontFamily="@font/digital"
+            android:gravity="right"
+            android:maxLines="1"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="80sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded" />
+
         <ImageView
-            android:id="@+id/back_btn_FAQ_page"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_back"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"/>
+            android:id="@+id/btn_Reset"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="67dp"
+            android:src="@drawable/ic_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/FAQ_page_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="60dp"
+            android:text="Reset"
             android:textColor="@color/white"
-            android:text="FAQ"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_Reset"
+            app:layout_constraintEnd_toEndOf="@+id/btn_Reset"
+            app:layout_constraintStart_toStartOf="@+id/btn_Reset"/>
+
+        <ImageView
+            android:id="@+id/btn_Led"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="67dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Led"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/btn_Led"
+            app:layout_constraintStart_toStartOf="@+id/btn_Led"
+            app:layout_constraintEnd_toEndOf="@+id/btn_Led" />
 
-    </androidx.cardview.widget.CardView>
+        <ImageView
+            android:id="@+id/btn_Counter"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="180dp"
+            android:src="@drawable/ic_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_FAQ_page">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Count"
+            android:layout_marginTop="-5dp"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_Counter"
+            app:layout_constraintEnd_toEndOf="@+id/btn_Counter"
+            app:layout_constraintStart_toStartOf="@+id/btn_Counter" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/FAQ_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:itemCount="5"
-                android:layout_marginTop="5dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/text_FAQ_page_send_question"
-                />
-
-            <TextView
-                android:id="@+id/text_FAQ_page_send_question"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp"
-                android:text="Didn\'t find the answer you were looking for? Don\'t worry! Send us your question, and we\'ll get back to you as soon as possible."
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/text_FAQ_page_tap_here"/>
-
-            <TextView
-                android:id="@+id/text_FAQ_page_tap_here"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tap here to send question"
-                android:textColor="#2196F3"
-                android:textSize="14sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="20dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="#2196F3"
-                app:layout_constraintStart_toStartOf="@+id/text_FAQ_page_tap_here"
-                app:layout_constraintBottom_toBottomOf="@id/text_FAQ_page_tap_here"
-                app:layout_constraintEnd_toEndOf="@+id/text_FAQ_page_tap_here"
-                />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    </androidx.core.widget.NestedScrollView>
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
