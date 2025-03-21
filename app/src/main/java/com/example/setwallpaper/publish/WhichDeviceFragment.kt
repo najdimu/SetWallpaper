@@ -1,10 +1,9 @@
-package com.example.setwallpaper
+package com.example.setwallpaper.publish
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.FragmentWhichDeviceBinding
 
 class WhichDeviceFragment : Fragment(R.layout.fragment_which_device) {
@@ -23,7 +22,9 @@ class WhichDeviceFragment : Fragment(R.layout.fragment_which_device) {
 
         binding.samsungLayout.setOnClickListener {
             val targetFragment = AddThemeFragment()
-            targetFragment.arguments = Bundle().apply { putString("device","Samsung Galaxy ${getString(R.string.toolbar_name_theme)}") }
+            targetFragment.arguments = Bundle().apply { putString("device","Samsung Galaxy ${getString(
+                R.string.toolbar_name_theme
+            )}") }
             parentFragmentManager.beginTransaction()
                 .replace(R.id.containerFg, targetFragment)
                 .addToBackStack(null)
@@ -31,7 +32,9 @@ class WhichDeviceFragment : Fragment(R.layout.fragment_which_device) {
         }
         binding.oppoRealmeLayout.setOnClickListener {
             val targetFragment = AddThemeFragment()
-            targetFragment.arguments = Bundle().apply { putString("device","Oppo & Realme ${getString(R.string.toolbar_name_theme)}") }
+            targetFragment.arguments = Bundle().apply { putString("device","Oppo & Realme ${getString(
+                R.string.toolbar_name_theme
+            )}") }
             parentFragmentManager.beginTransaction()
                 .replace(R.id.containerFg, targetFragment)
                 .addToBackStack(null)

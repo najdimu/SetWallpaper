@@ -6,7 +6,7 @@
     android:background="@color/rang1"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".WhichDeviceFragment">
+    tools:context=".publish.WhichDeviceFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/toolbar_"

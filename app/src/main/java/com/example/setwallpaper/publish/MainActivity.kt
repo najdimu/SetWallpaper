@@ -1,7 +1,8 @@
-package com.example.setwallpaper
+package com.example.setwallpaper.publish
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

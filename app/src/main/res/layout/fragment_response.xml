@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/rang1"
-    tools:context=".ResponseFragment">
+    tools:context=".publish.ResponseFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/toolbar_add_theme_fg"

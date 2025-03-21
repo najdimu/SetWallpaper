@@ -2,47 +2,9 @@
     <string name="app_name">SetWallpaper</string>
 
 
-    <string name="toolbar_name_theme">theme</string>
+    <string name="toolbar_title_personal_style">User\'s personal styles</string>
+    <string name="toolbar_title_personal_style_detail">Title</string>
     <string name="you_should_fill_about_theme">You should fill about theme</string>
     <string name="enter_theme_s_name">Enter theme\'s name</string>
-    <string name="hint_theme_s_name">Theme\'s name</string>
-    <string name="enter_designer_s_name">Enter designer\'s name</string>
-    <string name="hint_designer_optional">Designer (optional)</string>
-    <string name="enter_theme_s_size">Enter theme\'s size</string>
-    <string name="enter_theme_link">Enter theme link</string>
-    <string name="choose_primary_color">Choose primary color</string>
-    <string name="add_screenshots">Add screenshots</string>
-    <string name="required_image_add">Required</string>
-    <string name="add_home_screen">Add \nHome screen</string>
-    <string name="add_lock_screen">Add \nLock screen</string>
-    <string name="add_notification_panel">Add \nNotification panel</string>
-    <string name="optional_image_add">Optional</string>
-    <string name="add_any_screenshots">Add \nAny screenshots</string>
-    <string name="how_can_we_contact_you">How can we contact you?</string>
-    <string name="send_content_">Send</string>
-    <string name="publish_wallpaper">Publish wallpaper</string>
-    <string name="you_should_fill_about_wallpaper">You should fill about wallpaper</string>
-    <string name="enter_wallpaper_s_name">Enter wallpaper\'s name</string>
-    <string name="hint_wallpaper_s_name">Wallpaper\'s name</string>
-    <string name="enter_wallpaper_s_size">Enter wallpaper\'s size</string>
-    <string name="add_wallpaper_text">Add wallpaper</string>
-    <string name="add_wallpaper_on_image">Add \nWallpaper</string>
-    <string name="other_device_s_theme">Other device\'s theme</string>
-    <string name="publish_theme_toolbar">Publish theme</string>
-    <string name="which_theme_of_the_device_publish">Which theme of the device do you want to publish?</string>
-    <string name="other_device">Other device</string>
-    <string name="choose_spinner_option">Choose an option</string>
-
-    <string name="please_fill">Please fill all information</string>
-    <string name="success">Picture added successfully!</string>
-    <string name="error">Failed to add picture.</string>
-
-
-
-    <string name="btn_response_fg_done">DONE</string>
-    <string name="error_response_message">Something went wrong please try again</string>
-    <string name="success_response_message_theme">Thank you for sharing your preferred theme with us. We are currently reviewing it and will publish it as soon as possible. If we need to clarify any details, we will contact you. We appreciate your patience and support!</string>
-    <string name="success_response_message_wallpaper">Thank you for sharing your preferred picture with us. We are currently reviewing it and will publish it as soon as possible. If we need to clarify any details, we will contact you. We appreciate your patience and support!</string>
-
 
 </resources>
