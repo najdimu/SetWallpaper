@@ -17,7 +17,7 @@
             android:id="@+id/style_item_image"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:src="@drawable/home_screen"
+            android:src="@drawable/ic_theme"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/styleImageThemes"
             app:layout_constraintStart_toStartOf="parent"

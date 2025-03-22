@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SetWallpaper"
         tools:targetApi="31">
         <activity
+            android:name=".personalization.AddPersonalStyleActivity"
+            android:exported="false" />
+        <activity
             android:name=".personalization.PersonalStyleDetailActivity"
             android:exported="false" />
         <activity
@@ -27,15 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".publish.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
