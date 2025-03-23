@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import coil.load
 import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityAddPersonalStyleBinding
 import kotlinx.coroutines.Dispatchers
@@ -73,9 +74,6 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         )
         toolbar.navigationIcon?.colorFilter = colorFilter
 
-
-
-
         binding.addScreenshots1.setOnClickListener {
             clickedImageView = binding.addScreenshots1
             pickImageFromGallery()
@@ -106,14 +104,14 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             }
             else {
                 try{
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnSendContent.text = ""
+                    binding.btnSendContent.isEnabled = false
                     val bitmapByteArrayList = bitmapsToListByteArray(bitmapList)
                     val jsonObject = addTextsToJsonObject(title, description, userName)
                     val jsonByteArray = jsonToByteArray(jsonObject)
                     val zipFile = createZipInMemory(jsonByteArray, bitmapByteArrayList)
                     sendToServerZip(zipFile, "https://yourserver.com/api/upload/theme")
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.btnSendContent.text = ""
-                    binding.btnSendContent.isEnabled = false
 
                 }catch  (e: Exception) {
                     buttonClickTrue()
@@ -152,19 +150,13 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                     binding.addScreenshots1.setImageBitmap(bitmap)
                     binding.icAddScreenshots1.visibility = View.GONE
                     binding.textAddScreenshots1.visibility = View.GONE
-                    binding.addScreenshots2.visibility = View.VISIBLE
-                    binding.icAddScreenshots2.visibility = View.VISIBLE
-                    binding.textAddScreenshots2.visibility = View.VISIBLE
                     bitmapSrc1 = bitmap
                     addScr1 = false
                 }
                 binding.addScreenshots2 ->{
-                    binding.addScreenshots2.setImageBitmap(bitmap)
+                    binding.addScreenshots2.load(bitmap)
                     binding.icAddScreenshots2.visibility = View.GONE
                     binding.textAddScreenshots2.visibility = View.GONE
-                    binding.addScreenshots3.visibility = View.VISIBLE
-                    binding.icAddScreenshots3.visibility = View.VISIBLE
-                    binding.textAddScreenshots3.visibility = View.VISIBLE
                     bitmapScr2 = bitmap
                 }
                 binding.addScreenshots3 ->{
@@ -236,7 +228,6 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             zipOutputStream.write(image)
             zipOutputStream.closeEntry()
         }
-
         zipOutputStream.close() // Finish ZIP
         return byteArrayOutputStream.toByteArray()
     }
@@ -244,7 +235,6 @@ class AddPersonalStyleActivity : AppCompatActivity() {
     private fun sendToServerZip(zipBytes: ByteArray, serverUrl: String) {
 
         val requestBody = zipBytes.toRequestBody("application/zip".toMediaType())
-
         val request = Request.Builder()
             .url(serverUrl)
             .post(requestBody)
@@ -256,7 +246,8 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 val response = uploadFile(request)
 
                 response.onSuccess {
-                    startActivity(Intent(this@AddPersonalStyleActivity, PersonalStyleActivity::class.java))
+                    startActivity(Intent(this@AddPersonalStyleActivity, ResponseSendStyleActivity::class.java))
+                    finish()
                 }.onFailure {
                     buttonClickTrue()
                     Toast.makeText(this@AddPersonalStyleActivity, "R.string.error_response_message", Toast.LENGTH_SHORT).show()
