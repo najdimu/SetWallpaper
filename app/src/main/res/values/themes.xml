@@ -11,16 +11,16 @@
 
     <style name="styleImageThemes" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeBottomRight">20dp</item>
-        <item name="cornerSizeBottomLeft">20dp</item>
+        <item name="cornerSizeBottomRight">25dp</item>
+        <item name="cornerSizeBottomLeft">25dp</item>
     </style>
 
     <style name="avatarThemes" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopRight">15dp</item>
-        <item name="cornerSizeTopLeft">15dp</item>
-        <item name="cornerSizeBottomRight">15dp</item>
-        <item name="cornerSizeBottomLeft">15dp</item>
+        <item name="cornerSizeTopRight">13dp</item>
+        <item name="cornerSizeTopLeft">13dp</item>
+        <item name="cornerSizeBottomRight">13dp</item>
+        <item name="cornerSizeBottomLeft">13dp</item>
     </style>
 
 

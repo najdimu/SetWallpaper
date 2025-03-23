@@ -38,11 +38,10 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.FloatingActionButton"
             android:src="@drawable/baseline_add_24"
-            android:backgroundTint="#7F15F6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="30dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="20dp"
             />
 
 

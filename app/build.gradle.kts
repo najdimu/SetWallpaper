@@ -56,6 +56,9 @@ dependencies {
     implementation("io.coil-kt","coil","2.4.0")
     implementation("net.lingala.zip4j","zip4j","2.11.5")
 
+    //GSON
+    implementation("com.google.code.gson","gson","2.10.1")
+
     // Coroutines
     implementation ("org.jetbrains.kotlinx","kotlinx-coroutines-core","1.7.1")
     implementation ("org.jetbrains.kotlinx","kotlinx-coroutines-android","1.7.1")

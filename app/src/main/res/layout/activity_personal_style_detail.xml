@@ -8,10 +8,11 @@
     android:background="@color/rang1"
     tools:context=".personalization.PersonalStyleDetailActivity">
 
+
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
 >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,12 +36,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/style_detail_images"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/wall"
+                app:shapeAppearanceOverlay="@style/styleImageThemes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar_personal_style_detail" />
@@ -54,12 +56,12 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_wallpaper"
                 android:layout_marginTop="15dp"
-
+                android:padding="2dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/style_detail_images"
                 app:shapeAppearanceOverlay="@style/avatarThemes"
                 app:strokeColor="#9E9E9E"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="1dp" />
 
             <TextView
                 android:id="@+id/style_detail_user_name"

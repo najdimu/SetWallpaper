@@ -16,7 +16,7 @@ class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalSt
     class PersonalStyleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image: ImageView = view.findViewById(R.id.style_item_image)
         val title: TextView = view.findViewById(R.id.style_item_title)
-        val description: TextView = view.findViewById(R.id.style_item_description)
+        val author: TextView = view.findViewById(R.id.style_item_author)
         val avatar: ImageView = view.findViewById(R.id.style_item_avatar)
     }
 
@@ -30,7 +30,7 @@ class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalSt
     override fun onBindViewHolder(holder: PersonalStyleViewHolder, position: Int) {
         val perStyleItem = personalStyleList[position]
         holder.title.text = perStyleItem.title
-        holder.description.text = perStyleItem.description
+        holder.author.text = perStyleItem.userName
         holder.image.load(perStyleItem.mainImage){
             error(R.drawable.error_place_holder)
             placeholder(R.drawable.place_holder)
@@ -41,7 +41,11 @@ class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalSt
         }
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, PersonalStyleDetailActivity::class.java)
-            intent.putExtra("perStyle", perStyleItem)
+            intent.putExtra("title", perStyleItem.title)
+            intent.putExtra("author", perStyleItem.userName)
+            intent.putExtra("description", perStyleItem.description)
+            intent.putExtra("images", perStyleItem.images)
+            intent.putExtra("avatar", perStyleItem.avatar)
             holder.itemView.context.startActivity(intent)
         }
 
