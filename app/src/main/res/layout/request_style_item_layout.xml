@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="15dp"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginTop="10dp"
+    android:orientation="vertical"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#232323"
+        android:padding="15dp"
+        >
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/request_style_item_avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_wallpaper"
+            android:padding="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/avatarThemes"
+            app:strokeColor="#7C7C7C"
+            app:strokeWidth="1dp"
+            />
+        <TextView
+            android:id="@+id/request_style_item_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Author"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:layout_marginHorizontal="10dp"
+            android:maxLines="1"
+            app:layout_constraintStart_toEndOf="@+id/request_style_item_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/request_style_item_avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/request_style_item_avatar"
+            />
+
+        <TextView
+            android:id="@+id/request_style_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:maxLines="1"
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/request_style_item_avatar"
+            />
+
+        <TextView
+            android:id="@+id/request_style_item_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Status:"
+            android:textColor="#FFFFFF"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/request_style_item_title"
+            />
+
+        <TextView
+            android:id="@+id/request_style_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24/03/2025"
+            android:textColor="#D5D5D5"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</androidx.cardview.widget.CardView>

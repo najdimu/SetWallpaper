@@ -16,6 +16,9 @@
         android:theme="@style/Theme.SetWallpaper"
         tools:targetApi="31">
         <activity
+            android:name=".personalization.request.RequestStyleListActivity"
+            android:exported="false" />
+        <activity
             android:name=".personalization.ResponseSendStyleActivity"
             android:exported="false" />
         <activity

@@ -1,6 +1,5 @@
 package com.example.setwallpaper.personalization
 
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle

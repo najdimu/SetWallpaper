@@ -132,7 +132,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
     // Handle the result from the gallery
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
     { result ->
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val imageUri: Uri? = result.data?.data
             imageUri?.let { uri ->
                 clickedImageView?.let { pictureToImageView(it,uri) }
@@ -154,7 +154,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                     addScr1 = false
                 }
                 binding.addScreenshots2 ->{
-                    binding.addScreenshots2.load(bitmap)
+                    binding.addScreenshots2.setImageBitmap(bitmap)
                     binding.icAddScreenshots2.visibility = View.GONE
                     binding.textAddScreenshots2.visibility = View.GONE
                     bitmapScr2 = bitmap
@@ -282,5 +282,98 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         binding.btnSendContent.text = "R.string.send_content_"
         binding.btnSendContent.isEnabled = true
     }
+
+//    private fun sendJsonToServer(jsonObject: JSONObject) {
+//
+//        val firebaseRemoteConfig2 = FirebaseRemoteConfig.getInstance()
+//        val serverUrlReport = firebaseRemoteConfig2.getString("server_url")
+//
+//        val client = OkHttpClient()
+
+
+//        // Создаем тело запроса multipart/form-data
+//        val requestBody = MultipartBody.Builder()
+//            .setType(MultipartBody.FORM)
+//            // Добавляем JSON как текстовое поле
+//            .addFormDataPart(
+//                "report_json",
+//                jsonObject.toString()
+//            )
+//            // Добавляем каждый Bitmap как отдельный файл
+//            .apply {
+//                bitmaps.forEachIndexed { index, bitmap ->
+//                    val bitmapBytes = convertBitmapToByteArray(bitmap)
+//                    val fileName = "${randomNumber}_${fileName()}_$index.jpg"
+//                    addFormDataPart(
+//                        "images", // Ключ, который сервер ожидает для файлов
+//                        fileName, // Имя файла
+//                        bitmapBytes.toRequestBody("image/jpeg".toMediaType()) // MIME-тип для JPEG
+//                    )
+//                }
+//            }
+//            .build()
+//
+//        val request = Request.Builder()
+//            .url("$serverUrlReport/themes-app-user-report") // Replace with your API endpoint
+//            .post(requestBody)
+//            .build()
+//
+//        client.newCall(request).enqueue(object : okhttp3.Callback {
+//            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+//                sendingStatus = if (response.isSuccessful) {
+//                    if (response.body?.string() == "ok") {
+//                        runOnUiThread {
+//                            binding.btnSent.text = resources.getString(R.string.tt_done)
+//
+//                            binding.doneErrorText.visibility = View.VISIBLE
+//                            binding.doneErrorText.text = resources.getString(R.string.sent_your_report)
+//
+//                            val currentTime = System.currentTimeMillis()
+//                            sharedPreference?.edit()?.putLong("last_rate_shown_time", currentTime)?.apply()
+//
+//                            binding.btnSent.visibility = View.VISIBLE
+//                            binding.progressBar15.visibility = View.GONE
+//                        }
+//                        2
+//                    } else {
+//                        runOnUiThread {
+//                            binding.reportForm.visibility = View.GONE
+//                            binding.doneErrorText.visibility = View.VISIBLE
+//                            binding.doneErrorText.text = resources.getString(R.string.unable_to_send_your_message)
+//
+//                            binding.btnSent.visibility = View.VISIBLE
+//                            binding.progressBar15.visibility = View.GONE
+//                        }
+//                        1
+//                    }
+//                } else {
+//                    runOnUiThread {
+//                        binding.reportForm.visibility = View.GONE
+//                        binding.doneErrorText.visibility = View.VISIBLE
+//                        binding.doneErrorText.text = resources.getString(R.string.unable_to_send_your_message)
+//
+//                        binding.btnSent.visibility = View.VISIBLE
+//                        binding.progressBar15.visibility = View.GONE
+//                    }
+//                    1
+//                }
+//            }
+//
+//            override fun onFailure(call: okhttp3.Call, e: IOException) {
+//                runOnUiThread {
+//                    binding.reportForm.visibility = View.GONE
+//                    binding.doneErrorText.visibility = View.VISIBLE
+//                    binding.doneErrorText.text = resources.getString(R.string.unable_to_send_your_message)
+//
+//                    binding.btnSent.visibility = View.VISIBLE
+//                    binding.progressBar15.visibility = View.GONE
+//                }
+//                sendingStatus = 1
+//                e.printStackTrace()
+//            }
+//        })
+//    }
+
+
 
 }
