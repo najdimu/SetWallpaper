@@ -1,4 +1,4 @@
-package com.example.setwallpaper.personalization.request
+package com.example.setwallpaper.style_zone.activity.request
 
 data class RequestStyleItem(
     val id: Int,

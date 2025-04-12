@@ -1,4 +1,4 @@
-package com.example.setwallpaper.personalization
+package com.example.setwallpaper.style_zone.style
 
 import java.io.Serializable
 

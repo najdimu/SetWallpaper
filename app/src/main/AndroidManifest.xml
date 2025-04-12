@@ -16,25 +16,30 @@
         android:theme="@style/Theme.SetWallpaper"
         tools:targetApi="31">
         <activity
-            android:name=".personalization.request.RequestStyleListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".personalization.ResponseSendStyleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".personalization.AddPersonalStyleActivity"
-            android:exported="false" />
-        <activity
-            android:name=".personalization.PersonalStyleDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".personalization.PersonalStyleActivity"
+            android:name=".style_zone.activity.StyleZoneActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".style_zone.activity.request.RequestStyleListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".style_zone.activity.ResponseSendStyleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".style_zone.activity.AddPersonalStyleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".style_zone.activity.PersonalStyleDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".personalization.PersonalStyleActivity"
+            android:exported="false">
+
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.example.setwallpaper.personalization
+package com.example.setwallpaper.style_zone.style
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.setwallpaper.R
+import com.example.setwallpaper.style_zone.activity.PersonalStyleDetailActivity
 
 class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalStyleItem>) : RecyclerView.Adapter<PersonalStyleAdapter.PersonalStyleViewHolder>() {
 

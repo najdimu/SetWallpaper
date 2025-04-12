@@ -1,4 +1,4 @@
-package com.example.setwallpaper.personalization.request
+package com.example.setwallpaper.style_zone.activity.request
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

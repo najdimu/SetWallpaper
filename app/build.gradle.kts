@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.devtools.ksp)
+   // alias(libs.plugins.devtools.ksp)
 }
 
 android {
@@ -67,10 +67,10 @@ dependencies {
     implementation ("androidx.lifecycle","lifecycle-runtime-ktx","2.6.2")
 
     // Room
-    implementation ("androidx.room","room-runtime","2.6.0")
-    ksp ("androidx.room","room-compiler","2.6.0")
+   // implementation ("androidx.room","room-runtime","2.6.0")
+  //  ksp ("androidx.room","room-compiler","2.6.0")
 
     // Kotlin Extensions and Coroutines support for Room
-    implementation ("androidx.room","room-ktx","2.6.0")
+   // implementation ("androidx.room","room-ktx","2.6.0")
 
 }

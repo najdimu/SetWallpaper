@@ -6,5 +6,7 @@
     <string name="toolbar_title_personal_style_detail">Title</string>
     <string name="you_should_fill_about_theme">You should fill about theme</string>
     <string name="enter_theme_s_name">Enter theme\'s name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

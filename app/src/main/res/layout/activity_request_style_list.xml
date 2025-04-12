@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1a1a1a"
-    tools:context=".personalization.request.RequestStyleListActivity">
+    tools:context=".style_zone.activity.request.RequestStyleListActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_request_style_list"
