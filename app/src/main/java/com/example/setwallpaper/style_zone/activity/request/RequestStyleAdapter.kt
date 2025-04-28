@@ -1,10 +1,12 @@
 package com.example.setwallpaper.style_zone.activity.request
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -37,9 +39,18 @@ class RequestStyleAdapter(private var requestList: MutableList<RequestStyleItem>
             placeholder(R.drawable.place_holder)
         }
         when (request.status) {
-           1 -> holder.status.text = "pending"
-            2 -> holder.status.text = "rejected"
-            3 -> holder.status.text = "published"
+           1 -> {
+               holder.status.text = "pending"
+               holder.status.setTextColor(Color.YELLOW)
+           }
+            2 -> {
+                holder.status.text = "rejected"
+                holder.status.setTextColor(Color.RED)
+            }
+            3 -> {
+                holder.status.text = "published"
+                holder.status.setTextColor(Color.GREEN)
+            }
         }
     }
 }

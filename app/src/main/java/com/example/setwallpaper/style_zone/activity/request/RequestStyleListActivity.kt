@@ -1,9 +1,13 @@
 package com.example.setwallpaper.style_zone.activity.request
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,8 +39,19 @@ class RequestStyleListActivity : AppCompatActivity() {
             insets
         }
 
+        val toolbar = binding.toolbarRequestStyleList
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) ?: true
+        toolbar.setNavigationOnClickListener { finish() }
+        title = resources.getString(R.string.toolbar_title_personal_style_detail)
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+        val colorFilter = PorterDuffColorFilter(ContextCompat.getColor(this, R.color.white),
+            PorterDuff.Mode.SRC_ATOP)
+        toolbar.navigationIcon?.colorFilter = colorFilter
+
         binding.requestStyleListRecyclerview.layoutManager = LinearLayoutManager(this)
         val sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
         val userId = sharedPreferences.getString("userId", "")
         if (userId != null) {
             if (userId.isNotEmpty()){
@@ -45,13 +60,22 @@ class RequestStyleListActivity : AppCompatActivity() {
                     println(userId)
 
                     runOnUiThread {
+                        if (styleList.isNullOrEmpty()){
+                            binding.textviewRequestIfEmpty.visibility = View.VISIBLE
+                        }
                         styleList?.let {
                             val requestList: MutableList<RequestStyleItem> = ArrayList()
                             requestList.addAll(styleList)
                             binding.requestStyleListRecyclerview.adapter = RequestStyleAdapter(requestList)
+                            if (requestList.size != 0) {
+                                editor.putInt("requestItemNumber", requestList.size)
+                                editor.apply()
+                            } else {
+                                editor.putInt("requestItemNumber", -1)
+                                editor.apply()
+                            }
                         }
                     }
-
                 }
             }
         }
@@ -63,7 +87,7 @@ class RequestStyleListActivity : AppCompatActivity() {
         val client = OkHttpClient()
         val request = Request.Builder()
             .url("https://raw.githubusercontent.com/najdimu/Stock/refs/heads/main/request_style_data.json")
-            .header("userId", userId)
+            .addHeader("User-ID", userId)
             .build()
         
         client.newCall(request).enqueue(object : Callback {

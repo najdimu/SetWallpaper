@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.setwallpaper.R
@@ -13,6 +14,8 @@ import com.example.setwallpaper.style_zone.activity.AddPersonalStyleActivity
 import com.example.setwallpaper.style_zone.style.PersonalStyleAdapter
 import com.example.setwallpaper.style_zone.style.PersonalStyleItem
 import com.google.gson.Gson
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -53,25 +56,6 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
                 } else if (dy < 0 && buttonVisible) {
                     hideButton(binding.btnAddStyleInspireMe)
                 }
-
-
-//                    val firstItemPos =
-//                        (binding.inspireMeRecyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-//
-//                    if (firstItemPos >= 4) {
-//                        if (binding.btnAddStyleInspireMe.visibility != View.VISIBLE) {
-//                            // binding.btnAddStyleInspireMe.animate().translationX(0f).setDuration(300).start()
-//                            binding.btnAddStyleInspireMe.animate()
-//                                .translationX(-100f)  // Move to the center horizontally
-//                                .translationY(-50f)  // Move to the center vertically
-//                                .scaleX(2f)        // Increase size horizontally (from 1x to 2x)
-//                                .scaleY(2f)        // Increase size vertically (from 1x to 2x)
-//                                .setDuration(500)
-//                                .start()
-//                            binding.btnAddStyleInspireMe.visibility = View.VISIBLE
-//                        }
-//
-//                }
             }
         })
 
@@ -111,8 +95,8 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
             scaleY = 0f
 
             animate()
-                .translationX(-100f)  // Move left
-                .translationY(-50f)   // Move up
+                .translationX(-35f)  // Move left
+                .translationY(-30f)   // Move up
                 .scaleX(1f)           // Increase size from 0x ➔ 1x horizontally
                 .scaleY(1f)           // Increase size from 0x ➔ 1x vertically
                 .setDuration(500)
@@ -130,8 +114,8 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
             scaleY = 1f
 
             animate()
-                .translationX(100f)   // Move right (or wherever you want)
-                .translationY(50f)    // Move down
+                .translationX(35f)   // Move right (or wherever you want)
+                .translationY(30f)    // Move down
                 .scaleX(0f)           // Shrink to 0x horizontally
                 .scaleY(0f)           // Shrink to 0x vertically
                 .setDuration(500)
@@ -142,19 +126,6 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
         }
         buttonVisible = false
     }
+ }
 
-    }
-
-
-/*
- val firstVisible = (rv.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-
-                if (dy > 0 && !buttonVisible && firstVisible >= scrollThreshold) {
-                    showButtonWithTextAnimation()
-                } else if (dy < 0 && buttonVisible) {
-                    hideButton()
-                }
-            }
-        })
- */
 

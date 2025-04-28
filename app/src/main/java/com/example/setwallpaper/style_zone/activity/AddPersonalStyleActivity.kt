@@ -43,8 +43,7 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.security.SecureRandom
 import java.time.LocalDate
-import java.util.zip.ZipEntry
-import java.util.zip.ZipOutputStream
+import java.time.format.DateTimeFormatter
 
 class AddPersonalStyleActivity : AppCompatActivity() {
 
@@ -94,7 +93,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 delay(3000)
                 // Make the TextView visible and start the animation
                 binding.textViewRequestShow.visibility = TextView.VISIBLE
-                binding.textViewRequestShow.text = "You don't have any requests."
+                binding.textViewRequestShow.text = "You don't have any requests yet."
 
                 val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text)
                 binding.textViewRequestShow.startAnimation(animation)
@@ -140,9 +139,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         val toolbar = binding.toolbarAddPersonalStyle
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) ?: true
-        toolbar.setNavigationOnClickListener {
-            finish()
-        }
+        toolbar.setNavigationOnClickListener { finish() }
         title = resources.getString(R.string.toolbar_title_personal_style)//
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         val colorFilter = PorterDuffColorFilter(
@@ -375,7 +372,9 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                                      wallpaperLink: String, iconLink: String, fontLink: String,
                                      supportDevice: String, userId: String) : JSONObject {
         val jsonObject = JSONObject()
-        val date = LocalDate.now()
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yy")
+        val date = currentDate.format(formatter)
         if (userId.isNotEmpty()) jsonObject.put("userId",userId)
         jsonObject.put("title",title)
         jsonObject.put("description",description)
@@ -385,60 +384,14 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         if (wallpaperLink.isNotEmpty()) jsonObject.put("wallpaperLink",wallpaperLink)
         if (iconLink.isNotEmpty()) jsonObject.put("iconLink",iconLink)
         if (fontLink.isNotEmpty()) jsonObject.put("fontLink",fontLink)
-        jsonObject.put("date",date.toString())
+        jsonObject.put("date",date)
         jsonObject.put("status",1)
 
         println(jsonObject)
         return jsonObject
     }
 
-    private fun sendToServerZip(zipBytes: ByteArray, serverUrl: String) {
-
-        val requestBody = zipBytes.toRequestBody("application/zip".toMediaType())
-        val request = Request.Builder()
-            .url(serverUrl)
-            .post(requestBody)
-            .build()
-
-        // Usage in Coroutine Scope
-        lifecycleScope.launch {
-            try {
-                val response = uploadFile(request)
-
-                response.onSuccess {
-
-                    startActivity(Intent(this@AddPersonalStyleActivity, ResponseSendStyleActivity::class.java))
-                    finish()
-                }.onFailure {
-                    buttonClickTrue()
-                    Toast.makeText(this@AddPersonalStyleActivity, "R.string.error_response_message", Toast.LENGTH_SHORT).show()
-                    println("Upload failed: ${it.message}")
-                }
-
-            } catch (e: Exception) {
-                buttonClickTrue()
-                Toast.makeText(this@AddPersonalStyleActivity, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private suspend fun uploadFile(request: Request): Result<String> {
-        return withContext(Dispatchers.IO) {
-            val client = OkHttpClient()
-            try {
-                val response = client.newCall(request).execute()
-                if (response.isSuccessful) {
-                    Result.success("success")
-                } else {
-                    Result.failure(IOException("Error: ${response.message}"))
-                }
-            } catch (e: Exception) {
-                Result.failure(e)
-            }
-        }
-    }
-
-    private fun buttonClickTrue(){
+    private fun buttonClickTrue() {
         binding.progressBar.visibility = View.GONE
         binding.btnSendContent.text = "R.string.send_content_"
         binding.btnSendContent.isEnabled = true
@@ -456,8 +409,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
      //   val firebaseRemoteConfig2 = FirebaseRemoteConfig.getInstance()
       //  val serverUrlReport = firebaseRemoteConfig2.getString("server_url")
         val serverUrlReport = "https://yourserver.com/api/upload/theme"
-
-      //  val client = OkHttpClient()
+        val client = OkHttpClient()
         val randomNumber = generateSecureRandomToken(9, "0123456789")
 
         // Создаем тело запроса multipart/form-data
@@ -481,115 +433,53 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                         )
                     }
                 }
-                val bitmapbyt = bitmapsToListByteArray(bitmap)
+                val bitmapByte = bitmapsToListByteArray(bitmap)
                 val filename = "avatar_${randomNumber}.jpg"
                 addFormDataPart(
                     "images", // Ключ, который сервер ожидает для файлов
                     filename, // Имя файла
-                    bitmapbyt.toRequestBody("image/jpeg".toMediaType()) // MIME-тип для JPEG
+                    bitmapByte.toRequestBody("image/jpeg".toMediaType()) // MIME-тип для JPEG
                 )
             }
             .build()
 
-        println(requestBody)
         val request = Request.Builder()
             .url("$serverUrlReport/themes-app-user-style") // Replace with your API endpoint
             .post(requestBody)
             .build()
 
-        lifecycleScope.launch {
-            try {
-                val response = uploadFile(request)
-
-                response.onSuccess {
-                    startActivity(Intent(this@AddPersonalStyleActivity, ResponseSendStyleActivity::class.java))
-                    finish()
-                }.onFailure {
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                 if (response.isSuccessful) {
+                     runOnUiThread {
+                         val sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE)
+                         val requestNumber = sharedPreferences.getInt("requestItemNumber", -1)
+                         if (requestNumber <= 0) {
+                             val editor = sharedPreferences.edit()
+                             editor.putInt("requestItemNumber", 1)
+                             editor.apply()
+                         }
+                         startActivity(Intent(this@AddPersonalStyleActivity, ResponseSendStyleActivity::class.java))
+                         finish()
+                     }
+                }
+            }
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                runOnUiThread {
                     buttonClickTrue()
                     Toast.makeText(this@AddPersonalStyleActivity, "R.string.error_response_message", Toast.LENGTH_SHORT).show()
-                    println("Upload failed: ${it.message}")
                 }
-
-            } catch (e: Exception) {
-                buttonClickTrue()
-                Toast.makeText(this@AddPersonalStyleActivity, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
             }
-        }
-
-
-//        client.newCall(request).enqueue(object : okhttp3.Callback {
-//            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-//                 if (response.isSuccessful) {
-//                    if (response.body?.string() == "ok") {
-//                        runOnUiThread {
-//                            binding.btnSent.text = resources.getString(R.string.tt_done)
-//
-//                            binding.doneErrorText.visibility = View.VISIBLE
-//                            binding.doneErrorText.text = resources.getString(R.string.sent_your_report)
-//
-//                            val currentTime = System.currentTimeMillis()
-//                            sharedPreference?.edit()?.putLong("last_rate_shown_time", currentTime)?.apply()
-//
-//                            binding.btnSent.visibility = View.VISIBLE
-//                            binding.progressBar15.visibility = View.GONE
-//                        }
-//                        2
-//                    } else {
-//                        runOnUiThread {
-//                            binding.reportForm.visibility = View.GONE
-//                            binding.doneErrorText.visibility = View.VISIBLE
-//                            binding.doneErrorText.text = resources.getString(R.string.unable_to_send_your_message)
-//
-//                            binding.btnSent.visibility = View.VISIBLE
-//                            binding.progressBar15.visibility = View.GONE
-//                        }
-//                        1
-//                    }
-//                } else {
-//                    runOnUiThread {
-//                        binding.reportForm.visibility = View.GONE
-//                        binding.doneErrorText.visibility = View.VISIBLE
-//                        binding.doneErrorText.text = resources.getString(R.string.unable_to_send_your_message)
-//
-//                        binding.btnSent.visibility = View.VISIBLE
-//                        binding.progressBar15.visibility = View.GONE
-//                    }
-//                    1
-//                }
-//            }
-//
-//            override fun onFailure(call: okhttp3.Call, e: IOException) {
-//                runOnUiThread {
-//                    binding.reportForm.visibility = View.GONE
-//                    binding.doneErrorText.visibility = View.VISIBLE
-//                    binding.doneErrorText.text = resources.getString(R.string.unable_to_send_your_message)
-//
-//                    binding.btnSent.visibility = View.VISIBLE
-//                    binding.progressBar15.visibility = View.GONE
-//                }
-//                sendingStatus = 1
-//                e.printStackTrace()
-//            }
-//        })
+        })
     }
 
-
-
-    private fun resizeBitmapWidth(bitmap: Bitmap, newWidth: Int): Bitmap {
-        // Calculate the new height to maintain the aspect ratio
-        val aspectRatio = bitmap.height.toFloat() / bitmap.width
-        val newHeight = (newWidth * aspectRatio).toInt()
-
-        // Scale the bitmap
-        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
-    }
     private fun bitmapsToListByteArray(bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
                                        quality: Int = 75): ByteArray {
         val stream = ByteArrayOutputStream()
         bitmap.compress(format, quality, stream)
         stream.toByteArray()
         return stream.toByteArray()
-
     }
 
 }

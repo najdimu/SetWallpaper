@@ -23,13 +23,13 @@
         android:id="@+id/btn_add_style_inspireMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         android:textSize="16sp"
         android:text="Add your style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="10dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
