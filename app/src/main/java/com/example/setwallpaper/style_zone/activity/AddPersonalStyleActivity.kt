@@ -1,5 +1,6 @@
 package com.example.setwallpaper.style_zone.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -7,6 +8,8 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -30,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -37,13 +41,14 @@ import okio.IOException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
+import java.security.SecureRandom
+import java.time.LocalDate
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
 class AddPersonalStyleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPersonalStyleBinding
-
 
     private var clickedImageView: ImageView? = null
     private var bitmapSrc1: Bitmap? = null
@@ -52,10 +57,10 @@ class AddPersonalStyleActivity : AppCompatActivity() {
     private var bitmapAvatar: Bitmap? = null
 
     private var addScr1 = true
+
     private var addAvatar = true
     private var supportDevice = "All devices"
     private var supportDevicePos = 0
-
     private var sourceLink = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +73,68 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val sharedPreferences = getSharedPreferences("userData", MODE_PRIVATE)
+        var userId = sharedPreferences.getString("userId", "")
+        if (userId != null) {
+            if (userId.isEmpty()){
+                val secureToken = generateSecureRandomToken(16, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+                println("Secure Random Token (16 chars): $secureToken")
+                val editor = sharedPreferences.edit()
+                editor.putString("userId", secureToken)
+                editor.apply()
+                userId = secureToken
+            }
+        }
+
+        val requestItemNumber = sharedPreferences.getInt("requestItemNumber", -1)
+        if (requestItemNumber == -1) {
+            lifecycleScope.launch {
+                delay(3000)
+                // Make the TextView visible and start the animation
+                binding.textViewRequestShow.visibility = TextView.VISIBLE
+                binding.textViewRequestShow.text = "You don't have any requests."
+
+                val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text)
+                binding.textViewRequestShow.startAnimation(animation)
+
+                Toast.makeText(this@AddPersonalStyleActivity, userId,Toast.LENGTH_SHORT).show()
+            }
+
+            lifecycleScope.launch {
+                delay(9000)
+                val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text_dismiss)
+                binding.textViewRequestShow.startAnimation(animation)
+
+                // Make the TextView visible and start the animation
+                binding.textViewRequestShow.visibility = TextView.GONE
+            }
+        }
+        else {
+            lifecycleScope.launch {
+                delay(3000)
+                // Make the TextView visible and start the animation
+                binding.textViewRequestShow.visibility = TextView.VISIBLE
+                when (requestItemNumber) {
+                    1 -> { binding.textViewRequestShow.text = "You have $requestItemNumber request." }
+                    else -> { binding.textViewRequestShow.text = "You have $requestItemNumber requests." }
+                }
+
+                val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text)
+                binding.textViewRequestShow.startAnimation(animation)
+
+                Toast.makeText(this@AddPersonalStyleActivity, userId,Toast.LENGTH_SHORT).show()
+            }
+
+            lifecycleScope.launch {
+                delay(9000)
+                val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text_dismiss)
+                binding.textViewRequestShow.startAnimation(animation)
+
+                // Make the TextView visible and start the animation
+                binding.textViewRequestShow.visibility = TextView.GONE
+            }
         }
 
         val toolbar = binding.toolbarAddPersonalStyle
@@ -84,29 +151,9 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         )
         toolbar.navigationIcon?.colorFilter = colorFilter
 
-
-        lifecycleScope.launch {
-            delay(2000)
-            // Make the TextView visible and start the animation
-            binding.textViewRequestShow.visibility = TextView.VISIBLE
-
-            val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text)
-            binding.textViewRequestShow.startAnimation(animation)
-        }
-
-        lifecycleScope.launch {
-            delay(8000)
-            val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text_dismiss)
-            binding.textViewRequestShow.startAnimation(animation)
-
-            // Make the TextView visible and start the animation
-            binding.textViewRequestShow.visibility = TextView.GONE
-        }
-
         binding.textViewRequestShow.setOnClickListener {
             startActivity(Intent(this, RequestStyleListActivity::class.java))
         }
-
 
         binding.addScreenshots1.setOnClickListener {
             clickedImageView = binding.addScreenshots1
@@ -145,29 +192,33 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             }
         }
         binding.spinnerSourceLink.adapter = spinnerLinkAdapter
-        binding.spinnerSourceLink.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.spinnerSourceLink.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2){
                     1->{
+                        binding.textSourceTheme.visibility = View.VISIBLE
                         binding.editTextSourceTheme.visibility = View.VISIBLE
                         binding.spinnerSourceLink.setSelection(0)
                     }
                     2->{
+                        binding.textSourceWallpaper.visibility = View.VISIBLE
                         binding.editTextSourceWallpaper.visibility = View.VISIBLE
                         binding.spinnerSourceLink.setSelection(0)
                     }
                     3->{
+                        binding.textSourceIcon.visibility = View.VISIBLE
                         binding.editTextSourceIcon.visibility = View.VISIBLE
                         binding.spinnerSourceLink.setSelection(0)
                     }
                     4->{
+                        binding.textSourceFont.visibility = View.VISIBLE
                         binding.editTextSourceFont.visibility = View.VISIBLE
                         binding.spinnerSourceLink.setSelection(0)
                     }
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                binding.spinnerSourceLink.setSelection(0)
             }
         }
 
@@ -222,30 +273,43 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             if (themeLink.isNotEmpty() || wallpaperLink.isNotEmpty()
                 || iconLink.isNotEmpty() || fontLink.isNotEmpty()) sourceLink = false
 
-            val bitmapList = listOf(bitmapSrc1, bitmapScr2, bitmapScr3, bitmapAvatar)
+            val bitmapList = listOf(bitmapSrc1, bitmapScr2, bitmapScr3)
 
             if (title.isEmpty() || description.isEmpty() || userName.isEmpty()
                 || addScr1 || addAvatar || sourceLink) {
                 Toast.makeText(this, "R.string.please_fill", Toast.LENGTH_SHORT).show()
             }
             else {
-                try{
+                try {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.btnSendContent.text = ""
                     binding.btnSendContent.isEnabled = false
-                    val bitmapByteArrayList = bitmapsToListByteArray(bitmapList)
-                    val jsonObject = addTextsToJsonObject(title, description, userName,themeLink, wallpaperLink, iconLink, fontLink, supportDevice)
-                    val jsonByteArray = jsonToByteArray(jsonObject)
-                    val zipFile = createZipInMemory(jsonByteArray, bitmapByteArrayList)
-                    sendToServerZip(zipFile, "https://yourserver.com/api/upload/theme")
 
-                }catch  (e: Exception) {
+                    val jsonObject = addTextsToJsonObject(title, description, userName,
+                        themeLink, wallpaperLink, iconLink, fontLink, supportDevice, userId!!)
+                    sendStyleJsonToServer(jsonObject, bitmapList, bitmapAvatar!!)
+                } catch  (e: Exception) {
                     buttonClickTrue()
                     Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
                     e.printStackTrace()
                 }
             }
         }  // good
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.style_toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.request_page -> {
+                startActivity(Intent(this, RequestStyleListActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun pickImageFromGallery() {
@@ -306,64 +370,26 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         }
     }
 
-    private fun resizeBitmapWidth(bitmap: Bitmap, newWidth: Int): Bitmap {
-        // Calculate the new height to maintain the aspect ratio
-        val aspectRatio = bitmap.height.toFloat() / bitmap.width
-        val newHeight = (newWidth * aspectRatio).toInt()
-
-        // Scale the bitmap
-        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
-    }
-
-    private fun bitmapsToListByteArray(bitmaps: List<Bitmap?>, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
-                                       quality: Int = 75): List<ByteArray> {
-        return bitmaps.map { bitmap ->
-            bitmap?.let {
-                val stream = ByteArrayOutputStream()
-                it.compress(format, quality, stream)
-                stream.toByteArray()
-            } ?: ByteArray(0) // Return an empty ByteArray for null Bitmaps
-        }
-    }
-
+    @SuppressLint("NewApi")
     private fun addTextsToJsonObject(title: String, description: String, userName: String, themeLink: String,
-                                     wallpaperLink: String, iconLink: String, fontLink: String, supportDevice: String) : JSONObject {
+                                     wallpaperLink: String, iconLink: String, fontLink: String,
+                                     supportDevice: String, userId: String) : JSONObject {
         val jsonObject = JSONObject()
-
+        val date = LocalDate.now()
+        if (userId.isNotEmpty()) jsonObject.put("userId",userId)
         jsonObject.put("title",title)
         jsonObject.put("description",description)
-        jsonObject.put("userName",userName)
+        jsonObject.put("author",userName)
         jsonObject.put("supportDevice",supportDevice)
         if (themeLink.isNotEmpty()) jsonObject.put("themeLink",themeLink)
         if (wallpaperLink.isNotEmpty()) jsonObject.put("wallpaperLink",wallpaperLink)
         if (iconLink.isNotEmpty()) jsonObject.put("iconLink",iconLink)
         if (fontLink.isNotEmpty()) jsonObject.put("fontLink",fontLink)
+        jsonObject.put("date",date.toString())
+        jsonObject.put("status",1)
 
         println(jsonObject)
         return jsonObject
-    }
-
-    private fun jsonToByteArray(jsonObject: JSONObject): ByteArray {
-        return jsonObject.toString().toByteArray(Charsets.UTF_8)
-    }
-
-    private fun createZipInMemory(jsonBytes: ByteArray, imageBytes: List<ByteArray>): ByteArray {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        val zipOutputStream = ZipOutputStream(byteArrayOutputStream)
-
-        // Add JSON to ZIP
-        zipOutputStream.putNextEntry(ZipEntry("data.json"))
-        zipOutputStream.write(jsonBytes)
-        zipOutputStream.closeEntry()
-
-        // Add images to ZIP
-        imageBytes.forEachIndexed { index, image ->
-            zipOutputStream.putNextEntry(ZipEntry("image_$index.jpg"))
-            zipOutputStream.write(image)
-            zipOutputStream.closeEntry()
-        }
-        zipOutputStream.close() // Finish ZIP
-        return byteArrayOutputStream.toByteArray()
     }
 
     private fun sendToServerZip(zipBytes: ByteArray, serverUrl: String) {
@@ -380,6 +406,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 val response = uploadFile(request)
 
                 response.onSuccess {
+
                     startActivity(Intent(this@AddPersonalStyleActivity, ResponseSendStyleActivity::class.java))
                     finish()
                 }.onFailure {
@@ -417,44 +444,82 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         binding.btnSendContent.isEnabled = true
     }
 
-//    private fun sendJsonToServer(jsonObject: JSONObject) {
-//
-//        val firebaseRemoteConfig2 = FirebaseRemoteConfig.getInstance()
-//        val serverUrlReport = firebaseRemoteConfig2.getString("server_url")
-//
-//        val client = OkHttpClient()
+    private fun generateSecureRandomToken(length: Int, allowedChars: String): String {
+        val secureRandom = SecureRandom()
+        return (1..length)
+            .map { allowedChars[secureRandom.nextInt(allowedChars.length)] }
+            .joinToString("")
+    }
+
+    private fun sendStyleJsonToServer(jsonObject: JSONObject, bitmaps: List<Bitmap?>, bitmap: Bitmap) {
+
+     //   val firebaseRemoteConfig2 = FirebaseRemoteConfig.getInstance()
+      //  val serverUrlReport = firebaseRemoteConfig2.getString("server_url")
+        val serverUrlReport = "https://yourserver.com/api/upload/theme"
+
+      //  val client = OkHttpClient()
+        val randomNumber = generateSecureRandomToken(9, "0123456789")
+
+        // Создаем тело запроса multipart/form-data
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            // Добавляем JSON как текстовое поле
+            .addFormDataPart(
+                "style_json",
+                jsonObject.toString()
+            )
+            // Добавляем каждый Bitmap как отдельный файл
+            .apply {
+                bitmaps.forEachIndexed { index, bitmap ->
+                    val bitmapBytes = bitmap?.let { bitmapsToListByteArray(it) }
+                    val fileName = "${randomNumber}_$index.jpg"
+                    if (bitmapBytes != null) {
+                        addFormDataPart(
+                            "images", // Ключ, который сервер ожидает для файлов
+                            fileName, // Имя файла
+                            bitmapBytes.toRequestBody("image/jpeg".toMediaType()) // MIME-тип для JPEG
+                        )
+                    }
+                }
+                val bitmapbyt = bitmapsToListByteArray(bitmap)
+                val filename = "avatar_${randomNumber}.jpg"
+                addFormDataPart(
+                    "images", // Ключ, который сервер ожидает для файлов
+                    filename, // Имя файла
+                    bitmapbyt.toRequestBody("image/jpeg".toMediaType()) // MIME-тип для JPEG
+                )
+            }
+            .build()
+
+        println(requestBody)
+        val request = Request.Builder()
+            .url("$serverUrlReport/themes-app-user-style") // Replace with your API endpoint
+            .post(requestBody)
+            .build()
+
+        lifecycleScope.launch {
+            try {
+                val response = uploadFile(request)
+
+                response.onSuccess {
+                    startActivity(Intent(this@AddPersonalStyleActivity, ResponseSendStyleActivity::class.java))
+                    finish()
+                }.onFailure {
+                    buttonClickTrue()
+                    Toast.makeText(this@AddPersonalStyleActivity, "R.string.error_response_message", Toast.LENGTH_SHORT).show()
+                    println("Upload failed: ${it.message}")
+                }
+
+            } catch (e: Exception) {
+                buttonClickTrue()
+                Toast.makeText(this@AddPersonalStyleActivity, "Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
-//        // Создаем тело запроса multipart/form-data
-//        val requestBody = MultipartBody.Builder()
-//            .setType(MultipartBody.FORM)
-//            // Добавляем JSON как текстовое поле
-//            .addFormDataPart(
-//                "report_json",
-//                jsonObject.toString()
-//            )
-//            // Добавляем каждый Bitmap как отдельный файл
-//            .apply {
-//                bitmaps.forEachIndexed { index, bitmap ->
-//                    val bitmapBytes = convertBitmapToByteArray(bitmap)
-//                    val fileName = "${randomNumber}_${fileName()}_$index.jpg"
-//                    addFormDataPart(
-//                        "images", // Ключ, который сервер ожидает для файлов
-//                        fileName, // Имя файла
-//                        bitmapBytes.toRequestBody("image/jpeg".toMediaType()) // MIME-тип для JPEG
-//                    )
-//                }
-//            }
-//            .build()
-//
-//        val request = Request.Builder()
-//            .url("$serverUrlReport/themes-app-user-report") // Replace with your API endpoint
-//            .post(requestBody)
-//            .build()
-//
 //        client.newCall(request).enqueue(object : okhttp3.Callback {
 //            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-//                sendingStatus = if (response.isSuccessful) {
+//                 if (response.isSuccessful) {
 //                    if (response.body?.string() == "ok") {
 //                        runOnUiThread {
 //                            binding.btnSent.text = resources.getString(R.string.tt_done)
@@ -506,8 +571,25 @@ class AddPersonalStyleActivity : AppCompatActivity() {
 //                e.printStackTrace()
 //            }
 //        })
-//    }
+    }
 
 
+
+    private fun resizeBitmapWidth(bitmap: Bitmap, newWidth: Int): Bitmap {
+        // Calculate the new height to maintain the aspect ratio
+        val aspectRatio = bitmap.height.toFloat() / bitmap.width
+        val newHeight = (newWidth * aspectRatio).toInt()
+
+        // Scale the bitmap
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
+    }
+    private fun bitmapsToListByteArray(bitmap: Bitmap, format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
+                                       quality: Int = 75): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(format, quality, stream)
+        stream.toByteArray()
+        return stream.toByteArray()
+
+    }
 
 }

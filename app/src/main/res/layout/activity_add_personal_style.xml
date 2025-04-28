@@ -36,7 +36,7 @@
                 android:id="@+id/textView_request_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="You have 3 request"
+                android:text=""
                 android:textColor="#ffffff"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
@@ -273,6 +273,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
+                <TextView
+                    android:id="@+id/text_source_theme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Theme"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_text_source_theme"
+                    app:layout_constraintStart_toStartOf="parent" />
                 <EditText
                     android:id="@+id/edit_text_source_theme"
                     android:layout_width="match_parent"
@@ -286,11 +297,23 @@
                     android:textSize="16sp"
                     android:paddingVertical="7dp"
                     android:paddingHorizontal="10dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="25dp"
                     android:background="@drawable/custom_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_source"/>
+
+                <TextView
+                    android:id="@+id/text_source_wallpaper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wallpaper"
+                    android:visibility="gone"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_text_source_wallpaper"
+                    app:layout_constraintStart_toStartOf="parent" />
                 <EditText
                     android:id="@+id/edit_text_source_wallpaper"
                     android:layout_width="match_parent"
@@ -304,11 +327,23 @@
                     android:textSize="16sp"
                     android:paddingVertical="7dp"
                     android:paddingHorizontal="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/custom_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_text_source_theme"/>
+
+                <TextView
+                    android:id="@+id/text_source_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Icon"
+                    android:visibility="gone"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_text_source_icon"
+                    app:layout_constraintStart_toStartOf="parent" />
                 <EditText
                     android:id="@+id/edit_text_source_icon"
                     android:layout_width="match_parent"
@@ -322,11 +357,23 @@
                     android:textSize="16sp"
                     android:paddingVertical="7dp"
                     android:paddingHorizontal="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/custom_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_text_source_wallpaper"/>
+
+                <TextView
+                    android:id="@+id/text_source_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Font"
+                    android:visibility="gone"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/edit_text_source_font"
+                    app:layout_constraintStart_toStartOf="parent" />
                 <EditText
                     android:id="@+id/edit_text_source_font"
                     android:layout_width="match_parent"
@@ -340,7 +387,7 @@
                     android:textSize="16sp"
                     android:paddingVertical="7dp"
                     android:paddingHorizontal="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/custom_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -5,6 +5,6 @@ data class RequestStyleItem(
     val title: String,
     val author: String,
     val avatar: String,
-    val status: Boolean,
+    val status: Int,
     val date: String
 )

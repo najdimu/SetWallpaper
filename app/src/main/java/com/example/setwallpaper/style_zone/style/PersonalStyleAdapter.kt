@@ -31,7 +31,7 @@ class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalSt
     override fun onBindViewHolder(holder: PersonalStyleViewHolder, position: Int) {
         val perStyleItem = personalStyleList[position]
         holder.title.text = perStyleItem.title
-        holder.author.text = perStyleItem.userName
+        holder.author.text = perStyleItem.author
         holder.image.load(perStyleItem.mainImage){
             error(R.drawable.error_place_holder)
             placeholder(R.drawable.place_holder)
@@ -40,12 +40,13 @@ class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalSt
             error(R.drawable.error_place_holder)
             placeholder(R.drawable.place_holder)
         }
+        val array = arrayOf(perStyleItem.images)
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, PersonalStyleDetailActivity::class.java)
             intent.putExtra("title", perStyleItem.title)
-            intent.putExtra("author", perStyleItem.userName)
+            intent.putExtra("author", perStyleItem.author)
             intent.putExtra("description", perStyleItem.description)
-            intent.putExtra("images", perStyleItem.images)
+            intent.putExtra("images", array)
             intent.putExtra("avatar", perStyleItem.avatar)
             holder.itemView.context.startActivity(intent)
         }

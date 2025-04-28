@@ -36,10 +36,10 @@ class RequestStyleAdapter(private var requestList: MutableList<RequestStyleItem>
             error(R.drawable.error_place_holder)
             placeholder(R.drawable.place_holder)
         }
-        if (request.status){
-            holder.status.text = "getString(R.string.success)"
-        } else{
-            holder.status.text = "getString(R.string.error)"
+        when (request.status) {
+           1 -> holder.status.text = "pending"
+            2 -> holder.status.text = "rejected"
+            3 -> holder.status.text = "published"
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.setwallpaper.R
@@ -22,6 +23,7 @@ import okio.IOException
 class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
 
     private lateinit var binding: FragmentInspireMeBinding
+    private var buttonVisible = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,7 +31,7 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
 
         binding.inspireMeRecyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        getFAQData {
+        getStyleData {
                 list ->
             requireActivity().runOnUiThread {
                 list?.let {
@@ -44,23 +46,32 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                    val firstItemPos =
-                        (binding.inspireMeRecyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                val firstVisible = (binding.inspireMeRecyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
-                    if (firstItemPos >= 4) {
-                        if (binding.btnAddStyleInspireMe.visibility != View.VISIBLE) {
-                            // binding.btnAddStyleInspireMe.animate().translationX(0f).setDuration(300).start()
-                            binding.btnAddStyleInspireMe.animate()
-                                .translationX(-100f)  // Move to the center horizontally
-                                .translationY(-50f)  // Move to the center vertically
-                                .scaleX(2f)        // Increase size horizontally (from 1x to 2x)
-                                .scaleY(2f)        // Increase size vertically (from 1x to 2x)
-                                .setDuration(500)
-                                .start()
-                            binding.btnAddStyleInspireMe.visibility = View.VISIBLE
-                        }
-
+                if (dy > 0 && !buttonVisible && firstVisible >= 5) {
+                    showButtonWithTextAnimation(binding.btnAddStyleInspireMe)
+                } else if (dy < 0 && buttonVisible) {
+                    hideButton(binding.btnAddStyleInspireMe)
                 }
+
+
+//                    val firstItemPos =
+//                        (binding.inspireMeRecyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+//
+//                    if (firstItemPos >= 4) {
+//                        if (binding.btnAddStyleInspireMe.visibility != View.VISIBLE) {
+//                            // binding.btnAddStyleInspireMe.animate().translationX(0f).setDuration(300).start()
+//                            binding.btnAddStyleInspireMe.animate()
+//                                .translationX(-100f)  // Move to the center horizontally
+//                                .translationY(-50f)  // Move to the center vertically
+//                                .scaleX(2f)        // Increase size horizontally (from 1x to 2x)
+//                                .scaleY(2f)        // Increase size vertically (from 1x to 2x)
+//                                .setDuration(500)
+//                                .start()
+//                            binding.btnAddStyleInspireMe.visibility = View.VISIBLE
+//                        }
+//
+//                }
             }
         })
 
@@ -70,9 +81,10 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
 
     }
 
-    private fun getFAQData(onResult: (List<PersonalStyleItem>?) -> Unit) {
+    private fun getStyleData(onResult: (List<PersonalStyleItem>?) -> Unit) {
         val client = OkHttpClient()
-        val request = Request.Builder().url("https://raw.githubusercontent.com/najdimu/Stock/refs/heads/main/style_data.json").build()
+        val request = Request.Builder()
+            .url("https://raw.githubusercontent.com/najdimu/Stock/refs/heads/main/style_data.json").build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -90,6 +102,59 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
         })
     }
 
+    private fun showButtonWithTextAnimation(button: Button){
+        button.apply {
+            visibility = View.VISIBLE
+
+            // SET starting scale to 0x
+            scaleX = 0f
+            scaleY = 0f
+
+            animate()
+                .translationX(-100f)  // Move left
+                .translationY(-50f)   // Move up
+                .scaleX(1f)           // Increase size from 0x ➔ 1x horizontally
+                .scaleY(1f)           // Increase size from 0x ➔ 1x vertically
+                .setDuration(500)
+                .start()
+        }
+        buttonVisible = true
+    }
+
+    private fun hideButton(button: Button){
+        button.apply {
+            visibility = View.VISIBLE
+
+            // SET starting scale to 1x
+            scaleX = 1f
+            scaleY = 1f
+
+            animate()
+                .translationX(100f)   // Move right (or wherever you want)
+                .translationY(50f)    // Move down
+                .scaleX(0f)           // Shrink to 0x horizontally
+                .scaleY(0f)           // Shrink to 0x vertically
+                .setDuration(500)
+                .withEndAction {
+                    visibility = View.GONE // Optionally hide after shrink
+                }
+                .start()
+        }
+        buttonVisible = false
+    }
 
     }
+
+
+/*
+ val firstVisible = (rv.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+
+                if (dy > 0 && !buttonVisible && firstVisible >= scrollThreshold) {
+                    showButtonWithTextAnimation()
+                } else if (dy < 0 && buttonVisible) {
+                    hideButton()
+                }
+            }
+        })
+ */
 
