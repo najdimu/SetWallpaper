@@ -40,14 +40,23 @@ class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalSt
             error(R.drawable.error_place_holder)
             placeholder(R.drawable.place_holder)
         }
-        val array = arrayOf(perStyleItem.images)
+        val array: ArrayList<String> = ArrayList()
+        perStyleItem.images.forEach {
+            array.add(it)
+        }
+
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, PersonalStyleDetailActivity::class.java)
             intent.putExtra("title", perStyleItem.title)
             intent.putExtra("author", perStyleItem.author)
             intent.putExtra("description", perStyleItem.description)
-            intent.putExtra("images", array)
+            intent.putStringArrayListExtra("images", array)
             intent.putExtra("avatar", perStyleItem.avatar)
+            intent.putExtra("themeLink", perStyleItem.themeLink)
+            intent.putExtra("wallpaperLink", perStyleItem.wallpaperLink)
+            intent.putExtra("iconLink", perStyleItem.iconLink)
+            intent.putExtra("fontLink", perStyleItem.fontLink)
+            intent.putExtra("supportDevice", perStyleItem.supportDevice)
             holder.itemView.context.startActivity(intent)
         }
 

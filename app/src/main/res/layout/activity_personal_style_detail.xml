@@ -8,11 +8,24 @@
     android:background="@color/rang1"
     tools:context=".style_zone.activity.PersonalStyleDetailActivity">
 
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_personal_style_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#272727"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_personal_style_detail"
+        app:layout_constraintBottom_toBottomOf="parent"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,17 +37,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_personal_style_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#272727"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/style_detail_images"
                 android:layout_width="match_parent"
@@ -44,7 +46,7 @@
                 app:shapeAppearanceOverlay="@style/styleImageThemes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar_personal_style_detail" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/style_detail_avatar"
@@ -76,9 +78,6 @@
                 app:layout_constraintStart_toEndOf="@+id/style_detail_avatar"
                 app:layout_constraintTop_toTopOf="@+id/style_detail_avatar" />
 
-
-
-
             <TextView
                 android:id="@+id/style_detail_description"
                 android:layout_width="match_parent"
@@ -92,18 +91,143 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/style_detail_avatar" />
 
+            <TextView
+                android:id="@+id/style_detail_support"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Support device: All devices"
+                android:textColor="#E6E6E6"
+                android:textSize="16sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/style_detail_description" />
+
+            <TextView
+                android:id="@+id/theme_link_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Theme's link: "
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/style_detail_support"/>
+
+            <TextView
+                android:id="@+id/theme_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:linksClickable="true"
+                android:autoLink="web"
+                android:text="http/sdeme's linkakjn/almflsjfdsdfj/nlmdfkdmfksdmksmdfa;m;/a lsl/mdf' ;/lasfamf'/la,l'sa "
+                android:textColor="#03A9F4"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/theme_link_text"
+                app:layout_constraintTop_toTopOf="@+id/theme_link_text" />
+
+            <TextView
+                android:id="@+id/wallpaper_link_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wallpaper's link: "
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/theme_link"/>
+
+            <TextView
+                android:id="@+id/wallpaper_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="http/sdeme's linkakjn/almfa;m;/a lsl/mdf' ;/lasfamf'/la,l'sa "
+                android:textColor="#03A9F4"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/wallpaper_link_text"
+                app:layout_constraintTop_toTopOf="@+id/wallpaper_link_text" />
+
+            <TextView
+                android:id="@+id/icon_link_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Icon's link: "
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wallpaper_link"/>
+
+            <TextView
+                android:id="@+id/icon_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="http/sdeme's linkakjn/almflsjfdsdfj/nlmdfkdmfksdmksmdfa;m;/a lsl/mdf' ;/lasfamf'/la,l'sa "
+                android:textColor="#03A9F4"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/icon_link_text"
+                app:layout_constraintTop_toTopOf="@+id/icon_link_text" />
+
+            <TextView
+                android:id="@+id/font_link_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Font's link: "
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/icon_link"/>
+
+            <TextView
+                android:id="@+id/font_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:textIsSelectable="true"
+                android:text="http/sdeme's linkakjn/almfa;m;/a lsl/mdf' ;/lasfamf'/la,l'sa "
+                android:textColor="#03A9F4"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/font_link_text"
+                app:layout_constraintTop_toTopOf="@+id/font_link_text" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
-
-
-
-
     </androidx.core.widget.NestedScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

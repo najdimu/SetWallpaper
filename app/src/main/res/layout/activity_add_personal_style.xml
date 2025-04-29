@@ -33,8 +33,6 @@
             android:layout_height="match_parent"
             android:padding="10dp">
 
-
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_1"
                 android:layout_width="match_parent"
@@ -269,6 +267,7 @@
                     android:textStyle="bold"
                     android:visibility="gone"
                     android:layout_marginStart="5dp"
+                    android:layout_marginBottom="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/edit_text_source_theme"
                     app:layout_constraintStart_toStartOf="parent" />
                 <EditText
@@ -299,6 +298,7 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:layout_marginStart="5dp"
+                    android:layout_marginBottom="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/edit_text_source_wallpaper"
                     app:layout_constraintStart_toStartOf="parent" />
                 <EditText
@@ -328,6 +328,7 @@
                     android:visibility="gone"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginStart="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/edit_text_source_icon"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -358,6 +359,7 @@
                     android:visibility="gone"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginStart="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/edit_text_source_font"
                     app:layout_constraintStart_toStartOf="parent" />

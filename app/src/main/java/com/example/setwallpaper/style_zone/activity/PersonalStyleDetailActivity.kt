@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -47,14 +49,53 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
 
         binding.styleDetailUserName.text = intent.getStringExtra("author")
         binding.styleDetailDescription.text = intent.getStringExtra("description")
-        binding.styleDetailImages.load(intent.getStringExtra("images")){
+        val images = intent.getStringArrayListExtra("images")
+        println(images)
+        binding.styleDetailImages.load(images?.get(0)){
             error(R.drawable.error_place_holder)
         }
         binding.styleDetailAvatar.load(intent.getStringExtra("avatar")){
             error(R.drawable.error_place_holder)
         }
-
-
-
+        val themeLink = intent.getStringExtra("themeLink")
+        if (!themeLink.isNullOrEmpty()){
+            binding.themeLinkText.visibility = View.VISIBLE
+            binding.themeLink.visibility = View.VISIBLE
+            binding.themeLink.text = themeLink
+        }
+        binding.themeLink.setOnClickListener {
+            Toast.makeText(this, "themeLink", Toast.LENGTH_SHORT).show()
+        }
+        val wallpaperLink = intent.getStringExtra("wallpaperLink")
+        if (!wallpaperLink.isNullOrEmpty()){
+            binding.wallpaperLinkText.visibility = View.VISIBLE
+            binding.wallpaperLink.visibility = View.VISIBLE
+            binding.wallpaperLink.text = wallpaperLink
+        }
+        binding.wallpaperLink.setOnClickListener {
+            Toast.makeText(this, "wallpaperLink", Toast.LENGTH_SHORT).show()
+        }
+        val iconLink = intent.getStringExtra("iconLink")
+        if (!iconLink.isNullOrEmpty()){
+            binding.iconLinkText.visibility = View.VISIBLE
+            binding.iconLink.visibility = View.VISIBLE
+            binding.iconLink.text = iconLink
+        }
+        binding.iconLink.setOnClickListener {
+            Toast.makeText(this, "iconLink", Toast.LENGTH_SHORT).show()
+        }
+        val fontLink = intent.getStringExtra("fontLink")
+        if (!fontLink.isNullOrEmpty()){
+            binding.fontLinkText.visibility = View.VISIBLE
+            binding.fontLink.visibility = View.VISIBLE
+            binding.fontLink.text = fontLink
+        }
+        binding.fontLink.setOnClickListener {
+            Toast.makeText(this, "fontLink", Toast.LENGTH_SHORT).show()
+        }
+        val supportDevice = intent.getStringExtra("supportDevice")
+        if (!supportDevice.isNullOrEmpty()) {
+            binding.styleDetailSupport.text = "Support device: $supportDevice"
+        }
     }
 }
