@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.setwallpaper.R
-import com.example.setwallpaper.style_zone.activity.PersonalStyleDetailActivity
+import com.example.setwallpaper.style_zone.activity.detail.PersonalStyleDetailActivity
 
 class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalStyleItem>) : RecyclerView.Adapter<PersonalStyleAdapter.PersonalStyleViewHolder>() {
 

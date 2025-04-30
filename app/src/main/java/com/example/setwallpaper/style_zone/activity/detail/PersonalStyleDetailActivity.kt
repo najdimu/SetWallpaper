@@ -1,23 +1,39 @@
-package com.example.setwallpaper.style_zone.activity
+package com.example.setwallpaper.style_zone.activity.detail
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import coil.load
 import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityPersonalStyleDetailBinding
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class PersonalStyleDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPersonalStyleDetailBinding
+    private lateinit var viewPager: ViewPager2
+    private lateinit var dotsLayout: LinearLayout
+    private lateinit var adapter: DetailViewPagerAdapter
+
+    private var autoSlideJob: Job? = null
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +63,28 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
         )
         toolbar.navigationIcon?.colorFilter = colorFilter
 
+        viewPager = binding.viewPagerImagesDetail
+        dotsLayout = binding.dotsLayout
+
+        val images = intent.getStringArrayListExtra("images")
+        adapter = images?.let { DetailViewPagerAdapter(it) }!!
+        viewPager.adapter = adapter
+
+        setupDots(images.size)
+        println(images.size)
+        setupDots(0)
+
+        viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                selectDot(position)
+            }
+        })
+        startAutoSlide()
+
         binding.styleDetailUserName.text = intent.getStringExtra("author")
         binding.styleDetailDescription.text = intent.getStringExtra("description")
-        val images = intent.getStringArrayListExtra("images")
-        println(images)
-        binding.styleDetailImages.load(images?.get(0)){
-            error(R.drawable.error_place_holder)
-        }
+
         binding.styleDetailAvatar.load(intent.getStringExtra("avatar")){
             error(R.drawable.error_place_holder)
         }
@@ -63,39 +94,75 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
             binding.themeLink.visibility = View.VISIBLE
             binding.themeLink.text = themeLink
         }
-        binding.themeLink.setOnClickListener {
-            Toast.makeText(this, "themeLink", Toast.LENGTH_SHORT).show()
-        }
+
         val wallpaperLink = intent.getStringExtra("wallpaperLink")
         if (!wallpaperLink.isNullOrEmpty()){
             binding.wallpaperLinkText.visibility = View.VISIBLE
             binding.wallpaperLink.visibility = View.VISIBLE
             binding.wallpaperLink.text = wallpaperLink
         }
-        binding.wallpaperLink.setOnClickListener {
-            Toast.makeText(this, "wallpaperLink", Toast.LENGTH_SHORT).show()
-        }
+
         val iconLink = intent.getStringExtra("iconLink")
         if (!iconLink.isNullOrEmpty()){
             binding.iconLinkText.visibility = View.VISIBLE
             binding.iconLink.visibility = View.VISIBLE
             binding.iconLink.text = iconLink
         }
-        binding.iconLink.setOnClickListener {
-            Toast.makeText(this, "iconLink", Toast.LENGTH_SHORT).show()
-        }
+
         val fontLink = intent.getStringExtra("fontLink")
         if (!fontLink.isNullOrEmpty()){
             binding.fontLinkText.visibility = View.VISIBLE
             binding.fontLink.visibility = View.VISIBLE
             binding.fontLink.text = fontLink
         }
-        binding.fontLink.setOnClickListener {
-            Toast.makeText(this, "fontLink", Toast.LENGTH_SHORT).show()
-        }
+
         val supportDevice = intent.getStringExtra("supportDevice")
         if (!supportDevice.isNullOrEmpty()) {
             binding.styleDetailSupport.text = "Support device: $supportDevice"
         }
+    }
+
+    private fun setupDots(count: Int){
+        dotsLayout.removeAllViews()
+        for (i in 0 until count){
+            val dot = ImageView(this).apply {
+                setImageResource(R.drawable.dots_unselected)
+                val params = LinearLayout.LayoutParams(20, 20).apply {
+                    marginStart = 8
+                    marginEnd = 8
+                }
+                layoutParams = params
+            }
+            dotsLayout.addView(dot)
+        }
+    }
+    private fun selectDot(position: Int) {
+        for (i in 0 until dotsLayout.childCount) {
+            val imageView = dotsLayout.getChildAt(i) as ImageView
+            if (i == position) {
+                imageView.setImageResource(R.drawable.dots_selected)
+            } else {
+                imageView.setImageResource(R.drawable.dots_unselected)
+            }
+        }
+    }
+    private fun startAutoSlide() {
+        autoSlideJob = lifecycleScope.launch {
+            while (isActive) {
+                delay(5000)
+                val next = viewPager.currentItem + 1
+                viewPager.setCurrentItem(next, true)
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        autoSlideJob?.cancel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startAutoSlide()
     }
 }

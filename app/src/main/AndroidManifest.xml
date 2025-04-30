@@ -34,7 +34,7 @@
             android:name=".style_zone.activity.AddPersonalStyleActivity"
             android:exported="false" />
         <activity
-            android:name=".style_zone.activity.PersonalStyleDetailActivity"
+            android:name=".style_zone.activity.detail.PersonalStyleDetailActivity"
             android:exported="false" />
         <activity
             android:name=".personalization.PersonalStyleActivity"

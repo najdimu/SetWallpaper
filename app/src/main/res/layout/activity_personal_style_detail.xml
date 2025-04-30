@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/rang1"
-    tools:context=".style_zone.activity.PersonalStyleDetailActivity">
+    tools:context=".style_zone.activity.detail.PersonalStyleDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_personal_style_detail"
@@ -37,16 +37,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/style_detail_images"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager_images_detail"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/wall"
-                app:shapeAppearanceOverlay="@style/styleImageThemes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/dotsLayout"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:paddingHorizontal="25dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/viewPager_images_detail"
+                />
+
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/style_detail_avatar"
@@ -59,7 +70,7 @@
                 android:layout_marginTop="15dp"
                 android:padding="2dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/style_detail_images"
+                app:layout_constraintTop_toBottomOf="@+id/viewPager_images_detail"
                 app:shapeAppearanceOverlay="@style/avatarThemes"
                 app:strokeColor="#9E9E9E"
                 app:strokeWidth="1dp" />
@@ -127,7 +138,6 @@
                 android:focusable="true"
                 android:linksClickable="true"
                 android:autoLink="web"
-                android:text="http/sdeme's linkakjn/almflsjfdsdfj/nlmdfkdmfksdmksmdfa;m;/a lsl/mdf' ;/lasfamf'/la,l'sa "
                 android:textColor="#03A9F4"
                 android:textSize="16sp"
                 android:visibility="gone"
@@ -157,7 +167,8 @@
                 android:layout_marginEnd="5dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="http/sdeme's linkakjn/almfa;m;/a lsl/mdf' ;/lasfamf'/la,l'sa "
+                android:linksClickable="true"
+                android:autoLink="web"
                 android:textColor="#03A9F4"
                 android:textSize="16sp"
                 android:visibility="gone"
@@ -187,8 +198,8 @@
                 android:layout_marginEnd="5dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="http/sdeme's linkakjn/almflsjfdsdfj/nlmdfkdmfksdmksmdfa;m;/a lsl/mdf' ;/lasfamf'/la,l'sa "
-                android:textColor="#03A9F4"
+                android:linksClickable="true"
+                android:autoLink="web"
                 android:textSize="16sp"
                 android:visibility="gone"
                 android:textIsSelectable="true"
@@ -217,10 +228,10 @@
                 android:layout_marginEnd="5dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:linksClickable="true"
+                android:autoLink="web"
                 android:visibility="gone"
                 android:textIsSelectable="true"
-                android:text="http/sdeme's linkakjn/almfa;m;/a lsl/mdf' ;/lasfamf'/la,l'sa "
-                android:textColor="#03A9F4"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/font_link_text"
