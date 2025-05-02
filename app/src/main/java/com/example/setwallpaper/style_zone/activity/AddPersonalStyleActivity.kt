@@ -458,6 +458,10 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                              val editor = sharedPreferences.edit()
                              editor.putInt("requestItemNumber", 1)
                              editor.apply()
+                         } else {
+                             val editor = sharedPreferences.edit()
+                             editor.putInt("requestItemNumber", requestNumber + 1)
+                             editor.apply()
                          }
                          startActivity(Intent(this@AddPersonalStyleActivity, ResponseSendStyleActivity::class.java))
                          finish()

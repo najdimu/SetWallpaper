@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -21,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import coil.load
 import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityPersonalStyleDetailBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -30,7 +32,6 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPersonalStyleDetailBinding
     private lateinit var viewPager: ViewPager2
-    private lateinit var dotsLayout: LinearLayout
     private lateinit var adapter: DetailViewPagerAdapter
 
     private var autoSlideJob: Job? = null
@@ -64,22 +65,36 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
         toolbar.navigationIcon?.colorFilter = colorFilter
 
         viewPager = binding.viewPagerImagesDetail
-        dotsLayout = binding.dotsLayout
 
         val images = intent.getStringArrayListExtra("images")
         adapter = images?.let { DetailViewPagerAdapter(it) }!!
         viewPager.adapter = adapter
 
-        setupDots(images.size)
-        println(images.size)
-        setupDots(0)
+        TabLayoutMediator(binding.dotsLayout, viewPager) { tab, _ ->
+            val imageView = ImageView(this).apply {
+                setImageResource(R.drawable.dots_unselected)
+                val size = (12 * resources.displayMetrics.density).toInt()   // 12dp
+                layoutParams = ViewGroup.LayoutParams(size, size)
+            }
+            tab.customView = imageView
+        }.attach()
 
         viewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                selectDot(position)
+
+                for (i in 0 until binding.dotsLayout.tabCount) {
+                    val tab = binding.dotsLayout.getTabAt(i)
+                    val imageView = tab?.customView as? ImageView
+                    if (i == position) {
+                        imageView?.setImageResource(R.drawable.dots_selected)
+                    } else {
+                        imageView?.setImageResource(R.drawable.dots_unselected)
+                    }
+                }
             }
         })
+
         startAutoSlide()
 
         binding.styleDetailUserName.text = intent.getStringExtra("author")
@@ -118,40 +133,26 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
 
         val supportDevice = intent.getStringExtra("supportDevice")
         if (!supportDevice.isNullOrEmpty()) {
-            binding.styleDetailSupport.text = "Support device: $supportDevice"
+            binding.styleDetailSupport.text = supportDevice
         }
     }
 
-    private fun setupDots(count: Int){
-        dotsLayout.removeAllViews()
-        for (i in 0 until count){
-            val dot = ImageView(this).apply {
-                setImageResource(R.drawable.dots_unselected)
-                val params = LinearLayout.LayoutParams(20, 20).apply {
-                    marginStart = 8
-                    marginEnd = 8
-                }
-                layoutParams = params
-            }
-            dotsLayout.addView(dot)
-        }
-    }
-    private fun selectDot(position: Int) {
-        for (i in 0 until dotsLayout.childCount) {
-            val imageView = dotsLayout.getChildAt(i) as ImageView
-            if (i == position) {
-                imageView.setImageResource(R.drawable.dots_selected)
-            } else {
-                imageView.setImageResource(R.drawable.dots_unselected)
-            }
-        }
-    }
     private fun startAutoSlide() {
+        autoSlideJob?.cancel()
+
         autoSlideJob = lifecycleScope.launch {
             while (isActive) {
-                delay(5000)
-                val next = viewPager.currentItem + 1
-                viewPager.setCurrentItem(next, true)
+                delay(4000)
+                val itemCount = viewPager.adapter?.itemCount ?: 0
+                if (itemCount == 0) continue
+
+                val nextItem = if (viewPager.currentItem + 1 < itemCount ) {
+                    viewPager.currentItem + 1
+                } else {
+                    0
+                }
+
+                viewPager.setCurrentItem(nextItem, true)
             }
         }
     }

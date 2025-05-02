@@ -40,19 +40,22 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager_images_detail"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="300dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
-            <LinearLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/dotsLayout"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:paddingHorizontal="25dp"
-                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tabIndicatorHeight="0dp"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="@android:color/darker_gray"
+                app:tabIndicator="@null"
+                app:tabGravity="center"
+                app:tabMode="fixed"
+                android:background="@android:color/transparent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/viewPager_images_detail"
@@ -103,17 +106,28 @@
                 app:layout_constraintTop_toBottomOf="@+id/style_detail_avatar" />
 
             <TextView
-                android:id="@+id/style_detail_support"
-                android:layout_width="match_parent"
+                android:id="@+id/style_detail_support_text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Support device: All devices"
-                android:textColor="#E6E6E6"
+                android:text="Support device:"
+                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/style_detail_description" />
+
+            <TextView
+                android:id="@+id/style_detail_support"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="All devices"
+                android:textColor="#FF56E6"
+                android:textSize="16sp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/style_detail_support_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/style_detail_support_text" />
 
             <TextView
                 android:id="@+id/theme_link_text"
