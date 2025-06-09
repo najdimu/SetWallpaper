@@ -51,7 +51,7 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
 
                 val firstVisible = (binding.inspireMeRecyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
-                if (dy > 0 && !buttonVisible && firstVisible >= 5) {
+                if (dy > 0 && !buttonVisible && firstVisible >= 4) {
                     showButtonWithTextAnimation(binding.btnAddStyleInspireMe)
                 } else if (dy < 0 && buttonVisible) {
                     hideButton(binding.btnAddStyleInspireMe)

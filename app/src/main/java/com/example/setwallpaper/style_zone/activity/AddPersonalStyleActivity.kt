@@ -112,7 +112,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 delay(3000)
                 // Make the TextView visible and start the animation
                 binding.textViewRequestShow.visibility = TextView.VISIBLE
-                binding.textViewRequestShow.text = getString(R.string.string_you_have_request) + requestItemNumber
+                binding.textViewRequestShow.text = getString(R.string.string_you_have_request) + " $requestItemNumber"
 
                 val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text)
                 binding.textViewRequestShow.startAnimation(animation)
