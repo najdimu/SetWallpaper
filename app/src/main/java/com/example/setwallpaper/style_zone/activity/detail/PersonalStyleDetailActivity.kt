@@ -56,7 +56,7 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
             finish()
         }
 
-        title = intent.getStringExtra("title") ?: resources.getString(R.string.toolbar_title_personal_style)// ewsgdfd
+        title = intent.getStringExtra("title") ?: resources.getString(R.string.toolbar_title_detail_style)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         val colorFilter = PorterDuffColorFilter(
             ContextCompat.getColor(this, R.color.white1),
@@ -110,11 +110,18 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
             binding.themeLink.text = themeLink
         }
 
-        val wallpaperLink = intent.getStringExtra("wallpaperLink")
-        if (!wallpaperLink.isNullOrEmpty()){
-            binding.wallpaperLinkText.visibility = View.VISIBLE
-            binding.wallpaperLink.visibility = View.VISIBLE
-            binding.wallpaperLink.text = wallpaperLink
+        val firstWallpaperLink = intent.getStringExtra("firstWallpaperLink")
+        if (!firstWallpaperLink.isNullOrEmpty()){
+            binding.firstWallpaperLinkText.visibility = View.VISIBLE
+            binding.firstWallpaperLink.visibility = View.VISIBLE
+            binding.firstWallpaperLink.text = firstWallpaperLink
+        }
+
+        val secondWallpaperLink = intent.getStringExtra("secondWallpaperLink")
+        if (!secondWallpaperLink.isNullOrEmpty()){
+            binding.secondWallpaperLinkText.visibility = View.VISIBLE
+            binding.secondWallpaperLink.visibility = View.VISIBLE
+            binding.secondWallpaperLink.text = secondWallpaperLink
         }
 
         val iconLink = intent.getStringExtra("iconLink")
@@ -133,7 +140,11 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
 
         val supportDevice = intent.getStringExtra("supportDevice")
         if (!supportDevice.isNullOrEmpty()) {
-            binding.styleDetailSupport.text = supportDevice
+            if (supportDevice == "All devices") {
+                binding.styleDetailSupport.text = getString(R.string.string_all_devices)
+            } else {
+                binding.styleDetailSupport.text = supportDevice
+            }
         }
     }
 
@@ -151,7 +162,6 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
                 } else {
                     0
                 }
-
                 viewPager.setCurrentItem(nextItem, true)
             }
         }

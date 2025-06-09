@@ -9,7 +9,8 @@ data class PersonalStyleItem(
     val author: String,
     val images: List<String>,
     val themeLink: String,
-    val wallpaperLink: String,
+    val firstWallpaperLink: String,
+    val secondWallpaperLink: String,
     val iconLink: String,
     val fontLink: String,
     val supportDevice: String

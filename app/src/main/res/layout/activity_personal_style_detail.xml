@@ -85,7 +85,6 @@
                 android:layout_marginHorizontal="10dp"
                 android:maxLines="1"
                 android:textSize="18sp"
-                android:text="User name"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/style_detail_avatar"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +95,6 @@
                 android:id="@+id/style_detail_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:layout_marginTop="15dp"
@@ -109,7 +107,7 @@
                 android:id="@+id/style_detail_support_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Support device:"
+                android:text="@string/support_device"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:layout_marginTop="15dp"
@@ -121,7 +119,6 @@
                 android:id="@+id/style_detail_support"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="All devices"
                 android:textColor="#FF56E6"
                 android:textSize="16sp"
                 android:layout_marginStart="10dp"
@@ -133,7 +130,7 @@
                 android:id="@+id/theme_link_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Theme's link: "
+                android:text="@string/theme_s_link"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:visibility="gone"
@@ -141,7 +138,6 @@
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/style_detail_support"/>
-
             <TextView
                 android:id="@+id/theme_link"
                 android:layout_width="0dp"
@@ -161,10 +157,10 @@
                 app:layout_constraintTop_toTopOf="@+id/theme_link_text" />
 
             <TextView
-                android:id="@+id/wallpaper_link_text"
+                android:id="@+id/first_wallpaper_link_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wallpaper's link: "
+                android:text="@string/first_wallpaper_s_link"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:visibility="gone"
@@ -174,7 +170,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/theme_link"/>
 
             <TextView
-                android:id="@+id/wallpaper_link"
+                android:id="@+id/first_wallpaper_link"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -188,21 +184,52 @@
                 android:visibility="gone"
                 android:textIsSelectable="true"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/wallpaper_link_text"
-                app:layout_constraintTop_toTopOf="@+id/wallpaper_link_text" />
+                app:layout_constraintStart_toEndOf="@+id/first_wallpaper_link_text"
+                app:layout_constraintTop_toTopOf="@+id/first_wallpaper_link_text" />
 
             <TextView
-                android:id="@+id/icon_link_text"
+                android:id="@+id/second_wallpaper_link_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Icon's link: "
+                android:text="@string/second_wallpaper_s_link"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:visibility="gone"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wallpaper_link"/>
+                app:layout_constraintTop_toBottomOf="@+id/first_wallpaper_link"/>
+
+            <TextView
+                android:id="@+id/second_wallpaper_link"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:linksClickable="true"
+                android:autoLink="web"
+                android:textColor="#03A9F4"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/second_wallpaper_link_text"
+                app:layout_constraintTop_toTopOf="@+id/second_wallpaper_link_text" />
+
+            <TextView
+                android:id="@+id/icon_link_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icon_s_link"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/second_wallpaper_link"/>
 
             <TextView
                 android:id="@+id/icon_link"
@@ -225,7 +252,7 @@
                 android:id="@+id/font_link_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Font's link: "
+                android:text="@string/font_s_link"
                 android:textColor="#ffffff"
                 android:textSize="16sp"
                 android:visibility="gone"

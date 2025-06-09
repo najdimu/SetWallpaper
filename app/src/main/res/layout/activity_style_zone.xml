@@ -5,12 +5,12 @@
     android:id="@+id/style_zone_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".style_zone.activity.StyleZoneActivity">
+    tools:context=".style_zone.style.StyleZoneActivity">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout_styleZone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:background="#212121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,7 +24,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Overview themes"/>
+            android:text="@string/overview_themes"/>
 
     </com.google.android.material.tabs.TabLayout>
 

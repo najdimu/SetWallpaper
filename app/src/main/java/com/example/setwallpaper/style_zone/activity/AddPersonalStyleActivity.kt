@@ -28,10 +28,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityAddPersonalStyleBinding
 import com.example.setwallpaper.style_zone.activity.request.RequestStyleListActivity
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -62,6 +60,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
     private var supportDevicePos = 0
     private var sourceLink = true
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -93,12 +92,10 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 delay(3000)
                 // Make the TextView visible and start the animation
                 binding.textViewRequestShow.visibility = TextView.VISIBLE
-                binding.textViewRequestShow.text = "You don't have any requests yet."
+                binding.textViewRequestShow.text = getString(R.string.string_dont_any_requests)
 
                 val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text)
                 binding.textViewRequestShow.startAnimation(animation)
-
-                Toast.makeText(this@AddPersonalStyleActivity, userId,Toast.LENGTH_SHORT).show()
             }
 
             lifecycleScope.launch {
@@ -115,15 +112,10 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 delay(3000)
                 // Make the TextView visible and start the animation
                 binding.textViewRequestShow.visibility = TextView.VISIBLE
-                when (requestItemNumber) {
-                    1 -> { binding.textViewRequestShow.text = "You have $requestItemNumber request." }
-                    else -> { binding.textViewRequestShow.text = "You have $requestItemNumber requests." }
-                }
+                binding.textViewRequestShow.text = getString(R.string.string_you_have_request) + requestItemNumber
 
                 val animation = AnimationUtils.loadAnimation(this@AddPersonalStyleActivity, R.anim.anima_text)
                 binding.textViewRequestShow.startAnimation(animation)
-
-                Toast.makeText(this@AddPersonalStyleActivity, userId,Toast.LENGTH_SHORT).show()
             }
 
             lifecycleScope.launch {
@@ -140,7 +132,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) ?: true
         toolbar.setNavigationOnClickListener { finish() }
-        title = resources.getString(R.string.toolbar_title_personal_style)//
+        title = resources.getString(R.string.toolbar_title_personal_style)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         val colorFilter = PorterDuffColorFilter(
             ContextCompat.getColor(this, R.color.white1),
@@ -169,7 +161,11 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             pickImageFromGallery()
         }
 
-        val itemsNameLink = listOf("Add source link", "Theme's link", "Wallpaper's link", "Icon's link", "Font's link")
+        val itemsNameLink = listOf( resources.getString(R.string.string_add_source_link), resources.getString(R.string.string_theme_s_link),
+            resources.getString(R.string.string_wallpaper_s_link), resources.getString(R.string.string_icon_s_link),
+            resources.getString(R.string.string_font_s_link))
+
+
         val spinnerLinkAdapter = object: ArrayAdapter<String>(this, R.layout.spinner_layout, itemsNameLink){
             override fun isEnabled(position: Int): Boolean {
                 return position != 0
@@ -198,8 +194,9 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                         binding.spinnerSourceLink.setSelection(0)
                     }
                     2->{
-                        binding.textSourceWallpaper.visibility = View.VISIBLE
-                        binding.editTextSourceWallpaper.visibility = View.VISIBLE
+                        binding.textSourceWallpaperFirst.visibility = View.VISIBLE
+                        binding.editTextSourceWallpaperFirst.visibility = View.VISIBLE
+                        binding.editTextSourceWallpaperSecond.visibility = View.VISIBLE
                         binding.spinnerSourceLink.setSelection(0)
                     }
                     3->{
@@ -219,7 +216,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             }
         }
 
-        val itemsNameDevice = listOf("All devices", "Samsung Galaxy", "Xiaomi, Redmi, POCCO", "Realme & Oppo")
+        val itemsNameDevice = listOf(getString(R.string.string_all_devices), "Samsung Galaxy", "Xiaomi, Redmi & POCCO", "Realme & Oppo")
         val spinnerDeviceAdapter = object: ArrayAdapter<String>(this, R.layout.spinner_layout, itemsNameDevice){
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -239,6 +236,10 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         binding.spinnerDeviceSupport.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2){
+                    0->{
+                        supportDevicePos = 0
+                        supportDevice = "All devices"
+                    }
                     1->{
                         supportDevicePos = 1
                         supportDevice = itemsNameDevice[p2]
@@ -254,7 +255,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
+
             }
         }
 
@@ -263,18 +264,19 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             val description = binding.editTextDescription.text.toString()
             val userName = binding.editTextUsername.text.toString()
             val themeLink = binding.editTextSourceTheme.text.toString()
-            val wallpaperLink = binding.editTextSourceWallpaper.text.toString()
+            val firstWallLink = binding.editTextSourceWallpaperFirst.text.toString()
+            val secondWallLink = binding.editTextSourceWallpaperSecond.text.toString()
             val iconLink = binding.editTextSourceIcon.text.toString()
             val fontLink = binding.editTextSourceFont.text.toString()
 
-            if (themeLink.isNotEmpty() || wallpaperLink.isNotEmpty()
+            if (themeLink.isNotEmpty() || firstWallLink.isNotEmpty() || secondWallLink.isNotEmpty()
                 || iconLink.isNotEmpty() || fontLink.isNotEmpty()) sourceLink = false
 
             val bitmapList = listOf(bitmapSrc1, bitmapScr2, bitmapScr3)
 
             if (title.isEmpty() || description.isEmpty() || userName.isEmpty()
                 || addScr1 || addAvatar || sourceLink) {
-                Toast.makeText(this, "R.string.please_fill", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.please_fill), Toast.LENGTH_SHORT).show()
             }
             else {
                 try {
@@ -283,15 +285,15 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                     binding.btnSendContent.isEnabled = false
 
                     val jsonObject = addTextsToJsonObject(title, description, userName,
-                        themeLink, wallpaperLink, iconLink, fontLink, supportDevice, userId!!)
+                        themeLink, firstWallLink, secondWallLink, iconLink, fontLink, supportDevice, userId!!)
                     sendStyleJsonToServer(jsonObject, bitmapList, bitmapAvatar!!)
                 } catch  (e: Exception) {
                     buttonClickTrue()
-                    Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.error_response_message), Toast.LENGTH_SHORT).show()
                     e.printStackTrace()
                 }
             }
-        }  // good
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -314,7 +316,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             type = "image/*"
         }
         galleryLauncher.launch(pickImageIntent)
-    } // good
+    }
 
     // Handle the result from the gallery
     private val galleryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
@@ -325,7 +327,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 clickedImageView?.let { pictureToImageView(it,uri) }
             }
         }
-    } // good
+    }
 
     private fun pictureToImageView(view: ImageView, uri: Uri){
         try {
@@ -357,19 +359,18 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                     bitmapAvatar = bitmap
                     addAvatar = false
                 }
-
             }
             // Notify user (optional)
-            Toast.makeText(this, "R.string.success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.success), Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "R.string.error", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show()
         }
     }
 
     @SuppressLint("NewApi")
     private fun addTextsToJsonObject(title: String, description: String, userName: String, themeLink: String,
-                                     wallpaperLink: String, iconLink: String, fontLink: String,
+                                     firstWallLink: String, secondWallLink: String, iconLink: String, fontLink: String,
                                      supportDevice: String, userId: String) : JSONObject {
         val jsonObject = JSONObject()
         val currentDate = LocalDate.now()
@@ -381,7 +382,8 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         jsonObject.put("author",userName)
         jsonObject.put("supportDevice",supportDevice)
         if (themeLink.isNotEmpty()) jsonObject.put("themeLink",themeLink)
-        if (wallpaperLink.isNotEmpty()) jsonObject.put("wallpaperLink",wallpaperLink)
+        if (firstWallLink.isNotEmpty()) jsonObject.put("firstWallpaperLink",firstWallLink)
+        if (secondWallLink.isNotEmpty()) jsonObject.put("secondWallpaperLink",secondWallLink)
         if (iconLink.isNotEmpty()) jsonObject.put("iconLink",iconLink)
         if (fontLink.isNotEmpty()) jsonObject.put("fontLink",fontLink)
         jsonObject.put("date",date)
@@ -393,7 +395,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
 
     private fun buttonClickTrue() {
         binding.progressBar.visibility = View.GONE
-        binding.btnSendContent.text = "R.string.send_content_"
+        binding.btnSendContent.text = getString(R.string.send)
         binding.btnSendContent.isEnabled = true
     }
 
@@ -471,7 +473,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
                 runOnUiThread {
                     buttonClickTrue()
-                    Toast.makeText(this@AddPersonalStyleActivity, "R.string.error_response_message", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AddPersonalStyleActivity, getString(R.string.error_response_message), Toast.LENGTH_SHORT).show()
                 }
                 e.printStackTrace()
             }
@@ -485,5 +487,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         stream.toByteArray()
         return stream.toByteArray()
     }
+
+
 
 }

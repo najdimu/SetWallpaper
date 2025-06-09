@@ -40,15 +40,15 @@ class RequestStyleAdapter(private var requestList: MutableList<RequestStyleItem>
         }
         when (request.status) {
            1 -> {
-               holder.status.text = "pending"
+               holder.status.text = holder.status.context.getString(R.string.string_pending)
                holder.status.setTextColor(Color.YELLOW)
            }
             2 -> {
-                holder.status.text = "rejected"
+                holder.status.text = holder.status.context.getString(R.string.string_rejected)
                 holder.status.setTextColor(Color.RED)
             }
             3 -> {
-                holder.status.text = "published"
+                holder.status.text = holder.status.context.getString(R.string.string_published)
                 holder.status.setTextColor(Color.GREEN)
             }
         }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.imageview.ShapeableImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/image_view_detail_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scaleType="centerCrop"
+    app:shapeAppearanceOverlay="@style/styleImageThemes"
+    >
+
+</com.google.android.material.imageview.ShapeableImageView>

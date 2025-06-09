@@ -1,12 +1,61 @@
 <resources>
     <string name="app_name">SetWallpaper</string>
 
+    <string name="toolbar_title_personal_style">Add your personal style</string>
+    <string name="toolbar_title_detail_style">Detail</string>
+    <string name="toolbar_title_request_style">Requests</string>
 
-    <string name="toolbar_title_personal_style">User\'s personal styles</string>
-    <string name="toolbar_title_personal_style_detail">Title</string>
-    <string name="you_should_fill_about_theme">You should fill about theme</string>
-    <string name="enter_theme_s_name">Enter theme\'s name</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="about_personal_style">About personal style</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="hint_describe_style">Please describe your personal style</string>
+    <string name="screenshots">Screenshots</string>
+    <string name="about_source">About source</string>
+    <string name="theme">Theme</string>
+    <string name="hint_theme_s_link">Paste theme\'s link</string>
+    <string name="wallpaper">Wallpapers</string>
+    <string name="hint_home_wallpaper_s_link">Paste Home screen wallpaper\'s link</string>
+    <string name="hint_lock_wallpaper_s_link">Paste Lock screen wallpaper\'s link</string>
+    <string name="icon">Icon</string>
+    <string name="hint_icon_s_link">Paste icon\'s link</string>
+    <string name="font">Font</string>
+    <string name="hint_font_s_link">Paste font\'s link</string>
+    <string name="which_device_does_it_support">Which device does it support?</string>
+    <string name="about_author">About author</string>
+    <string name="name">Name</string>
+    <string name="hint_author">Author Author</string>
+    <string name="add_avatar">Add avatar</string>
+    <string name="send">Send</string>
+    <string name="string_theme_s_link">Theme\'s link</string>
+    <string name="string_add_source_link">Add source link</string>
+    <string name="string_wallpaper_s_link">Wallpapers\' link</string>
+    <string name="string_icon_s_link">Icon\'s link</string>
+    <string name="string_font_s_link">Font\'s link</string>
+    <string name="string_all_devices">All devices</string>
+    <string name="string_dont_any_requests">You don\'t have any requests yet.</string>
+    <string name="string_you_have_request">Number of requests you have sent: </string>
+    <string name="support_device">Support device:</string>
+    <string name="theme_s_link">Theme\'s link:</string>
+    <string name="first_wallpaper_s_link">First wallpaper\'s link:</string>
+    <string name="second_wallpaper_s_link">Second wallpaper\'s link:</string>
+    <string name="icon_s_link">Icon\'s link:</string>
+    <string name="font_s_link">Font\'s link:</string>
+
+    <string name="string_pending">pending</string>
+    <string name="string_rejected">rejected</string>
+    <string name="string_published">published</string>
+
+    <string name="please_fill">Please fill all information</string>
+    <string name="success">Picture added successfully!</string>
+    <string name="error">Failed to add picture.</string>
+
+    <string name="btn_response_done">DONE</string>
+    <string name="error_response_message">Something went wrong please try again</string>
+    <string name="success_response_message">Sent successfully.\n\nThank you for sharing personal style with us. We are currently reviewing it and will publish it as soon as possible.</string>
+    <string name="add_your_style">Add your style</string>
+    <string name="overview_themes">Overview themes</string>
+
 
 </resources>

@@ -1,6 +1,5 @@
-package com.example.setwallpaper.style_zone
+package com.example.setwallpaper.style_zone.style
 
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.setwallpaper.style_zone.fragment.InspireMeFragment

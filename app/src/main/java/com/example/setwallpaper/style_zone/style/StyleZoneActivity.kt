@@ -1,4 +1,4 @@
-package com.example.setwallpaper.style_zone.activity
+package com.example.setwallpaper.style_zone.style
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -8,7 +8,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityStyleZoneBinding
-import com.example.setwallpaper.style_zone.StyleZoneViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 
 class StyleZoneActivity : AppCompatActivity() {

@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:textSize="16sp"
-        android:text="Add your style"
+        android:text="@string/add_your_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="15dp"

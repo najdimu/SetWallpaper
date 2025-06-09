@@ -16,7 +16,7 @@
         android:theme="@style/Theme.SetWallpaper"
         tools:targetApi="31">
         <activity
-            android:name=".style_zone.activity.StyleZoneActivity"
+            android:name=".style_zone.style.StyleZoneActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

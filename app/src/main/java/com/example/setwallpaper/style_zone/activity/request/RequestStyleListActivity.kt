@@ -43,7 +43,7 @@ class RequestStyleListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) ?: true
         toolbar.setNavigationOnClickListener { finish() }
-        title = resources.getString(R.string.toolbar_title_personal_style_detail)
+        title = resources.getString(R.string.toolbar_title_request_style)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         val colorFilter = PorterDuffColorFilter(ContextCompat.getColor(this, R.color.white),
             PorterDuff.Mode.SRC_ATOP)
@@ -56,9 +56,6 @@ class RequestStyleListActivity : AppCompatActivity() {
         if (userId != null) {
             if (userId.isNotEmpty()){
                 getRequestData(userId){  styleList ->
-                    println(styleList)
-                    println(userId)
-
                     runOnUiThread {
                         if (styleList.isNullOrEmpty()){
                             binding.textviewRequestIfEmpty.visibility = View.VISIBLE
@@ -79,8 +76,6 @@ class RequestStyleListActivity : AppCompatActivity() {
                 }
             }
         }
-        Toast.makeText(this, userId, Toast.LENGTH_LONG).show()
-
     }
 
     private fun getRequestData(userId: String, onResult: (List<RequestStyleItem>?) -> Unit){
@@ -98,7 +93,6 @@ class RequestStyleListActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { json ->
-                    println(json)
                     val requestStyle = Gson().fromJson(json, Array<RequestStyleItem>::class.java).toList()
                     onResult(requestStyle)
                 } ?: onResult(null)
