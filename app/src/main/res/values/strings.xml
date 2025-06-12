@@ -11,8 +11,8 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="hint_describe_style">Please describe your personal style</string>
-    <string name="screenshots">Screenshots</string>
-    <string name="about_source">About source</string>
+    <string name="theme_screenshots">Add theme\'s\nscreenshots</string>
+    <string name="about_content">About content</string>
     <string name="theme">Theme</string>
     <string name="hint_theme_s_link">Paste theme\'s link</string>
     <string name="wallpaper">Wallpapers</string>
@@ -27,6 +27,8 @@
     <string name="name">Name</string>
     <string name="hint_author">Author Author</string>
     <string name="add_avatar">Add avatar</string>
+    <string name="add_home_wall">Add Home screen wallpaper</string>
+    <string name="add_lock_wall">Add Lock screen wallpaper</string>
     <string name="send">Send</string>
     <string name="string_theme_s_link">Theme\'s link</string>
     <string name="string_add_source_link">Add source link</string>
