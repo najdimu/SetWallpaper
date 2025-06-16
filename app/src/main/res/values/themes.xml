@@ -23,5 +23,12 @@
         <item name="cornerSizeBottomLeft">13dp</item>
     </style>
 
+    <style name="addImageThemes" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerSizeBottomRight">12dp</item>
+        <item name="cornerSizeBottomLeft">12dp</item>
+    </style>
 
 </resources>

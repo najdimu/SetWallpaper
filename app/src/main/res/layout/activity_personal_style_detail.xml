@@ -61,7 +61,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/viewPager_images_detail"
                 />
 
-
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/style_detail_avatar"
                 android:layout_width="30dp"
@@ -126,157 +125,67 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/style_detail_support_text" />
 
-            <TextView
-                android:id="@+id/theme_link_text"
+            <Button
+                android:id="@+id/btn_get_theme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/theme_s_link"
-                android:textColor="#ffffff"
+                android:text="@string/get_theme"
                 android:textSize="16sp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/style_detail_support"/>
-            <TextView
-                android:id="@+id/theme_link"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:linksClickable="true"
-                android:autoLink="web"
-                android:textColor="#03A9F4"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/theme_link_text"
-                app:layout_constraintTop_toTopOf="@+id/theme_link_text" />
 
-            <TextView
-                android:id="@+id/first_wallpaper_link_text"
+            <Button
+                android:id="@+id/btn_set_first_wall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/first_wallpaper_s_link"
-                android:textColor="#ffffff"
+                android:text="@string/set_first_wallpaper"
                 android:textSize="16sp"
-                android:visibility="gone"
-                android:layout_marginTop="15dp"
+                android:visibility="visible"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/theme_link"/>
+                app:layout_constraintTop_toBottomOf="@+id/btn_get_theme"/>
 
-            <TextView
-                android:id="@+id/first_wallpaper_link"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:linksClickable="true"
-                android:autoLink="web"
-                android:textColor="#03A9F4"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/first_wallpaper_link_text"
-                app:layout_constraintTop_toTopOf="@+id/first_wallpaper_link_text" />
-
-            <TextView
-                android:id="@+id/second_wallpaper_link_text"
+            <Button
+                android:id="@+id/btn_set_second_wall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/second_wallpaper_s_link"
-                android:textColor="#ffffff"
+                android:text="@string/set_second_wallpaper"
                 android:textSize="16sp"
-                android:visibility="gone"
-                android:layout_marginTop="15dp"
+                android:visibility="visible"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/first_wallpaper_link"/>
+                app:layout_constraintTop_toBottomOf="@+id/btn_set_first_wall"/>
 
-            <TextView
-                android:id="@+id/second_wallpaper_link"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:linksClickable="true"
-                android:autoLink="web"
-                android:textColor="#03A9F4"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/second_wallpaper_link_text"
-                app:layout_constraintTop_toTopOf="@+id/second_wallpaper_link_text" />
-
-            <TextView
-                android:id="@+id/icon_link_text"
+            <Button
+                android:id="@+id/btn_get_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/icon_s_link"
-                android:textColor="#ffffff"
+                android:text="@string/get_icon"
                 android:textSize="16sp"
-                android:visibility="gone"
-                android:layout_marginTop="15dp"
+                android:visibility="visible"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/second_wallpaper_link"/>
+                app:layout_constraintTop_toBottomOf="@+id/btn_set_second_wall"/>
 
-            <TextView
-                android:id="@+id/icon_link"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:linksClickable="true"
-                android:autoLink="web"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:textIsSelectable="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/icon_link_text"
-                app:layout_constraintTop_toTopOf="@+id/icon_link_text" />
-
-            <TextView
-                android:id="@+id/font_link_text"
+            <Button
+                android:id="@+id/btn_get_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/font_s_link"
-                android:textColor="#ffffff"
+                android:text="@string/get_font"
                 android:textSize="16sp"
-                android:visibility="gone"
-                android:layout_marginTop="15dp"
+                android:visibility="visible"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginBottom="30dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/icon_link"/>
-
-            <TextView
-                android:id="@+id/font_link"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:linksClickable="true"
-                android:autoLink="web"
-                android:visibility="gone"
-                android:textIsSelectable="true"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/font_link_text"
-                app:layout_constraintTop_toTopOf="@+id/font_link_text" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_get_icon"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

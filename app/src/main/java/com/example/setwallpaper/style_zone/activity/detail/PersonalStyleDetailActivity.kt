@@ -105,37 +105,27 @@ class PersonalStyleDetailActivity : AppCompatActivity() {
         }
         val themeLink = intent.getStringExtra("themeLink")
         if (!themeLink.isNullOrEmpty()){
-            binding.themeLinkText.visibility = View.VISIBLE
-            binding.themeLink.visibility = View.VISIBLE
-            binding.themeLink.text = themeLink
+            binding.btnGetTheme.visibility = View.VISIBLE
         }
 
         val firstWallpaperLink = intent.getStringExtra("firstWallpaperLink")
         if (!firstWallpaperLink.isNullOrEmpty()){
-            binding.firstWallpaperLinkText.visibility = View.VISIBLE
-            binding.firstWallpaperLink.visibility = View.VISIBLE
-            binding.firstWallpaperLink.text = firstWallpaperLink
+            binding.btnSetFirstWall.visibility = View.VISIBLE
         }
 
         val secondWallpaperLink = intent.getStringExtra("secondWallpaperLink")
         if (!secondWallpaperLink.isNullOrEmpty()){
-            binding.secondWallpaperLinkText.visibility = View.VISIBLE
-            binding.secondWallpaperLink.visibility = View.VISIBLE
-            binding.secondWallpaperLink.text = secondWallpaperLink
+            binding.btnSetSecondWall.visibility = View.VISIBLE
         }
 
         val iconLink = intent.getStringExtra("iconLink")
         if (!iconLink.isNullOrEmpty()){
-            binding.iconLinkText.visibility = View.VISIBLE
-            binding.iconLink.visibility = View.VISIBLE
-            binding.iconLink.text = iconLink
+            binding.btnGetIcon.visibility = View.VISIBLE
         }
 
         val fontLink = intent.getStringExtra("fontLink")
         if (!fontLink.isNullOrEmpty()){
-            binding.fontLinkText.visibility = View.VISIBLE
-            binding.fontLink.visibility = View.VISIBLE
-            binding.fontLink.text = fontLink
+            binding.btnGetFont.visibility = View.VISIBLE
         }
 
         val supportDevice = intent.getStringExtra("supportDevice")

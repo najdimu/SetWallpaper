@@ -1,9 +1,13 @@
 package com.example.setwallpaper.style_zone.activity
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.net.Uri
@@ -51,14 +55,21 @@ class AddPersonalStyleActivity : AppCompatActivity() {
     private var bitmapSrc1: Bitmap? = null
     private var bitmapScr2: Bitmap? = null
     private var bitmapScr3: Bitmap? = null
+    private var bitmapScr4: Bitmap? = null
+    private var bitmapScr5: Bitmap? = null
+    private var bitmapHomeWall: Bitmap? = null
+    private var bitmapLockWall: Bitmap? = null
     private var bitmapAvatar: Bitmap? = null
 
-    private var addScr1 = true
+    private var addScr1 = false
+    private var addScr2 = false
 
-    private var addAvatar = true
+    private var addHomeWall = false
+    private var addLockWall = false
+    private var addAvatar = false
     private var supportDevice = "All devices"
     private var supportDevicePos = 0
-    private var sourceLink = true
+
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,6 +155,37 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             startActivity(Intent(this, RequestStyleListActivity::class.java))
         }
 
+        binding.btnPasteThemeLink.setOnClickListener { pasteTextFromClipboard(binding.editTextSourceTheme) }
+        binding.btnPasteIconLink.setOnClickListener { pasteTextFromClipboard(binding.editTextSourceIcon) }
+        binding.btnPasteFontLink.setOnClickListener { pasteTextFromClipboard(binding.editTextSourceFont) }
+
+        binding.btnGoneTheme.setOnClickListener {
+            binding.btnGoneTheme.visibility = View.GONE
+            binding.textSourceTheme.visibility = View.GONE
+            binding.editTextSourceTheme.visibility = View.GONE
+            binding.btnPasteThemeLink.visibility = View.GONE
+        }
+        binding.btnGoneWall.setOnClickListener {
+            binding.btnGoneWall.visibility = View.GONE
+            binding.textSourceWallpaper.visibility = View.GONE
+            binding.addHomeWall.visibility = View.GONE
+            binding.addHomeWallText.visibility = View.GONE
+            binding.addLockWall.visibility = View.GONE
+            binding.addLockWallText.visibility = View.GONE
+        }
+        binding.btnGoneIcon.setOnClickListener {
+            binding.btnGoneIcon.visibility = View.GONE
+            binding.textSourceIcon.visibility = View.GONE
+            binding.editTextSourceIcon.visibility = View.GONE
+            binding.btnPasteIconLink.visibility = View.GONE
+        }
+        binding.btnGoneFont.setOnClickListener {
+            binding.btnGoneFont.visibility = View.GONE
+            binding.textSourceFont.visibility = View.GONE
+            binding.editTextSourceFont.visibility = View.GONE
+            binding.btnPasteFontLink.visibility = View.GONE
+        }
+
         binding.addScreenshots1.setOnClickListener {
             clickedImageView = binding.addScreenshots1
             pickImageFromGallery()
@@ -156,15 +198,29 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             clickedImageView = binding.addScreenshots3
             pickImageFromGallery()
         }
+        binding.addScreenshots4.setOnClickListener {
+            clickedImageView = binding.addScreenshots4
+            pickImageFromGallery()
+        }
+        binding.addScreenshots5.setOnClickListener {
+            clickedImageView = binding.addScreenshots5
+            pickImageFromGallery()
+        }
+        binding.addHomeWall.setOnClickListener {
+            clickedImageView = binding.addHomeWall
+            pickImageFromGallery()
+        }
+        binding.addLockWall.setOnClickListener {
+            clickedImageView = binding.addLockWall
+            pickImageFromGallery()
+        }
         binding.userAvatar.setOnClickListener {
             clickedImageView = binding.userAvatar
             pickImageFromGallery()
         }
 
-        val itemsNameLink = listOf( resources.getString(R.string.string_add_source_link), resources.getString(R.string.string_theme_s_link),
-            resources.getString(R.string.string_wallpaper_s_link), resources.getString(R.string.string_icon_s_link),
-            resources.getString(R.string.string_font_s_link))
-
+        val itemsNameLink = listOf( resources.getString(R.string.string_choose_type_content), resources.getString(R.string.theme),
+            resources.getString(R.string.wallpaper), resources.getString(R.string.icon), resources.getString(R.string.font))
 
         val spinnerLinkAdapter = object: ArrayAdapter<String>(this, R.layout.spinner_layout, itemsNameLink){
             override fun isEnabled(position: Int): Boolean {
@@ -184,35 +240,48 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                 return view
             }
         }
-        binding.spinnerSourceLink.adapter = spinnerLinkAdapter
-        binding.spinnerSourceLink.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinnerTypeContent.adapter = spinnerLinkAdapter
+        binding.spinnerTypeContent.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2){
                     1->{
                         binding.textSourceTheme.visibility = View.VISIBLE
+                        binding.btnGoneTheme.visibility = View.VISIBLE
                         binding.editTextSourceTheme.visibility = View.VISIBLE
-                        binding.spinnerSourceLink.setSelection(0)
+                        binding.btnPasteThemeLink.visibility = View.VISIBLE
+                        binding.spinnerTypeContent.setSelection(0)
+                        if (binding.errorTextTypeContent.visibility == View.VISIBLE) {binding.errorTextTypeContent.visibility = View.GONE}
                     }
                     2->{
-                        binding.textSourceWallpaperFirst.visibility = View.VISIBLE
-                        binding.editTextSourceWallpaperFirst.visibility = View.VISIBLE
-                        binding.editTextSourceWallpaperSecond.visibility = View.VISIBLE
-                        binding.spinnerSourceLink.setSelection(0)
+                        binding.textSourceWallpaper.visibility = View.VISIBLE
+                        binding.btnGoneWall.visibility = View.VISIBLE
+                        binding.addHomeWall.visibility = View.VISIBLE
+                        binding.addHomeWallText.visibility = View.VISIBLE
+                        binding.addLockWall.visibility = View.VISIBLE
+                        binding.addLockWallText.visibility = View.VISIBLE
+                        binding.spinnerTypeContent.setSelection(0)
+                        if (binding.errorTextTypeContent.visibility == View.VISIBLE) {binding.errorTextTypeContent.visibility = View.GONE}
                     }
                     3->{
                         binding.textSourceIcon.visibility = View.VISIBLE
+                        binding.btnGoneIcon.visibility = View.VISIBLE
                         binding.editTextSourceIcon.visibility = View.VISIBLE
-                        binding.spinnerSourceLink.setSelection(0)
+                        binding.btnPasteIconLink.visibility = View.VISIBLE
+                        binding.spinnerTypeContent.setSelection(0)
+                        if (binding.errorTextTypeContent.visibility == View.VISIBLE) {binding.errorTextTypeContent.visibility = View.GONE}
                     }
                     4->{
                         binding.textSourceFont.visibility = View.VISIBLE
+                        binding.btnGoneFont.visibility = View.VISIBLE
                         binding.editTextSourceFont.visibility = View.VISIBLE
-                        binding.spinnerSourceLink.setSelection(0)
+                        binding.btnPasteFontLink.visibility = View.VISIBLE
+                        binding.spinnerTypeContent.setSelection(0)
+                        if (binding.errorTextTypeContent.visibility == View.VISIBLE) {binding.errorTextTypeContent.visibility = View.GONE}
                     }
                 }
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
-                binding.spinnerSourceLink.setSelection(0)
+                binding.spinnerTypeContent.setSelection(0)
             }
         }
 
@@ -263,35 +332,112 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             val title = binding.editTextTitle.text.toString()
             val description = binding.editTextDescription.text.toString()
             val userName = binding.editTextUsername.text.toString()
-            val themeLink = binding.editTextSourceTheme.text.toString()
-            val firstWallLink = binding.editTextSourceWallpaperFirst.text.toString()
-            val secondWallLink = binding.editTextSourceWallpaperSecond.text.toString()
-            val iconLink = binding.editTextSourceIcon.text.toString()
-            val fontLink = binding.editTextSourceFont.text.toString()
+            val themeLinkText = binding.editTextSourceTheme.text.toString()
+            val iconLinkText = binding.editTextSourceIcon.text.toString()
+            val fontLinkText = binding.editTextSourceFont.text.toString()
+            var check1 = true
+            var check2 = true
+            var check3 = true
+            var check4 = true
+            var check5 = true
+            var check6 = true
 
-            if (themeLink.isNotEmpty() || firstWallLink.isNotEmpty() || secondWallLink.isNotEmpty()
-                || iconLink.isNotEmpty() || fontLink.isNotEmpty()) sourceLink = false
+            val bitmapList = listOf(bitmapSrc1, bitmapScr2, bitmapScr3, bitmapScr4, bitmapScr5)
+            val wallList = listOf(bitmapHomeWall, bitmapLockWall)
+            var check7 = true
+            var check8 = true
+            var check9 = true
+            var check10 = true
 
-            val bitmapList = listOf(bitmapSrc1, bitmapScr2, bitmapScr3)
+            var check11 = true
+            var check12 = true
 
-            if (title.isEmpty() || description.isEmpty() || userName.isEmpty()
-                || addScr1 || addAvatar || sourceLink) {
-                Toast.makeText(this, getString(R.string.please_fill), Toast.LENGTH_SHORT).show()
+
+            if (title.isEmpty()){
+                binding.editTextTitle.hint = "Please fill information"
+                binding.editTextTitle.setHintTextColor(Color.RED)
+                check1 = false
+            }
+            if (description.isEmpty()){
+                binding.editTextDescription.hint = "Please fill information"
+                binding.editTextDescription.setHintTextColor(Color.RED)
+                check2 = false
+            }
+            if (binding.btnGoneTheme.visibility == View.GONE && binding.btnGoneWall.visibility == View.GONE &&
+                binding.btnGoneIcon.visibility == View.GONE && binding.btnGoneFont.visibility == View.GONE) {
+                binding.errorTextTypeContent.visibility = View.VISIBLE
+                check3 = false
             }
             else {
+                binding.errorTextTypeContent.visibility = View.GONE
+            }
+
+            if (binding.btnGoneTheme.visibility == View.VISIBLE && binding.editTextSourceTheme.currentTextColor != Color.GREEN){
+                binding.editTextSourceTheme.text = "Paste link"
+                binding.editTextSourceTheme.setTextColor(Color.RED)
+                check4 = false
+            }
+
+            if (binding.btnGoneIcon.visibility == View.VISIBLE && binding.editTextSourceIcon.currentTextColor != Color.GREEN) {
+                binding.editTextSourceIcon.text = "Paste link"
+                binding.editTextSourceIcon.setTextColor(Color.RED)
+                check5 =  false
+            }
+
+            if (binding.btnGoneFont.visibility == View.VISIBLE && binding.editTextSourceFont.currentTextColor != Color.GREEN) {
+                binding.editTextSourceFont.text = "Paste link"
+                binding.editTextSourceFont.setTextColor(Color.RED)
+                check6 =  false
+            }
+
+            if (binding.addHomeWallText.visibility == View.VISIBLE && !addHomeWall) {
+                binding.addHomeWallText.setTextColor(Color.RED)
+                check7 = false
+            }
+
+            if (binding.addLockWallText.visibility == View.VISIBLE && !addLockWall) {
+                binding.addLockWallText.setTextColor(Color.RED)
+                check8 = false
+            }
+
+            if (userName.isEmpty()){
+                binding.editTextUsername.hint = "Please fill information"
+                binding.editTextUsername.setHintTextColor(Color.RED)
+                check9 = false
+            }
+
+            if (!addAvatar) {
+                binding.userAvatarText.setTextColor(Color.RED)
+                check10 = false
+            }
+
+            if (!addScr1) {
+                binding.textScreenshots1.setTextColor(Color.RED)
+                check11 = false
+            }
+            if (!addScr2) {
+                binding.textScreenshots2.setTextColor(Color.RED)
+                check12 = false
+            }
+
+            if (check1 && check2 && check3 && check4 && check5 && check6 && check7
+                && check8 && check9 && check10 && check11 && check12) {
                 try {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.btnSendContent.text = ""
                     binding.btnSendContent.isEnabled = false
 
                     val jsonObject = addTextsToJsonObject(title, description, userName,
-                        themeLink, firstWallLink, secondWallLink, iconLink, fontLink, supportDevice, userId!!)
-                    sendStyleJsonToServer(jsonObject, bitmapList, bitmapAvatar!!)
+                        themeLinkText, iconLinkText, fontLinkText, supportDevice, userId!!)
+                    sendStyleJsonToServer(jsonObject, bitmapList, bitmapAvatar!!, wallList)
                 } catch  (e: Exception) {
                     buttonClickTrue()
                     Toast.makeText(this, getString(R.string.error_response_message), Toast.LENGTH_SHORT).show()
                     e.printStackTrace()
                 }
+            }
+            else {
+                    Toast.makeText(this, getString(R.string.please_fill), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -337,27 +483,50 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             when (view) {
                 binding.addScreenshots1 ->{
                     binding.addScreenshots1.setImageBitmap(bitmap)
-                    binding.icAddScreenshots1.visibility = View.GONE
                     binding.textAddScreenshots1.visibility = View.GONE
+                    binding.textScreenshots1.setTextColor(Color.WHITE)
                     bitmapSrc1 = bitmap
-                    addScr1 = false
+                    addScr1 = true
                 }
                 binding.addScreenshots2 ->{
                     binding.addScreenshots2.setImageBitmap(bitmap)
-                    binding.icAddScreenshots2.visibility = View.GONE
                     binding.textAddScreenshots2.visibility = View.GONE
+                    binding.textScreenshots2.setTextColor(Color.WHITE)
                     bitmapScr2 = bitmap
+                    addScr2 = true
                 }
                 binding.addScreenshots3 ->{
                     binding.addScreenshots3.setImageBitmap(bitmap)
-                    binding.icAddScreenshots3.visibility = View.GONE
                     binding.textAddScreenshots3.visibility = View.GONE
                     bitmapScr3 = bitmap
                 }
+                binding.addScreenshots4 ->{
+                    binding.addScreenshots4.setImageBitmap(bitmap)
+                    binding.textAddScreenshots4.visibility = View.GONE
+                    bitmapScr4 = bitmap
+                }
+                binding.addScreenshots5 ->{
+                    binding.addScreenshots5.setImageBitmap(bitmap)
+                    binding.textAddScreenshots5.visibility = View.GONE
+                    bitmapScr5 = bitmap
+                }
+                binding.addHomeWall ->{
+                    binding.addHomeWall.setImageBitmap(bitmap)
+                    binding.addHomeWallText.setTextColor(Color.WHITE)
+                    bitmapHomeWall = bitmap
+                    addHomeWall = true
+                }
+                binding.addLockWall ->{
+                    binding.addLockWall.setImageBitmap(bitmap)
+                    binding.addLockWallText.setTextColor(Color.WHITE)
+                    bitmapLockWall = bitmap
+                    addLockWall = true
+                }
                 binding.userAvatar ->{
                     binding.userAvatar.setImageBitmap(bitmap)
+                    binding.userAvatarText.setTextColor(Color.WHITE)
                     bitmapAvatar = bitmap
-                    addAvatar = false
+                    addAvatar = true
                 }
             }
             // Notify user (optional)
@@ -370,7 +539,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
 
     @SuppressLint("NewApi")
     private fun addTextsToJsonObject(title: String, description: String, userName: String, themeLink: String,
-                                     firstWallLink: String, secondWallLink: String, iconLink: String, fontLink: String,
+                                     iconLink: String, fontLink: String,
                                      supportDevice: String, userId: String) : JSONObject {
         val jsonObject = JSONObject()
         val currentDate = LocalDate.now()
@@ -382,8 +551,6 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         jsonObject.put("author",userName)
         jsonObject.put("supportDevice",supportDevice)
         if (themeLink.isNotEmpty()) jsonObject.put("themeLink",themeLink)
-        if (firstWallLink.isNotEmpty()) jsonObject.put("firstWallpaperLink",firstWallLink)
-        if (secondWallLink.isNotEmpty()) jsonObject.put("secondWallpaperLink",secondWallLink)
         if (iconLink.isNotEmpty()) jsonObject.put("iconLink",iconLink)
         if (fontLink.isNotEmpty()) jsonObject.put("fontLink",fontLink)
         jsonObject.put("date",date)
@@ -406,7 +573,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             .joinToString("")
     }
 
-    private fun sendStyleJsonToServer(jsonObject: JSONObject, bitmaps: List<Bitmap?>, bitmap: Bitmap) {
+    private fun sendStyleJsonToServer(jsonObject: JSONObject, bitmaps: List<Bitmap?>, bitmap: Bitmap, wallBitmaps: List<Bitmap?>) {
 
      //   val firebaseRemoteConfig2 = FirebaseRemoteConfig.getInstance()
       //  val serverUrlReport = firebaseRemoteConfig2.getString("server_url")
@@ -442,6 +609,19 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                     filename, // Имя файла
                     bitmapByte.toRequestBody("image/jpeg".toMediaType()) // MIME-тип для JPEG
                 )
+                if (wallBitmaps.isNotEmpty()) {
+                    wallBitmaps.forEachIndexed { index, bitmap ->
+                        val bitmapBytes = bitmap?.let { bitmapsToListByteArray(it) }
+                        val fileName = "wallpaper_${randomNumber}_$index.jpg"
+                        if (bitmapBytes != null) {
+                            addFormDataPart(
+                                "images", // Ключ, который сервер ожидает для файлов
+                                fileName, // Имя файла
+                                bitmapBytes.toRequestBody("image/jpeg".toMediaType()) // MIME-тип для JPEG
+                            )
+                        }
+                    }
+                }
             }
             .build()
 
@@ -488,6 +668,48 @@ class AddPersonalStyleActivity : AppCompatActivity() {
         return stream.toByteArray()
     }
 
+    private fun pasteTextFromClipboard(urlResultTextView: TextView) {
+        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
+        // Check if there's anything on the clipboard at all
+        if (!clipboardManager.hasPrimaryClip()) {
+            urlResultTextView.text = getString(R.string.clipboard_is_empty)
+            urlResultTextView.setTextColor(Color.RED)
+            return
+        }
 
+        val clipData: ClipData? = clipboardManager.primaryClip
+
+        // Check if the clipData exists and contains at least one item
+        if (clipData == null || clipData.itemCount == 0) {
+            urlResultTextView.text = getString(R.string.clipboard_is_empty)
+            urlResultTextView.setTextColor(Color.RED)
+            return
+        }
+
+        // Get the first item from the clipboard
+        val item: ClipData.Item = clipData.getItemAt(0)
+
+        // Get the text from the item. It can be null if the clipboard content is not plain text.
+        val pastedText: CharSequence? = item.text
+
+        if (pastedText.isNullOrEmpty()) {
+            // Handle cases where clipboard contains non-text data or empty text
+            urlResultTextView.text = getString(R.string.invalid_link)
+            urlResultTextView.setTextColor(Color.RED)
+        } else {
+            // Trim whitespace for accurate URL checking
+            val trimmedText = pastedText.toString().trim()
+
+            // Check if the trimmed text starts with "http://" or "https://"
+            if (trimmedText.startsWith("https://") || trimmedText.startsWith("http://")) {
+                urlResultTextView.text = trimmedText
+                urlResultTextView.setTextColor(Color.GREEN)
+            } else {
+                urlResultTextView.text = getString(R.string.invalid_link)
+                urlResultTextView.setTextColor(Color.RED)
+            }
+        }
+    }
 }
+

@@ -11,17 +11,17 @@
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="hint_describe_style">Please describe your personal style</string>
-    <string name="theme_screenshots">Add theme\'s\nscreenshots</string>
+    <string name="content_screenshots">Add content\'s screenshots</string>
     <string name="about_content">About content</string>
     <string name="theme">Theme</string>
-    <string name="hint_theme_s_link">Paste theme\'s link</string>
+    <string name="required_image_add">Required</string>
+    <string name="optional_image_add">Optional</string>
+    <string name="hint_content_link">https://example.example.com</string>
     <string name="wallpaper">Wallpapers</string>
-    <string name="hint_home_wallpaper_s_link">Paste Home screen wallpaper\'s link</string>
-    <string name="hint_lock_wallpaper_s_link">Paste Lock screen wallpaper\'s link</string>
+    <string name="text_add_screenshots">Add\nscreenshots</string>
+    <string name="invalid_link">Invalid link</string>
     <string name="icon">Icon</string>
-    <string name="hint_icon_s_link">Paste icon\'s link</string>
     <string name="font">Font</string>
-    <string name="hint_font_s_link">Paste font\'s link</string>
     <string name="which_device_does_it_support">Which device does it support?</string>
     <string name="about_author">About author</string>
     <string name="name">Name</string>
@@ -30,20 +30,16 @@
     <string name="add_home_wall">Add Home screen wallpaper</string>
     <string name="add_lock_wall">Add Lock screen wallpaper</string>
     <string name="send">Send</string>
-    <string name="string_theme_s_link">Theme\'s link</string>
-    <string name="string_add_source_link">Add source link</string>
-    <string name="string_wallpaper_s_link">Wallpapers\' link</string>
-    <string name="string_icon_s_link">Icon\'s link</string>
-    <string name="string_font_s_link">Font\'s link</string>
+    <string name="string_choose_type_content">Choose type content</string>
     <string name="string_all_devices">All devices</string>
     <string name="string_dont_any_requests">You don\'t have any requests yet.</string>
     <string name="string_you_have_request">Number of requests you have sent: </string>
     <string name="support_device">Support device:</string>
-    <string name="theme_s_link">Theme\'s link:</string>
-    <string name="first_wallpaper_s_link">First wallpaper\'s link:</string>
-    <string name="second_wallpaper_s_link">Second wallpaper\'s link:</string>
-    <string name="icon_s_link">Icon\'s link:</string>
-    <string name="font_s_link">Font\'s link:</string>
+    <string name="get_theme">Get theme</string>
+    <string name="set_first_wallpaper">Set first wallpaper</string>
+    <string name="set_second_wallpaper">Set second wallpaper</string>
+    <string name="get_icon">Get icon</string>
+    <string name="get_font">Get font</string>
 
     <string name="string_pending">pending</string>
     <string name="string_rejected">rejected</string>
@@ -58,6 +54,8 @@
     <string name="success_response_message">Sent successfully.\n\nThank you for sharing personal style with us. We are currently reviewing it and will publish it as soon as possible.</string>
     <string name="add_your_style">Add your style</string>
     <string name="overview_themes">Overview themes</string>
+    <string name="paste">Paste</string>
+    <string name="clipboard_is_empty">Clipboard is empty.</string>
 
 
 </resources>

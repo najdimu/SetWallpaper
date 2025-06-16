@@ -67,6 +67,7 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintTop_toBottomOf="@+id/text_about_perStyle"
                     app:layout_constraintStart_toStartOf="parent" />
+
                 <EditText
                     android:id="@+id/edit_text_title"
                     android:layout_width="match_parent"
@@ -99,14 +100,14 @@
                     app:layout_constraintStart_toStartOf="parent" />
                 <EditText
                     android:id="@+id/edit_text_description"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="5dp"
                     android:textSize="16sp"
-                    android:inputType="textCapSentences"
+                    android:inputType="textMultiLine"
                     android:hint="@string/hint_describe_style"
                     android:maxLines="10"
-                    android:gravity="top"
+                    android:gravity="start"
                     android:textColorHint="#b6b6b6"
                     android:textColor="#ffffff"
                     android:paddingVertical="7dp"
@@ -115,8 +116,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/description_text" />
-
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -153,7 +152,7 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="15dp"
                     app:layout_constraintTop_toBottomOf="@+id/text_about_content"
@@ -164,6 +163,9 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/delete_24px"
                     android:layout_marginStart="7dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@+id/text_source_theme"
                     app:layout_constraintTop_toTopOf="@+id/text_source_theme"
                     app:layout_constraintBottom_toBottomOf="@+id/text_source_theme"/>
@@ -172,11 +174,12 @@
                     android:id="@+id/edit_text_source_theme"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
-                    android:text="@string/hint_theme_s_link"
+                    android:text="@string/hint_content_link"
                     android:textColor="#B6B6B6"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textSize="16sp"
                     android:paddingVertical="7dp"
                     android:paddingHorizontal="10dp"
@@ -189,9 +192,11 @@
                     android:id="@+id/btn_paste_theme_link"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
-                    android:text="Paste"
+                    android:text="@string/paste"
+                    android:textColor="@color/white"
                     android:background="@drawable/paste_btn_background"
                     app:backgroundTint="@null"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/edit_text_source_theme"
                     app:layout_constraintBottom_toBottomOf="@+id/edit_text_source_theme"/>
@@ -201,7 +206,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/wallpaper"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -215,6 +220,9 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/delete_24px"
                     android:layout_marginStart="7dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@+id/text_source_wallpaper"
                     app:layout_constraintTop_toTopOf="@+id/text_source_wallpaper"
                     app:layout_constraintBottom_toBottomOf="@+id/text_source_wallpaper"/>
@@ -229,6 +237,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="15dp"
                     android:padding="2dp"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_source_wallpaper"
                     app:shapeAppearanceOverlay="@style/avatarThemes"
@@ -242,6 +251,7 @@
                     android:text="@string/add_home_wall"
                     android:textColor="#F6F6F6"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     android:layout_marginStart="10dp"
                     app:layout_constraintTop_toTopOf="@+id/add_home_wall"
                     app:layout_constraintBottom_toBottomOf="@+id/add_home_wall"
@@ -258,6 +268,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/add_home_wall"
                     app:shapeAppearanceOverlay="@style/avatarThemes"
@@ -271,6 +282,7 @@
                     android:text="@string/add_lock_wall"
                     android:textColor="#F6F6F6"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     android:layout_marginStart="10dp"
                     app:layout_constraintTop_toTopOf="@+id/add_lock_wall"
                     app:layout_constraintBottom_toBottomOf="@+id/add_lock_wall"
@@ -282,7 +294,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/icon"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -296,6 +308,9 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/delete_24px"
                     android:layout_marginStart="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@+id/text_source_icon"
                     app:layout_constraintTop_toTopOf="@+id/text_source_icon"
                     app:layout_constraintBottom_toBottomOf="@+id/text_source_icon"/>
@@ -304,11 +319,12 @@
                     android:id="@+id/edit_text_source_icon"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
-                    android:text="@string/hint_theme_s_link"
+                    android:text="@string/hint_content_link"
                     android:textColor="#B6B6B6"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textSize="16sp"
                     android:paddingVertical="7dp"
                     android:paddingHorizontal="10dp"
@@ -321,9 +337,11 @@
                     android:id="@+id/btn_paste_icon_link"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
-                    android:text="Paste"
+                    android:text="@string/paste"
+                    android:textColor="@color/white"
                     android:background="@drawable/paste_btn_background"
                     app:backgroundTint="@null"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/edit_text_source_icon"
                     app:layout_constraintBottom_toBottomOf="@+id/edit_text_source_icon"/>
@@ -333,7 +351,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/font"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -347,6 +365,9 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/delete_24px"
                     android:layout_marginStart="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@+id/text_source_font"
                     app:layout_constraintTop_toTopOf="@+id/text_source_font"
                     app:layout_constraintBottom_toBottomOf="@+id/text_source_font"/>
@@ -355,11 +376,12 @@
                     android:id="@+id/edit_text_source_font"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
-                    android:text="@string/hint_theme_s_link"
+                    android:text="@string/hint_content_link"
                     android:textColor="#B6B6B6"
                     android:maxLines="1"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textSize="16sp"
                     android:paddingVertical="7dp"
                     android:paddingHorizontal="10dp"
@@ -372,9 +394,11 @@
                     android:id="@+id/btn_paste_font_link"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
-                    android:text="Paste"
+                    android:text="@string/paste"
+                    android:textColor="@color/white"
                     android:background="@drawable/paste_btn_background"
                     app:backgroundTint="@null"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/edit_text_source_font"
                     app:layout_constraintBottom_toBottomOf="@+id/edit_text_source_font"/>
@@ -388,128 +412,256 @@
                     android:layout_marginTop="15dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_text_source_font"/>
+                <TextView
+                    android:id="@+id/error_text_type_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:text="You must choose type content"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/spinner_type_content"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_type_content"
+                    />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_theme_screenshots"
+                <TextView
+                    android:id="@+id/tv_screenshots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/content_screenshots"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintTop_toBottomOf="@+id/error_text_type_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+                <HorizontalScrollView
+                    android:id="@+id/layout_screenshots"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinner_type_content"
-                    >
+                    app:layout_constraintTop_toBottomOf="@+id/tv_screenshots">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/add_screenshots_1"
-                        android:layout_width="90dp"
-                        android:layout_height="110dp"
-                        android:scaleType="centerCrop"
-                        android:background="#373737"
-                        android:layout_marginTop="10dp"
-                        android:padding="2dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/avatarThemes"
-                        app:strokeColor="#6F6F6F"
-                        app:strokeWidth="2dp"
-                        />
-                    <ImageView
-                        android:id="@+id/ic_add_screenshots_1"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/outline_add_photo_alternate_24"
-                        android:layout_marginTop="35dp"
-                        app:layout_constraintTop_toTopOf="@+id/add_screenshots_1"
-                        app:layout_constraintEnd_toEndOf="@+id/add_screenshots_1"
-                        app:layout_constraintStart_toStartOf="@+id/add_screenshots_1"
-                        />
-                    <TextView
-                        android:id="@+id/text_add_screenshots_1"
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/theme_screenshots"
-                        android:gravity="center"
-                        android:textSize="12sp"
-                        android:textColor="#ffffff"
-                        app:layout_constraintTop_toBottomOf="@+id/ic_add_screenshots_1"
-                        app:layout_constraintEnd_toEndOf="@+id/ic_add_screenshots_1"
-                        app:layout_constraintStart_toStartOf="@+id/ic_add_screenshots_1" />
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/add_screenshots_2"
-                        android:layout_width="90dp"
-                        android:layout_height="110dp"
-                        android:scaleType="centerCrop"
-                        android:background="#373737"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:padding="2dp"
-                        app:layout_constraintStart_toEndOf="@+id/add_screenshots_1"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/avatarThemes"
-                        app:strokeColor="#6F6F6F"
-                        app:strokeWidth="2dp"
-                        />
-                    <ImageView
-                        android:id="@+id/ic_add_screenshots_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/outline_add_photo_alternate_24"
-                        android:layout_marginTop="35dp"
-                        app:layout_constraintTop_toTopOf="@+id/add_screenshots_2"
-                        app:layout_constraintEnd_toEndOf="@+id/add_screenshots_2"
-                        app:layout_constraintStart_toStartOf="@+id/add_screenshots_2"
-                        />
-                    <TextView
-                        android:id="@+id/text_add_screenshots_2"
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/theme_screenshots"
-                        android:gravity="center"
-                        android:textSize="12sp"
-                        android:textColor="#ffffff"
-                        app:layout_constraintTop_toBottomOf="@+id/ic_add_screenshots_2"
-                        app:layout_constraintEnd_toEndOf="@+id/ic_add_screenshots_2"
-                        app:layout_constraintStart_toStartOf="@+id/ic_add_screenshots_2" />
+                        <TextView
+                            android:id="@+id/text_screenshots_1"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/required_image_add"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="5dp"
+                            app:layout_constraintBottom_toTopOf="@+id/add_screenshots_1"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_1"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_1" />
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/add_screenshots_1"
+                            android:layout_width="100dp"
+                            android:layout_height="206dp"
+                            android:scaleType="centerCrop"
+                            android:background="#373737"
+                            android:layout_marginTop="20dp"
+                            android:padding="2dp"
+                            android:src="@drawable/home_screen"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/addImageThemes"
+                            app:strokeColor="#6F6F6F"
+                            app:strokeWidth="2dp"
+                            />
+                        <TextView
+                            android:id="@+id/text_add_screenshots_1"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_add_screenshots"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="#ffffff"
+                            android:layout_marginBottom="50dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/add_screenshots_1"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_1"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_1" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/add_screenshots_3"
-                        android:layout_width="90dp"
-                        android:layout_height="110dp"
-                        android:scaleType="centerCrop"
-                        android:background="#373737"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="10dp"
-                        android:padding="2dp"
-                        app:layout_constraintStart_toEndOf="@+id/add_screenshots_2"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/avatarThemes"
-                        app:strokeColor="#6F6F6F"
-                        app:strokeWidth="2dp"
-                        />
-                    <ImageView
-                        android:id="@+id/ic_add_screenshots_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/outline_add_photo_alternate_24"
-                        android:layout_marginTop="35dp"
-                        app:layout_constraintTop_toTopOf="@+id/add_screenshots_3"
-                        app:layout_constraintEnd_toEndOf="@+id/add_screenshots_3"
-                        app:layout_constraintStart_toStartOf="@+id/add_screenshots_3"
-                        />
-                    <TextView
-                        android:id="@+id/text_add_screenshots_3"
-                        android:layout_width="90dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/theme_screenshots"
-                        android:gravity="center"
-                        android:textSize="12sp"
-                        android:textColor="#ffffff"
-                        app:layout_constraintTop_toBottomOf="@+id/ic_add_screenshots_3"
-                        app:layout_constraintEnd_toEndOf="@+id/ic_add_screenshots_3"
-                        app:layout_constraintStart_toStartOf="@+id/ic_add_screenshots_3" />
+                        <TextView
+                            android:id="@+id/text_screenshots_2"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/required_image_add"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="5dp"
+                            app:layout_constraintBottom_toTopOf="@+id/add_screenshots_2"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_2"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_2" />
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/add_screenshots_2"
+                            android:layout_width="100dp"
+                            android:layout_height="206dp"
+                            android:scaleType="centerCrop"
+                            android:background="#373737"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="15dp"
+                            android:padding="2dp"
+                            android:src="@drawable/lock_screen"
+                            app:layout_constraintStart_toEndOf="@+id/add_screenshots_1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/avatarThemes"
+                            app:strokeColor="#6F6F6F"
+                            app:strokeWidth="2dp"
+                            />
+                        <TextView
+                            android:id="@+id/text_add_screenshots_2"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_add_screenshots"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="#ffffff"
+                            android:layout_marginBottom="50dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/add_screenshots_2"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_2"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_2" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/text_screenshots_3"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/optional_image_add"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="5dp"
+                            app:layout_constraintBottom_toTopOf="@+id/add_screenshots_3"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_3"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_3" />
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/add_screenshots_3"
+                            android:layout_width="100dp"
+                            android:layout_height="206dp"
+                            android:scaleType="centerCrop"
+                            android:background="#373737"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="15dp"
+                            android:padding="2dp"
+                            android:src="@drawable/noti_panel"
+                            app:layout_constraintStart_toEndOf="@+id/add_screenshots_2"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/avatarThemes"
+                            app:strokeColor="#6F6F6F"
+                            app:strokeWidth="2dp"
+                            />
+                        <TextView
+                            android:id="@+id/text_add_screenshots_3"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_add_screenshots"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="#ffffff"
+                            android:layout_marginBottom="50dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/add_screenshots_3"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_3"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_3" />
+
+                        <TextView
+                            android:id="@+id/text_screenshots_4"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/optional_image_add"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="5dp"
+                            app:layout_constraintBottom_toTopOf="@+id/add_screenshots_4"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_4"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_4" />
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/add_screenshots_4"
+                            android:layout_width="100dp"
+                            android:layout_height="206dp"
+                            android:scaleType="centerCrop"
+                            android:background="#373737"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="15dp"
+                            android:padding="2dp"
+                            android:src="@drawable/setting"
+                            app:layout_constraintStart_toEndOf="@+id/add_screenshots_3"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/avatarThemes"
+                            app:strokeColor="#6F6F6F"
+                            app:strokeWidth="2dp"
+                            />
+                        <TextView
+                            android:id="@+id/text_add_screenshots_4"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_add_screenshots"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="#ffffff"
+                            android:layout_marginBottom="50dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/add_screenshots_4"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_4"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_4" />
+
+                        <TextView
+                            android:id="@+id/text_screenshots_5"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/optional_image_add"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="5dp"
+                            app:layout_constraintBottom_toTopOf="@+id/add_screenshots_5"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_5"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_5" />
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/add_screenshots_5"
+                            android:layout_width="100dp"
+                            android:layout_height="206dp"
+                            android:scaleType="centerCrop"
+                            android:background="#373737"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="15dp"
+                            android:padding="2dp"
+                            android:src="@drawable/dialing"
+                            app:layout_constraintStart_toEndOf="@+id/add_screenshots_4"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shapeAppearanceOverlay="@style/avatarThemes"
+                            app:strokeColor="#6F6F6F"
+                            app:strokeWidth="2dp"
+                            />
+                        <TextView
+                            android:id="@+id/text_add_screenshots_5"
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_add_screenshots"
+                            android:gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="#ffffff"
+                            android:layout_marginBottom="50dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/add_screenshots_5"
+                            app:layout_constraintEnd_toEndOf="@+id/add_screenshots_5"
+                            app:layout_constraintStart_toStartOf="@+id/add_screenshots_5" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </HorizontalScrollView>
 
                 <TextView
                     android:id="@+id/which_device_support_text"
@@ -520,9 +672,8 @@
                     android:textStyle="bold"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="20dp"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_theme_screenshots"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_screenshots"
                     app:layout_constraintStart_toStartOf="parent" />
-
                 <Spinner
                     android:id="@+id/spinner_device_support"
                     android:layout_width="wrap_content"
@@ -532,7 +683,6 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/which_device_support_text"/>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -603,12 +753,10 @@
                     android:padding="2dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edit_text_username"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:shapeAppearanceOverlay="@style/avatarThemes"
                     app:strokeColor="#9E9E9E"
                     app:strokeWidth="1dp"
                     />
-
                 <TextView
                     android:id="@+id/user_avatar_text"
                     android:layout_width="wrap_content"
@@ -645,8 +793,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     </androidx.core.widget.NestedScrollView>
 

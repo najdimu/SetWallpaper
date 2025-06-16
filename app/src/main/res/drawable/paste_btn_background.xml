@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <solid android:color="#292929"/> <!-- this one is ths color of the Rounded Button -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"
+        android:drawable="@drawable/paste_btn_pressed"/>
+    <item android:state_focused="true"
+        android:drawable="@drawable/paste_btn_pressed"/>
+    <item android:state_enabled="false"
+        android:drawable="@drawable/paste_btn_disabled"/>
+    <item android:drawable="@drawable/paste_btn_default"/>
 
-    <stroke  android:color="#333333"
-        android:width="2dp"/>
-    <corners android:bottomRightRadius="10dp"
-        android:topRightRadius="10dp"/>
-</shape>
+</selector>
