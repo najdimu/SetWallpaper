@@ -1,10 +1,13 @@
 package com.example.setwallpaper.style_zone.fragment
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,12 +30,14 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
 
     private lateinit var binding: FragmentInspireMeBinding
     private var buttonVisible = false
+    private var sharedPreference: SharedPreferences? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentInspireMeBinding.bind(view)
 
         binding.inspireMeRecyclerview.layoutManager = LinearLayoutManager(requireContext())
+        sharedPreference = requireContext().getSharedPreferences("userData", MODE_PRIVATE)
 
         getStyleData {
                 list ->
@@ -41,6 +46,7 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
                     val styleList: MutableList<PersonalStyleItem> = ArrayList()
                     styleList.addAll(list)
                     binding.inspireMeRecyclerview.adapter = PersonalStyleAdapter(styleList)
+                    binding.progressBar2.visibility = View.GONE
                 }
             }
         }
@@ -66,6 +72,31 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
     }
 
     private fun getStyleData(onResult: (List<PersonalStyleItem>?) -> Unit) {
+
+        val localJsonString = sharedPreference?.getString("inspireMeContentJson","")?:""
+        if (localJsonString.isNotEmpty()) {
+            val faqList = Gson().fromJson(localJsonString, Array<PersonalStyleItem>::class.java).toList()
+            onResult(faqList)
+            val updateNeed = sharedPreference?.getBoolean("inspireMeUpd", false)?: false
+            if (!updateNeed) {
+                dataFromNetwork {
+                    requireActivity().runOnUiThread {
+                        binding.inspireMeRecyclerview.adapter?.notifyDataSetChanged()
+                        Toast.makeText(requireContext(), "tazalady", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        } else {
+            dataFromNetwork { listBu ->
+                onResult(listBu)
+            }
+        }
+
+
+    }
+
+    private fun dataFromNetwork(onResult: (List<PersonalStyleItem>?) -> Unit) {
         val client = OkHttpClient()
         val request = Request.Builder()
             .url("https://raw.githubusercontent.com/najdimu/Stock/refs/heads/main/style_data.json").build()
@@ -79,6 +110,7 @@ class InspireMeFragment : Fragment(R.layout.fragment_inspire_me) {
             override fun onResponse(call: Call, response: Response) {
                 response.body?.string()?.let { json ->
                     println(json)
+                    sharedPreference?.edit()?.putString("inspireMeContentJson", json)?.apply()
                     val faqList = Gson().fromJson(json, Array<PersonalStyleItem>::class.java).toList()
                     onResult(faqList)
                 } ?: onResult(null)

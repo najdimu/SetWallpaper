@@ -127,63 +127,68 @@
 
             <Button
                 android:id="@+id/btn_get_theme"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/get_theme"
                 android:textSize="16sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginHorizontal="16dp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/style_detail_support"/>
 
             <Button
                 android:id="@+id/btn_set_first_wall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/set_first_wallpaper"
                 android:textSize="16sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginHorizontal="16dp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_get_theme"/>
 
             <Button
                 android:id="@+id/btn_set_second_wall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/set_second_wallpaper"
                 android:textSize="16sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginHorizontal="16dp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_set_first_wall"/>
 
             <Button
                 android:id="@+id/btn_get_icon"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/get_icon"
                 android:textSize="16sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginHorizontal="16dp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_set_second_wall"/>
 
             <Button
                 android:id="@+id/btn_get_font"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/get_font"
                 android:textSize="16sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="30dp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_get_icon"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 

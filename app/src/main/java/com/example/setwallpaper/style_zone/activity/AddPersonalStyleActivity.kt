@@ -573,7 +573,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             .joinToString("")
     }
 
-    private fun sendStyleJsonToServer(jsonObject: JSONObject, bitmaps: List<Bitmap?>, bitmap: Bitmap, wallBitmaps: List<Bitmap?>) {
+    private fun sendStyleJsonToServer(jsonObject: JSONObject, screenBitmaps: List<Bitmap?>, avatarBitmap: Bitmap, wallBitmaps: List<Bitmap?>) {
 
      //   val firebaseRemoteConfig2 = FirebaseRemoteConfig.getInstance()
       //  val serverUrlReport = firebaseRemoteConfig2.getString("server_url")
@@ -591,7 +591,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
             )
             // Добавляем каждый Bitmap как отдельный файл
             .apply {
-                bitmaps.forEachIndexed { index, bitmap ->
+                screenBitmaps.forEachIndexed { index, bitmap ->
                     val bitmapBytes = bitmap?.let { bitmapsToListByteArray(it) }
                     val fileName = "${randomNumber}_$index.jpg"
                     if (bitmapBytes != null) {
@@ -602,7 +602,7 @@ class AddPersonalStyleActivity : AppCompatActivity() {
                         )
                     }
                 }
-                val bitmapByte = bitmapsToListByteArray(bitmap)
+                val bitmapByte = bitmapsToListByteArray(avatarBitmap)
                 val filename = "avatar_${randomNumber}.jpg"
                 addFormDataPart(
                     "images", // Ключ, который сервер ожидает для файлов
