@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="12dp"
     android:textSize="16sp"
-    android:textColor="#E0E0E0"
+    android:textColor="#121212"
     android:gravity="center_vertical">
 
 </TextView>

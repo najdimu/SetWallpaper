@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.setwallpaper"
-    compileSdk = 35
+    compileSdk = 36
 
     viewBinding{
         enable = true
@@ -54,7 +54,7 @@ dependencies {
     implementation("com.squareup.okhttp3","okhttp","4.9.3")
     implementation("com.squareup.okhttp3","logging-interceptor","4.9.3")
     implementation("io.coil-kt","coil","2.4.0")
-    implementation("net.lingala.zip4j","zip4j","2.11.5")
+   // implementation("net.lingala.zip4j","zip4j","2.11.5")
 
     //GSON
     implementation("com.google.code.gson","gson","2.10.1")
@@ -65,6 +65,10 @@ dependencies {
 
     // Coroutine Lifecycle Scopes
     implementation ("androidx.lifecycle","lifecycle-runtime-ktx","2.6.2")
+
+    // ViewModel
+    implementation("androidx.lifecycle","lifecycle-viewmodel-ktx","2.7.0")
+    implementation("androidx.activity","activity-ktx","1.9.0")
 
     // Room
    // implementation ("androidx.room","room-runtime","2.6.0")

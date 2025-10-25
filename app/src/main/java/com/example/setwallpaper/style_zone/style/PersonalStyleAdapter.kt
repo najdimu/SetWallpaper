@@ -11,7 +11,7 @@ import coil.load
 import com.example.setwallpaper.R
 import com.example.setwallpaper.style_zone.activity.detail.PersonalStyleDetailActivity
 
-class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalStyleItem>) : RecyclerView.Adapter<PersonalStyleAdapter.PersonalStyleViewHolder>() {
+class PersonalStyleAdapter(private var personalStyleList: MutableList<PersonalStyleItem>): RecyclerView.Adapter<PersonalStyleAdapter.PersonalStyleViewHolder>() {
 
 
     class PersonalStyleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
