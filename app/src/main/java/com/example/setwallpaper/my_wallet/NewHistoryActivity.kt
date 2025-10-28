@@ -19,10 +19,8 @@ import androidx.core.view.WindowInsetsCompat
 import coil.load
 import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityNewHistoryBinding
-import org.json.JSONArray
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import androidx.core.content.edit
 import com.google.gson.Gson
 
 class NewHistoryActivity : AppCompatActivity() {
@@ -32,6 +30,9 @@ class NewHistoryActivity : AppCompatActivity() {
     private val viewModel: WalletViewModel by viewModels()
     var spinnerPosition = 0
     var nameCategor = ""
+    val walletsName= "wallets_history_list"
+    val historyList: MutableList<History> = ArrayList()
+    var oldList: MutableList<Wallet> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,28 +48,15 @@ class NewHistoryActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("my_wallet", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
-        var historyList: MutableList<History> = ArrayList()
+        val walletId = intent.getStringExtra("wallet_id")
 
-        val historyString = sharedPreferences.getString("all_histories_list", "")
-        val faqList = Gson().fromJson(historyString, Array<History>::class.java).toList()
-        historyList.addAll(faqList)
-
-        historyString?.let {
-            if (it.isEmpty()) {
-                historyList = ArrayList()
-            } else{
-                val histories = JSONArray()
-                for (i in 0 until histories.length()) {
-                    val json = histories.getJSONObject(i)
-                    val his = History(json.getInt("idDaily"),
-                        json.getString("date"),
-                        json.getString("type"),
-                        json.getString("description"),
-                        json.getDouble("amount"),
-                        json.getString("currency"),
-                        json.getBoolean("income"))
-
-                    historyList.add(his)
+        val walletHistory = sharedPreferences.getString(walletsName, "")
+        if (!walletHistory.isNullOrEmpty() && !walletId.isNullOrEmpty()){
+            oldList = Gson().fromJson(walletHistory, Array<Wallet>::class.java).toMutableList()
+            println(oldList)
+            oldList.forEach { wallet ->
+                if (wallet.id == walletId) {
+                    historyList.addAll(wallet.history)
                 }
             }
         }
@@ -176,9 +164,16 @@ class NewHistoryActivity : AppCompatActivity() {
             var date = ""
             val type = itemsNameExpense[spinnerPosition]
             val note = binding.editTextNote.text.toString()
-            val amount = binding.editTextAmount.text.toString().toDouble()
-            val currency = currencyName?.substringBefore(" ")
             val income = textTitle != "Expense"
+            val amount = when {
+                binding.editTextAmount.text.toString().isEmpty() -> 0.0
+                else ->  if(income){
+                    binding.editTextAmount.text.toString().toDouble()
+                } else {
+                    -binding.editTextAmount.text.toString().toDouble()
+                }
+            }
+            val currency = currencyName?.substringBefore(" ")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")
                 val formatter1 = DateTimeFormatter.ofPattern("dd/MM/yy")
@@ -197,16 +192,63 @@ class NewHistoryActivity : AppCompatActivity() {
 
             }
 
-            val new = History(daily, date, type,note, amount,currency!!,income)
-            historyList.add(new)
+            historyList.add(History(daily, date, type,note, amount,currency!!,income))
 
-            val gson = Gson()
-            val nee = gson.toJson(historyList)
-            editor.putString("all_histories_list", nee).apply()
-
-            println(nee)
+            oldList.forEach { wallet ->
+                if (wallet.id == walletId) {
+                    wallet.history = historyList
+                    wallet.balance = wallet.balance + amount
+                }
+            }
+            val json = Gson().toJson(oldList)
+            editor.putString(walletsName, json).apply()
+            println(json)
             finish()
+        }
 
+        binding.btnNext.setOnClickListener {
+            var daily = 1
+            var date = ""
+            val type = itemsNameExpense[spinnerPosition]
+            val note = binding.editTextNote.text.toString()
+            val income = textTitle != "Expense"
+            val amount = when {
+                binding.editTextAmount.text.toString().isEmpty() -> 0.0
+                else ->  if(income){
+                    binding.editTextAmount.text.toString().toDouble()
+                } else {
+                    -binding.editTextAmount.text.toString().toDouble()
+                }
+            }
+            val currency = currencyName?.substringBefore(" ")
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")
+                val formatter1 = DateTimeFormatter.ofPattern("dd/MM/yy")
+                val now = LocalDateTime.now()
+                date = now.format(formatter)
+
+                val today = now.format(formatter1)
+                val lastDate = sharedPreferences.getString("last_date", "")
+                if (today != lastDate){
+                    editor.putString("last_date",today).apply()
+                    daily = 0
+                    Toast.makeText(this, "daily", Toast.LENGTH_SHORT).show()
+                }
+
+            } else{
+
+            }
+
+            historyList.add(History(daily, date, type,note, amount,currency!!,income))
+
+            oldList.forEach { wallet ->
+                if (wallet.id == walletId) {
+                    wallet.history = historyList
+                    wallet.balance = wallet.balance + amount
+                }
+            }
+            val json = Gson().toJson(oldList)
+            editor.putString(walletsName, json).apply()
         }
 
     }

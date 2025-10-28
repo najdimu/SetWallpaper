@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.setwallpaper.R
 
@@ -28,64 +30,59 @@ class HistoryAdapter(var historyList: MutableList<History>): RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val history = historyList[position]
-
+        val date = history.date.substring(0,8)
+        val daily =  historyList.groupBy { it.date.substring(0,8) }
+            .mapValues { (_, trans)->
+                trans.sumOf { it.amount }
+            }
 
         when (history.idDaily) {
             0->{
-                holder.date.text = history.date
+                if (historyList.isNotEmpty() && history == historyList[0]){
+                    if (daily.containsKey(date)) {
+                        holder.totalBalance.text = daily[date].toString()
+                    }
+                    holder.date.text = date
+                }
+                else if (historyList[position-1].idDaily == 0){
+                    if (daily.containsKey(date)) {
+                        holder.totalBalance.text = daily[date].toString()
+                    }
+                    holder.date.text = date
+                } else {
+                    holder.layoutDate.visibility = View.GONE
+                }
                 holder.typeTitle.text = history.type
                 holder.typeDesc.text = history.description
-                holder.amount.text = if (history.income){ "+${history.amount}${history.currency}" }
-                else { "-${history.amount}${history.currency}" }
+                holder.amount.text = if (history.income) { "+${history.amount} ${history.currency}" }
+                else { "${history.amount} ${history.currency}" }
+                if (!history.income) {holder.amount.setTextColor(getColor(holder.itemView.context,R.color.red))}
             }
             1->{
-                holder.layoutDate.visibility = View.GONE
+                if (historyList.isNotEmpty() && history == historyList[0]){
+                    if (daily.containsKey(date)) {
+                        holder.totalBalance.text = daily[date].toString()
+                    }
+                    holder.date.text = date
+                }
+                else if (historyList[position-1].idDaily == 0){
+                    if (daily.containsKey(date)) {
+                        holder.totalBalance.text = daily[date].toString()
+                    }
+                    holder.date.text = date
+                } else{
+                    holder.layoutDate.visibility = View.GONE
+                }
                 holder.typeTitle.text = history.type
                 holder.typeDesc.text = history.description
-                holder.amount.text = if (history.income){ "+${history.amount}${history.currency}" }
-                else { "-${history.amount}${history.currency}" }
+                holder.amount.text = if (history.income){ "+${history.amount} ${history.currency}" }
+                else { "${history.amount} ${history.currency}" }
+                if (!history.income) {holder.amount.setTextColor(getColor(holder.itemView.context,R.color.red))}
             }
         }
-
-//
-//
-//
-//
-//
-//
-//
-//        var firstDate = historyList[0].date
-//        var secondDate = historyList[0].date
-//
-//        for (item in historyList) {
-//            var totalBalance = 0.0
-//            if (item.date == firstDate) {
-//                holder.layoutDate.visibility = View.VISIBLE
-//                holder.date.text = firstDate
-//                totalBalance += item.amount
-//                secondDate = firstDate
-//            }
-//            else if (item.date == secondDate){
-//
-//            }
-//
-//            else {
-//                firstDate = item.date
-//            }
-//        }
-//
-//
-//
-
-
 
     }
 
     override fun getItemCount() = historyList.size
-
-    fun updateList(new: MutableList<History>){
-        historyList = new
-        notifyDataSetChanged()
-    }
 
 }

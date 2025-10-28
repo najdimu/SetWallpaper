@@ -1,7 +1,7 @@
 package com.example.setwallpaper.my_wallet
 
 data class Wallet(
-    var id: String,
-    var balance: String,
+    val id: String,
+    var balance: Double,
     var history: List<History>
 )

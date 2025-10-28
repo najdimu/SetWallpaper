@@ -36,7 +36,12 @@ import kotlin.toString
 class MyWalletActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMyWalletBinding
-    private val viewModel: WalletViewModel by viewModels()
+    val currencyIcon= "https://img.samsungapps.com/productNew/000006244780/ENG/ScreenShot_202204220304211621_450_800_1.png"
+    val currencyName= "USD (United states dollar)"
+    val walletsName= "wallets_history_list"
+    var historyList: MutableList<History> = ArrayList()
+    var walletList: MutableList<Wallet> = ArrayList()
+    val CURREN = "7119643494_" + currencyName?.substringBefore(" ")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +57,25 @@ class MyWalletActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("my_wallet", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+        val walletHistory = sharedPreferences.getString(walletsName, "")
+        if (walletHistory.isNullOrEmpty()){
+            println()
+            val wallet = mutableListOf(Wallet(CURREN, 0.0, emptyList()))
+            val gson = Gson()
+            val json = gson.toJson(wallet)
+            editor.putString(walletsName,json).apply()
+        }
+        else {
+            walletList = Gson().fromJson(walletHistory, Array<Wallet>::class.java).toMutableList()
+            walletList.forEach {wallet ->
+                if (wallet.id == CURREN) {
+                    binding.balanceNumberView.text = wallet.balance.toString()
+                    historyList.addAll(wallet.history)
+                }
+            }
+        }
+
+
 
         val toolbar = binding.myWalletToolbar
         setSupportActionBar(toolbar)
@@ -75,58 +99,23 @@ class MyWalletActivity : AppCompatActivity() {
             History(0,"2025-12-19 17:15", "Restaurant", "soup with tomato juice", 250.0, "TMT",false)
         )
 
-        var historyList: MutableList<History> = ArrayList()
-
-        val historyString = sharedPreferences.getString("all_histories_list", "")
-        val faqList = Gson().fromJson(historyString, Array<History>::class.java).toList()
-        historyList.addAll(faqList)
-        println("isEmpty")
-
-
-
-        historyString?.let {
-            if (it.isEmpty()) {
-                historyList = ArrayList()
-            } else{
-                val histories = JSONArray()
-                for (i in 0 until histories.length()) {
-                    val json = histories.getJSONObject(i)
-                    val his = History(json.getInt("idDaily"),
-                        json.getString("date"),
-                        json.getString("type"),
-                        json.getString("description"),
-                        json.getDouble("amount"),
-                        json.getString("currency"),
-                        json.getBoolean("income"))
-
-                    historyList.add(his)
-                    println(his)
-                }
-            }
-        }
-
         binding.recHistory.layoutManager = LinearLayoutManager(this)
-
-        binding.recHistory.adapter = HistoryAdapter(historyList)
-
-
-        val currencyIcon= "https://img.samsungapps.com/productNew/000006244780/ENG/ScreenShot_202204220304211621_450_800_1.png"
-        val currencyName= "USD (United states dollar)"
-
+        val reser = historyList.reversed().toMutableList()
+        binding.recHistory.adapter = HistoryAdapter(reser)
 
         binding.btnExpense.setOnClickListener {
-
             val intent = Intent(this, NewHistoryActivity::class.java)
             intent.putExtra("title_text", "Expense")
+            intent.putExtra("wallet_id", CURREN)
             intent.putExtra("currency_icon", currencyIcon)
             intent.putExtra("currency_name", currencyName)
             startActivity(intent)
         }
 
         binding.btnIncome.setOnClickListener {
-
             val intent = Intent(this, NewHistoryActivity::class.java)
             intent.putExtra("title_text", "Income")
+            intent.putExtra("wallet_id", CURREN)
             intent.putExtra("currency_icon", currencyIcon)
             intent.putExtra("currency_name", currencyName)
             startActivity(intent)
@@ -143,18 +132,32 @@ class MyWalletActivity : AppCompatActivity() {
                 .setTitle("Edit Balance")
                 .setView(dialogView)
                 .setPositiveButton("Save") { dialog, which ->
-
                     val newText = inputField.text.toString()
-                    binding.balanceNumberView.text = newText
+                    if (newText.isEmpty()){
+                        binding.balanceNumberView.text = "0.0"
+                        walletList.forEach { wallet ->
+                            if (wallet.id == CURREN){
+                                wallet.balance = 0.0
+                            }
+                        }
+                    } else {
+                        binding.balanceNumberView.text = newText
+                        walletList.forEach { wallet ->
+                            if (wallet.id == CURREN){
+                                wallet.balance = newText.toDouble()
+                            }
+                        }
+                    }
+                    val gson = Gson()
+                    val json = gson.toJson(walletList)
+                    editor.putString(walletsName,json).apply()
+                    println(json)
                     Toast.makeText(this, "Saved: $newText", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("Cancel") { dialog, which ->
-
                     dialog.cancel()
                 }
-
             builder.show()
-
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -168,10 +171,45 @@ class MyWalletActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val sharedPreferences = getSharedPreferences("my_wallet", MODE_PRIVATE)
-        val historyList: MutableList<History> = ArrayList()
-        val historyString = sharedPreferences.getString("all_histories_list", "")
-        val faqList = Gson().fromJson(historyString, Array<History>::class.java).toList()
-        historyList.addAll(faqList)
-        binding.recHistory.adapter = HistoryAdapter(historyList)
+        val editor = sharedPreferences.edit()
+        val walletHistory = sharedPreferences.getString(walletsName, "")
+        if (walletHistory.isNullOrEmpty()){
+            val wallet = mutableListOf(Wallet(CURREN, 0.0, emptyList()))
+            val gson = Gson()
+            val json = gson.toJson(wallet)
+            editor.putString(walletsName,json).apply()
+        }
+        else {
+            walletList = Gson().fromJson(walletHistory, Array<Wallet>::class.java).toMutableList()
+            walletList.forEach {wallet ->
+                if (wallet.id == CURREN) {
+                    binding.balanceNumberView.text = wallet.balance.toString()
+                    historyList = wallet.history.toMutableList()
+                }
+            }
+        }
+        val reser = historyList.reversed().toMutableList()
+        binding.recHistory.adapter = HistoryAdapter(reser)
     }
 }
+/*
+ if (it.isEmpty()) {
+                historyList = ArrayList()
+            }
+            else{
+                val histories = JSONArray()
+                for (i in 0 until histories.length()) {
+                    val json = histories.getJSONObject(i)
+                    val his = History(json.getInt("idDaily"),
+                        json.getString("date"),
+                        json.getString("type"),
+                        json.getString("description"),
+                        json.getDouble("amount"),
+                        json.getString("currency"),
+                        json.getBoolean("income"))
+
+                    historyList.add(his)
+                    println(his)
+                }
+            }
+ */
