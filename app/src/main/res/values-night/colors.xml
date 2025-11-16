@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#005927</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_color">#F1F1F1</color>
+    <color name="backgraund_color">#000</color>
+    <color name="backgraund2">#202020</color>
+    <color name="backgraund3">#292929</color>
+    <color name="ratetext">#FFF179</color>
+    <color name="fon_yurek">#303030</color>
+
+    <color name="clickedrate">#257928</color>
+    <color name="selectedrate">#B86E00</color>
+
+    <color name="dialogback">#151515</color>
+    <color name="subtext">#E1E1E1</color>
+
+    <color name="mygreen">#005927</color>
+    <color name="widget_background">#CC181818</color>
+</resources>

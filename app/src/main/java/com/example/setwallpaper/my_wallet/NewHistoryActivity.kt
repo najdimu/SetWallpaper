@@ -1,38 +1,49 @@
 package com.example.setwallpaper.my_wallet
 
+import android.app.Dialog
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityNewHistoryBinding
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import com.google.gson.Gson
+import java.text.SimpleDateFormat
+import java.time.temporal.WeekFields
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class NewHistoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewHistoryBinding
 
     private val viewModel: WalletViewModel by viewModels()
-    var spinnerPosition = 0
-    var nameCategor = ""
+    var categoryImage1 = 0
+    var categoryTitle1 = ""
     val walletsName= "wallets_history_list"
     val historyList: MutableList<History> = ArrayList()
     var oldList: MutableList<Wallet> = ArrayList()
+    var daily = 1
+
+    val iconDrawableMap = mapOf(
+        "am" to R.drawable.baseline_send_24,
+        "ao" to R.drawable.baseline_add_24,)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,91 +89,76 @@ class NewHistoryActivity : AppCompatActivity() {
 
         binding.currencyIcon.load(currencyIcon)
         binding.currencyNameText.text = currencyName
+        binding.btnNext.text = "Next $textTitle"
 
         val itemsNameExpense = if (textTitle == "Expense") {
-            listOf("Food & Drink", "Transport", "Shopping", "Cafe", "Housing", "Clothes",
-                "Entertainment", "Education", "Healthcare", "Family", "Debt Payments", "Others")
+            listOf(
+                Category(true,R.drawable.baseline_send_24, "Food & Drink"),
+                Category(false,R.drawable.baseline_send_24, "Transport"),
+                Category(false,R.drawable.baseline_send_24, "Shopping"),
+                Category(false,R.drawable.baseline_send_24, "Cafe"),
+                Category(false,R.drawable.baseline_send_24, "Housing"),
+                Category(false,R.drawable.baseline_send_24, "Clothes"),
+                Category(false,R.drawable.baseline_send_24, "Entertainment"),
+                Category(false,R.drawable.baseline_send_24, "Education"),
+                Category(false,R.drawable.baseline_send_24, "Healthcare"),
+                Category(false,R.drawable.baseline_send_24, "Family"),
+                Category(false,R.drawable.baseline_send_24, "Debt Payments"),
+                Category(false,R.drawable.baseline_send_24, "Others")
+            )
         } else {
-            listOf("Salary", "Allowance", "Investments", "Prize", "Others")
+            listOf(
+                Category(true,R.drawable.baseline_send_24, "Salary"),
+                Category(false,R.drawable.baseline_send_24, "Allowance"),
+                Category(false,R.drawable.baseline_send_24, "Investments"),
+                Category(false,R.drawable.baseline_send_24, "Prize"),
+                Category(false,R.drawable.baseline_send_24, "Others")
+            )
         }
+        binding.imageCategory.load(itemsNameExpense[0].image)
+        binding.spinnerTypeCategory.text = itemsNameExpense[0].title
+        val adapter = CategoryAdapter(itemsNameExpense)
+        val view = setUpView()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_category)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+        val dialogCategory = setUpCategoryDialog(view)
 
-        val spinnerAdapter = object: ArrayAdapter<String>(this, R.layout.spinner_layout, itemsNameExpense) {
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View? {
-                val view = super.getDropDownView(position, convertView, parent)
-                val textView = view as TextView
+        adapter.itemClick { category ->
+            dialogCategory.cancel()
+            val changedList : MutableList<Category> = ArrayList()
 
-                if (position == spinnerPosition){
-                    textView.setTextColor(ContextCompat.getColor(this@NewHistoryActivity, R.color.green))
+            itemsNameExpense.forEach { it->
+                if (category == it) {
+                    category.selection = true
                 } else {
-                    textView.setTextColor(resources.getColor(R.color.black, null))
+                    it.selection = false
                 }
-                return view
+                changedList.add(it)
             }
+            adapter.list = changedList
+            adapter.notifyDataSetChanged()
+            binding.imageCategory.load(category.image)
+            binding.spinnerTypeCategory.text = category.title
+
         }
-        binding.spinnerTypeCategory.adapter = spinnerAdapter
-        binding.spinnerTypeCategory.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                when (p2){
-                    0->{
-                        spinnerPosition = 0
-                        nameCategor = itemsNameExpense[0]
-                    }
-                    1->{
-                        spinnerPosition = 1
-                        nameCategor = itemsNameExpense[1]
-                    }
-                    2->{
-                        spinnerPosition = 2
-                        nameCategor = itemsNameExpense[2]
-                    }
-                    3->{
-                        spinnerPosition = 3
-                        nameCategor = itemsNameExpense[3]
-                    }
-                    4->{
-                        spinnerPosition = 4
-                        nameCategor = itemsNameExpense[4]
-                    }
-                    5->{
-                        spinnerPosition = 5
-                        nameCategor = itemsNameExpense[5]
-                    }
-                    6->{
-                        spinnerPosition = 6
-                        nameCategor = itemsNameExpense[6]
-                    }
-                    7->{
-                        spinnerPosition = 7
-                        nameCategor = itemsNameExpense[7]
-                    }
-                    8->{
-                        spinnerPosition = 8
-                        nameCategor = itemsNameExpense[8]
-                    }
-                    9->{
-                        spinnerPosition = 9
-                        nameCategor = itemsNameExpense[9]
-                    }
-                    10->{
-                        spinnerPosition = 10
-                        nameCategor = itemsNameExpense[10]
-                    }
-                    11->{
-                        spinnerPosition = 11
-                        nameCategor = itemsNameExpense[11]
-                    }
-                }
-            }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
+        binding.noteText.setOnClickListener {
+            val now = LocalDateTime.now()
+            val now1 = getIsoWeek(now)
+        }
 
-            }
+        binding.spinnerTypeCategory.setOnClickListener {
+            dialogCategory.show()
+
         }
 
         binding.btnSave.setOnClickListener {
-            var daily = 1
+
             var date = ""
-            val type = itemsNameExpense[spinnerPosition]
+            val icon = binding.imageCategory.id
+            println(icon)
+            val type = binding.spinnerTypeCategory.text.toString()
             val note = binding.editTextNote.text.toString()
             val income = textTitle != "Expense"
             val amount = when {
@@ -178,17 +174,32 @@ class NewHistoryActivity : AppCompatActivity() {
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")
                 val formatter1 = DateTimeFormatter.ofPattern("dd/MM/yy")
                 val now = LocalDateTime.now()
+                val now1 = getIsoWeek(now)
                 date = now.format(formatter)
-
+                System.currentTimeMillis()
                 val today = now.format(formatter1)
                 val lastDate = sharedPreferences.getString("last_date", "")
                 if (today != lastDate){
                     editor.putString("last_date",today).apply()
                     daily = 0
-                    Toast.makeText(this, "daily", Toast.LENGTH_SHORT).show()
                 }
 
             } else{
+                val millis: Long = System.currentTimeMillis()
+                val dateObject: Date = Date(millis)
+
+                // Use SimpleDateFormat, being careful about thread safety!
+                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                val formattedDate: String = formatter.format(dateObject)
+
+                // Get the current time in the device's default time zone
+                val calendar: Calendar = Calendar.getInstance()
+
+                // Get the week of the year
+                // Note: The definition of week-of-year depends on the Calendar's locale/settings.
+                val weekOfYear: Int = calendar.get(Calendar.WEEK_OF_YEAR)
+                println(formattedDate)
+                println(weekOfYear)
 
             }
 
@@ -202,14 +213,16 @@ class NewHistoryActivity : AppCompatActivity() {
             }
             val json = Gson().toJson(oldList)
             editor.putString(walletsName, json).apply()
-            println(json)
             finish()
         }
 
         binding.btnNext.setOnClickListener {
-            var daily = 1
+
+            val icon = binding.imageCategory.id
+            binding.currencyIcon.load(icon)
+
             var date = ""
-            val type = itemsNameExpense[spinnerPosition]
+            val type = itemsNameExpense[categoryImage1].title
             val note = binding.editTextNote.text.toString()
             val income = textTitle != "Expense"
             val amount = when {
@@ -232,7 +245,7 @@ class NewHistoryActivity : AppCompatActivity() {
                 if (today != lastDate){
                     editor.putString("last_date",today).apply()
                     daily = 0
-                    Toast.makeText(this, "daily", Toast.LENGTH_SHORT).show()
+
                 }
 
             } else{
@@ -249,7 +262,43 @@ class NewHistoryActivity : AppCompatActivity() {
             }
             val json = Gson().toJson(oldList)
             editor.putString(walletsName, json).apply()
+
+            binding.editTextAmount.text.clear()
+            binding.editTextNote.text.clear()
+          //  binding.spinnerTypeCategory.setSelection(0)
         }
 
     }
+
+    fun setUpView() : View {
+        val view = LayoutInflater.from(this)
+            .inflate(R.layout.category_dialog, null, false)
+        return view
+    }
+    fun setUpCategoryDialog(view: View) : Dialog {
+        val buttonOk = view.findViewById<ImageView>(R.id.image_cancel)
+
+        val dio = Dialog(this)
+        dio.setContentView(view)
+        dio.setCanceledOnTouchOutside(false)
+        dio.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        buttonOk.setOnClickListener {
+            dio.cancel()
+        }
+    return dio
+    }
+
+    fun getIsoWeek(dateTime: LocalDateTime): Int {
+        // 1. Get the date part (since week number only depends on the date)
+        val date = dateTime.toLocalDate()
+
+        // 2. Define the ISO 8601 week rules
+        val weekFields = WeekFields.ISO
+
+        // 3. Get the week-of-week-based-year field
+        val weekOfYear = date.get(weekFields.weekOfWeekBasedYear())
+
+        return weekOfYear
+    }
+
 }

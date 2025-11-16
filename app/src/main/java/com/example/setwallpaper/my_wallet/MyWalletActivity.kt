@@ -8,7 +8,11 @@ import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -30,6 +34,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.WeekFields
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import kotlin.toString
 
@@ -59,11 +65,12 @@ class MyWalletActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         val walletHistory = sharedPreferences.getString(walletsName, "")
         if (walletHistory.isNullOrEmpty()){
-            println()
+
             val wallet = mutableListOf(Wallet(CURREN, 0.0, emptyList()))
             val gson = Gson()
             val json = gson.toJson(wallet)
             editor.putString(walletsName,json).apply()
+            println(json)
         }
         else {
             walletList = Gson().fromJson(walletHistory, Array<Wallet>::class.java).toMutableList()
@@ -89,15 +96,41 @@ class MyWalletActivity : AppCompatActivity() {
         )
         toolbar.navigationIcon?.colorFilter = colorFilter
 
-        val jsonList = listOf(
-            History(0,"2025-10-17 17:15", "Restaurant", "soup with tomato juice", 250.0, "TMT",false),
-            History(1,"2025-10-17 18:15", "Restaurant", "soup with tomato juice", 150.0, "TMT",false),
-            History(0,"2025-10-18 17:15", "Restaurant", "soup with tomato juice", 250.0, "TMT",false),
-            History(1,"2025-10-18 19:15", "Salary", "monthly income", 150.0, "TMT",true),
-            History(1,"2025-10-18 21:15", "Restaurant", "soup with tomato juice", 250.0, "TMT",false),
-            History(0,"2025-11-19 15:15", "Restaurant", "soup with tomato juice", 250.0, "TMT",false),
-            History(0,"2025-12-19 17:15", "Restaurant", "soup with tomato juice", 250.0, "TMT",false)
-        )
+        val itemNames = listOf("Daily", "Weekly", "Monthly")
+        
+        val spinnerAdapter = object: ArrayAdapter<String>(this, R.layout.spinner_layout_2, itemNames) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View? {
+                val view = super.getDropDownView(position, convertView, parent)
+                val textView = view as TextView
+
+                if (position == 0){
+                    textView.setTextColor(ContextCompat.getColor(this@MyWalletActivity, R.color.green))
+                } else {
+                    textView.setTextColor(resources.getColor(R.color.black, null))
+                }
+                return view
+            }
+        }
+        binding.historySpinner.adapter = spinnerAdapter
+        binding.historySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                when (p2){
+                    0->{
+
+                    }
+                    1->{
+
+                    }
+                    2->{
+
+                    }
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
 
         binding.recHistory.layoutManager = LinearLayoutManager(this)
         val reser = historyList.reversed().toMutableList()
@@ -119,6 +152,9 @@ class MyWalletActivity : AppCompatActivity() {
             intent.putExtra("currency_icon", currencyIcon)
             intent.putExtra("currency_name", currencyName)
             startActivity(intent)
+        }
+
+        binding.balanceTextView.setOnClickListener {
         }
 
         binding.editBalance.setOnClickListener {

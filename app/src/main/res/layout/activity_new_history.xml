@@ -82,15 +82,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_amount" />
 
-        <Spinner
+        <TextView
             android:id="@+id/spinner_type_category"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:text="Salary"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
             android:layout_marginTop="5dp"
             android:paddingHorizontal="8dp"
+            android:paddingStart="70dp"
+            android:paddingEnd="5dp"
+            android:maxLines="1"
             android:background="@drawable/custom_background"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/category_text" />
+
+        <ImageView
+            android:id="@+id/image_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/baseline_edit_24"
+            app:layout_constraintTop_toTopOf="@+id/spinner_type_category"
+            app:layout_constraintStart_toStartOf="@+id/spinner_type_category"
+            app:layout_constraintBottom_toBottomOf="@+id/spinner_type_category"
+            />
 
         <TextView
             android:id="@+id/note_text"
