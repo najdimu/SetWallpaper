@@ -5,9 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.setwallpaper.R
@@ -17,32 +16,29 @@ class CategoryAdapter(val categories: List<Category>): RecyclerView.Adapter<Cate
     var list = categories
 
     class CategoryViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.image_item_category)
-        val title: TextView = view.findViewById(R.id.item_title_category)
-
+        val layout: ConstraintLayout = view.findViewById(R.id.layout_category_item)
+        val image: ImageView = view.findViewById(R.id.icon_item_category)
+        val title: TextView = view.findViewById(R.id.title_item_category)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_item, null, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.category_item, parent, false)
         return CategoryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val category = list[position]
-        holder.image.load(category.image)
+        holder.image.load(category.icon)
         holder.title.text = category.title
         if (category.selection){
-            holder.title.setBackgroundColor(ContextCompat.getColor(holder.itemView.context,R.color.white1))
+            holder.layout.setBackgroundColor(ContextCompat.getColor(holder.layout.context,R.color.white2))
         }
         else{
-            holder.title.setBackgroundColor(ContextCompat.getColor(holder.itemView.context,R.color.white))
+            holder.layout.setBackgroundColor(ContextCompat.getColor(holder.layout.context,R.color.white))
 
         }
-        println(category.title)
-        println(category.selection)
-
-
 
         holder.itemView.setOnClickListener {
             onItemClickListener?.let { it(category) }

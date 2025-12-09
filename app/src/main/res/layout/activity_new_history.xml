@@ -55,7 +55,7 @@
             android:id="@+id/edit_text_amount"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/custom_background"
             android:hint="0"
             android:inputType="numberDecimal"
@@ -71,6 +71,18 @@
             app:layout_constraintTop_toBottomOf="@+id/currency_name_text" />
 
         <TextView
+            android:id="@+id/error_text_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please enter amount"
+            android:textColor="@color/red"
+            android:layout_marginStart="5dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_amount"
+            app:layout_constraintStart_toStartOf="@+id/edit_text_amount"
+            />
+
+        <TextView
             android:id="@+id/category_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,10 +92,10 @@
             android:textSize="18sp"
             android:textColor="#0F0F0F"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_amount" />
+            app:layout_constraintTop_toBottomOf="@+id/error_text_amount" />
 
         <TextView
-            android:id="@+id/spinner_type_category"
+            android:id="@+id/type_category"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:text="Salary"
@@ -101,13 +113,53 @@
 
         <ImageView
             android:id="@+id/image_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="25dp"
             android:src="@drawable/baseline_edit_24"
-            app:layout_constraintTop_toTopOf="@+id/spinner_type_category"
-            app:layout_constraintStart_toStartOf="@+id/spinner_type_category"
-            app:layout_constraintBottom_toBottomOf="@+id/spinner_type_category"
+            app:layout_constraintTop_toTopOf="@+id/type_category"
+            app:layout_constraintStart_toStartOf="@+id/type_category"
+            app:layout_constraintBottom_toBottomOf="@+id/type_category"
+            />
+
+        <TextView
+            android:id="@+id/payment_method_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Payment method"
+            android:textSize="18sp"
+            android:textColor="#0F0F0F"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type_category" />
+
+        <TextView
+            android:id="@+id/payment_method_type"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="Cash"
+            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:paddingHorizontal="8dp"
+            android:paddingStart="70dp"
+            android:paddingEnd="5dp"
+            android:maxLines="1"
+            android:background="@drawable/custom_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/payment_method_text" />
+
+        <ImageView
+            android:id="@+id/icon_payment_method"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:src="@drawable/baseline_edit_24"
+            app:layout_constraintTop_toTopOf="@+id/payment_method_type"
+            app:layout_constraintStart_toStartOf="@+id/payment_method_type"
+            app:layout_constraintBottom_toBottomOf="@+id/payment_method_type"
             />
 
         <TextView
@@ -120,7 +172,7 @@
             android:textSize="18sp"
             android:textColor="#0F0F0F"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_type_category" />
+            app:layout_constraintTop_toBottomOf="@+id/payment_method_type" />
 
         <EditText
             android:id="@+id/edit_text_note"

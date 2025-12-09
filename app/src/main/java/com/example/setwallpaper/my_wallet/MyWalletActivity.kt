@@ -1,11 +1,8 @@
 package com.example.setwallpaper.my_wallet
 
 import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -15,29 +12,15 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.setwallpaper.R
 import com.example.setwallpaper.databinding.ActivityMyWalletBinding
-import com.example.setwallpaper.style_zone.activity.AddPersonalStyleActivity
-import com.example.setwallpaper.style_zone.style.PersonalStyleItem
 import com.google.gson.Gson
-import org.json.JSONArray
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.WeekFields
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-import kotlin.toString
 
 class MyWalletActivity : AppCompatActivity() {
 
@@ -48,6 +31,8 @@ class MyWalletActivity : AppCompatActivity() {
     var historyList: MutableList<History> = ArrayList()
     var walletList: MutableList<Wallet> = ArrayList()
     val CURREN = "7119643494_" + currencyName?.substringBefore(" ")
+
+    var spinnerPos = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,6 +81,12 @@ class MyWalletActivity : AppCompatActivity() {
         )
         toolbar.navigationIcon?.colorFilter = colorFilter
 
+        binding.recHistory.layoutManager = LinearLayoutManager(this)
+        val reserveList = historyList.reversed().toMutableList()
+        binding.recHistory.adapter = HistoryAdapter(reserveList,spinnerPos)
+
+
+
         val itemNames = listOf("Daily", "Weekly", "Monthly")
         
         val spinnerAdapter = object: ArrayAdapter<String>(this, R.layout.spinner_layout_2, itemNames) {
@@ -116,13 +107,16 @@ class MyWalletActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2){
                     0->{
-
+                        spinnerPos = 0
+                        binding.recHistory.adapter = HistoryAdapter(reserveList, spinnerPos)
                     }
                     1->{
-
+                        spinnerPos = 1
+                        binding.recHistory.adapter = HistoryAdapter(reserveList, spinnerPos)
                     }
                     2->{
-
+                        spinnerPos = 2
+                        binding.recHistory.adapter = HistoryAdapter(reserveList, spinnerPos)
                     }
                 }
             }
@@ -132,9 +126,6 @@ class MyWalletActivity : AppCompatActivity() {
             }
         }
 
-        binding.recHistory.layoutManager = LinearLayoutManager(this)
-        val reser = historyList.reversed().toMutableList()
-        binding.recHistory.adapter = HistoryAdapter(reser)
 
         binding.btnExpense.setOnClickListener {
             val intent = Intent(this, NewHistoryActivity::class.java)
@@ -196,12 +187,6 @@ class MyWalletActivity : AppCompatActivity() {
             builder.show()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-        }
-        else{
-
-        }
     }
 
     override fun onResume() {
@@ -225,27 +210,6 @@ class MyWalletActivity : AppCompatActivity() {
             }
         }
         val reser = historyList.reversed().toMutableList()
-        binding.recHistory.adapter = HistoryAdapter(reser)
+        binding.recHistory.adapter = HistoryAdapter(reser, spinnerPos)
     }
 }
-/*
- if (it.isEmpty()) {
-                historyList = ArrayList()
-            }
-            else{
-                val histories = JSONArray()
-                for (i in 0 until histories.length()) {
-                    val json = histories.getJSONObject(i)
-                    val his = History(json.getInt("idDaily"),
-                        json.getString("date"),
-                        json.getString("type"),
-                        json.getString("description"),
-                        json.getDouble("amount"),
-                        json.getString("currency"),
-                        json.getBoolean("income"))
-
-                    historyList.add(his)
-                    println(his)
-                }
-            }
- */
