@@ -1,61 +1,54 @@
 <resources>
     <string name="app_name">SetWallpaper</string>
 
-    <string name="toolbar_title_personal_style">Add your personal style</string>
-    <string name="toolbar_title_detail_style">Detail</string>
-    <string name="toolbar_title_request_style">Requests</string>
-
-    <string name="hello_blank_fragment">Overview Themes</string>
-
-    <string name="about_personal_style">About personal style</string>
-    <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="hint_describe_style">Please describe your personal style</string>
-    <string name="content_screenshots">Add content\'s screenshots</string>
-    <string name="about_content">About content</string>
-    <string name="theme">Theme</string>
-    <string name="required_image_add">Required</string>
-    <string name="optional_image_add">Optional</string>
-    <string name="hint_content_link">https://example.example.com</string>
-    <string name="wallpaper">Wallpapers</string>
-    <string name="text_add_screenshots">Add\nscreenshots</string>
-    <string name="invalid_link">Invalid link</string>
-    <string name="icon">Icon</string>
-    <string name="font">Font</string>
-    <string name="which_device_does_it_support">Which device does it support?</string>
-    <string name="about_author">About author</string>
-    <string name="name">Name</string>
-    <string name="hint_author">Author Author</string>
-    <string name="add_avatar">Add avatar</string>
-    <string name="add_home_wall">Add Home screen wallpaper</string>
-    <string name="add_lock_wall">Add Lock screen wallpaper</string>
-    <string name="send">Send</string>
-    <string name="string_choose_type_content">Choose type content</string>
-    <string name="string_all_devices">All devices</string>
-    <string name="string_dont_any_requests">You don\'t have any requests yet.</string>
-    <string name="string_you_have_request">Number of requests you have sent: </string>
-    <string name="support_device">Support device:</string>
-    <string name="get_theme">Get theme</string>
-    <string name="set_first_wallpaper">Set first wallpaper</string>
-    <string name="set_second_wallpaper">Set second wallpaper</string>
-    <string name="get_icon">Get icon</string>
-    <string name="get_font">Get font</string>
-
-    <string name="string_pending">pending</string>
-    <string name="string_rejected">rejected</string>
-    <string name="string_published">published</string>
-
-    <string name="please_fill">Please fill all information</string>
-    <string name="success">Picture added successfully!</string>
-    <string name="error">Failed to add picture.</string>
-
-    <string name="btn_response_done">DONE</string>
-    <string name="error_response_message">Something went wrong please try again</string>
-    <string name="success_response_message">Sent successfully.\n\nThank you for sharing personal style with us. We are currently reviewing it and will publish it as soon as possible.</string>
-    <string name="add_your_style">Add your style</string>
-    <string name="overview_themes">Overview themes</string>
-    <string name="paste">Paste</string>
-    <string name="clipboard_is_empty">Clipboard is empty.</string>
+    <string name="my_balance_text">My balance</string>
+    <string name="income_text">Income</string>
+    <string name="expense_text">Expense</string>
+    <string name="history_text">History</string>
+    <string name="please_enter_amount_text">Please enter amount</string>
+    <string name="category_text">Category</string>
+    <string name="payment_method_text">Payment method</string>
+    <string name="note_text">Note</string>
+    <string name="you_can_add_note_here_optional_text">You can add note here (optional)</string>
+    <string name="save_text">Save</string>
+    <string name="details_text">Details</string>
+    <string name="type_text">Type:</string>
+    <string name="category">Category:</string>
+    <string name="note">Note:</string>
+    <string name="amount">Amount:</string>
+    <string name="payment_method">Payment method:</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
+    <string name="ok">OK</string>
+    <string name="income">Income:</string>
+    <string name="expense">Expense:</string>
+    <string name="my_wallet">My Wallet</string>
+    <string name="salary">Salary</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="edit_balance">Edit Balance</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="next_income">Next Income</string>
+    <string name="next_expense">Next Expense</string>
+    <string name="food_drink"><![CDATA[Food & Drink]]></string>
+    <string name="transport">Transport</string>
+    <string name="shopping">Shopping</string>
+    <string name="cafe">Cafe</string>
+    <string name="housing">Housing</string>
+    <string name="clothes">Clothes</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="education">Education</string>
+    <string name="healthcare">Healthcare</string>
+    <string name="family">Family</string>
+    <string name="debt_payments">Debt Payments</string>
+    <string name="others">Others</string>
+    <string name="allowance">Allowance</string>
+    <string name="investments">Investments</string>
+    <string name="prize">Prize</string>
+    <string name="cash">Cash</string>
+    <string name="credit_card">Credit card</string>
+    <string name="online_wallet">Online wallet</string>
 
 
 </resources>

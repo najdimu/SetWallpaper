@@ -14,7 +14,7 @@ import coil.load
 import com.example.setwallpaper.R
 class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
-
+    val reservedList = historyList.reversed().toMutableList()
     var firstNumberWeek = 0
     var firstNameMonth = ""
 
@@ -26,18 +26,14 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
         val separateMonthly: View = view.findViewById(R.id.monthly_separate)
         val separateWeekly: View = view.findViewById(R.id.weekly_separate)
         val separateDaily: View = view.findViewById(R.id.daily_separate)
-
         val monthName: TextView = view.findViewById(R.id.tv_month_name)
         val incomeMonthly: TextView = view.findViewById(R.id.tv_income_amount_monthly)
         val expenseMonthly: TextView = view.findViewById(R.id.tv_expense_amount_monthly)
-
         val weekNumber: TextView = view.findViewById(R.id.tv_week_number)
         val weekStart: TextView = view.findViewById(R.id.tv_weekly_start)
         val weekEnd: TextView = view.findViewById(R.id.tv_weekly_end)
         val incomeWeekly: TextView = view.findViewById(R.id.tv_income_amount)
         val expenseWeekly: TextView = view.findViewById(R.id.tv_expense_amount)
-
-
         val date: TextView = view.findViewById(R.id.tv_date)
         val totalBalance: TextView = view.findViewById(R.id.tv_total_balance)
         val layoutHistory: ConstraintLayout = view.findViewById(R.id.layout_history_daily)
@@ -54,39 +50,32 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        val history = historyList[position]
+        val history = reservedList[position]
         val date = history.date.substring(0, 8)
-        val daily = historyList.groupBy { it.date.substring(0, 8) }
+        val daily = reservedList.groupBy { it.date.substring(0, 8) }
             .mapValues { (_, trans) ->
                 trans.sumOf { it.amount }
             }
-        val weekly = historyList.groupBy { it.weekNum }
+        val weekly = reservedList.groupBy { it.weekNum }
             .mapValues { (_, monthlyTransactions) ->
-
                 // Partition splits the list into two lists based on the predicate (isExpense)
                 val (incomes, expenses) = monthlyTransactions.partition { it.income }
-
                 // Sum the amounts in each partitioned list
                 val totalExpense = expenses.sumOf { it.amount }
                 val totalIncome = incomes.sumOf { it.amount }
-
                 // Return the results as a Pair (Expense, Income)
                 Pair(totalExpense, totalIncome)
             }
-        val monthly = historyList.groupBy { it.monthName }
+        val monthly = reservedList.groupBy { it.monthName }
             .mapValues { (_, monthlyTransactions) ->
-
                 // Partition splits the list into two lists based on the predicate (isExpense)
                 val (incomes, expenses) = monthlyTransactions.partition { it.income }
-
                 // Sum the amounts in each partitioned list
                 val totalExpense = expenses.sumOf { it.amount }
                 val totalIncome = incomes.sumOf { it.amount }
-
                 // Return the results as a Pair (Expense, Income)
                 Pair(totalExpense, totalIncome)
             }
-
 
         when (dat) {
 
@@ -95,16 +84,16 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
                 holder.separateMonthly.visibility = View.GONE
                 holder.layoutWeekly.visibility = View.GONE
                 holder.separateWeekly.visibility = View.GONE
-                if (position == historyList.lastIndex) {
+                if (position == reservedList.lastIndex) {
                     holder.separateDaily.visibility = View.GONE
                 }
 
-                if (historyList.isNotEmpty() && history == historyList[0]) {
+                if (reservedList.isNotEmpty() && history == reservedList[0]) {
                     if (daily.containsKey(date)) {
                         holder.totalBalance.text = daily[date].toString()
                     }
                     holder.date.text = date
-                } else if (historyList[position - 1].idDaily == 0) {
+                } else if (reservedList[position - 1].idDaily == 0) {
                     if (daily.containsKey(date)) {
                         holder.totalBalance.text = daily[date].toString()
                     }
@@ -127,6 +116,8 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
                 }
                 if (!history.income) {
                     holder.amount.setTextColor(getColor(holder.itemView.context, R.color.red))
+                } else{
+                    holder.amount.setTextColor(getColor(holder.itemView.context, R.color.green1))
                 }
 
             }
@@ -137,7 +128,7 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
                 holder.layoutDate.visibility = View.GONE
                 holder.layoutDaily.visibility = View.GONE
                 holder.separateDaily.visibility = View.GONE
-                if (position == historyList.lastIndex) {
+                if (history.weekNum == weekly.entries.last().key) {
                     holder.separateWeekly.visibility = View.GONE
                 }
 
@@ -163,8 +154,6 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
                     holder.separateWeekly.visibility = View.GONE
                 }
 
-
-
             }
 
             2 -> {
@@ -173,7 +162,7 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
                 holder.layoutDate.visibility = View.GONE
                 holder.layoutDaily.visibility = View.GONE
                 holder.separateDaily.visibility = View.GONE
-                if (position == historyList.lastIndex) {
+                if (history.monthName == monthly.entries.last().key) {
                     holder.separateMonthly.visibility = View.GONE
                 }
 
@@ -199,10 +188,6 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
 
             }
 
-
-
-
-
         }
 
         holder.layoutHistory.setOnClickListener {
@@ -220,10 +205,10 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
 
 
             if (history.income) {
-                typeText.text = "Income"
+                typeText.text = holder.itemView.context.getString(R.string.income_text)
                 amountText.text = "${history.amount} ${history.currency}"
             } else {
-                typeText.text = "Expense"
+                typeText.text = holder.itemView.context.getString(R.string.expense_text)
                 amountText.text = "${history.amount * -1} ${history.currency}"
                 paymentText.visibility = View.VISIBLE
                 paymentTextView.visibility = View.VISIBLE
@@ -250,6 +235,6 @@ class HistoryAdapter(var historyList: MutableList<History>, var dat: Int): Recyc
 
     }
 
-        override fun getItemCount() = historyList.size
+        override fun getItemCount() = reservedList.size
 
 }

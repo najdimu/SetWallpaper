@@ -67,13 +67,11 @@ class MyWalletActivity : AppCompatActivity() {
             }
         }
 
-
-
         val toolbar = binding.myWalletToolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) ?: true
         toolbar.setNavigationOnClickListener { finish() }
-        title = "My Wallet"
+        title = getString(R.string.my_wallet)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         val colorFilter = PorterDuffColorFilter(
             ContextCompat.getColor(this, R.color.white1),
@@ -82,19 +80,18 @@ class MyWalletActivity : AppCompatActivity() {
         toolbar.navigationIcon?.colorFilter = colorFilter
 
         binding.recHistory.layoutManager = LinearLayoutManager(this)
-        val reserveList = historyList.reversed().toMutableList()
-        binding.recHistory.adapter = HistoryAdapter(reserveList,spinnerPos)
+        binding.recHistory.adapter = HistoryAdapter(historyList,spinnerPos)
 
 
 
-        val itemNames = listOf("Daily", "Weekly", "Monthly")
+        val itemNames = listOf(getString(R.string.daily), getString(R.string.weekly), getString(R.string.monthly))
         
         val spinnerAdapter = object: ArrayAdapter<String>(this, R.layout.spinner_layout_2, itemNames) {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View? {
                 val view = super.getDropDownView(position, convertView, parent)
                 val textView = view as TextView
 
-                if (position == 0){
+                if (position == spinnerPos){
                     textView.setTextColor(ContextCompat.getColor(this@MyWalletActivity, R.color.green))
                 } else {
                     textView.setTextColor(resources.getColor(R.color.black, null))
@@ -108,15 +105,15 @@ class MyWalletActivity : AppCompatActivity() {
                 when (p2){
                     0->{
                         spinnerPos = 0
-                        binding.recHistory.adapter = HistoryAdapter(reserveList, spinnerPos)
+                        binding.recHistory.adapter = HistoryAdapter(historyList, spinnerPos)
                     }
                     1->{
                         spinnerPos = 1
-                        binding.recHistory.adapter = HistoryAdapter(reserveList, spinnerPos)
+                        binding.recHistory.adapter = HistoryAdapter(historyList, spinnerPos)
                     }
                     2->{
                         spinnerPos = 2
-                        binding.recHistory.adapter = HistoryAdapter(reserveList, spinnerPos)
+                        binding.recHistory.adapter = HistoryAdapter(historyList, spinnerPos)
                     }
                 }
             }
@@ -156,9 +153,9 @@ class MyWalletActivity : AppCompatActivity() {
 
 
             val builder = AlertDialog.Builder(this)
-                .setTitle("Edit Balance")
+                .setTitle(getString(R.string.edit_balance))
                 .setView(dialogView)
-                .setPositiveButton("Save") { dialog, which ->
+                .setPositiveButton(getString(R.string.save_text)) { dialog, which ->
                     val newText = inputField.text.toString()
                     if (newText.isEmpty()){
                         binding.balanceNumberView.text = "0.0"
@@ -178,10 +175,8 @@ class MyWalletActivity : AppCompatActivity() {
                     val gson = Gson()
                     val json = gson.toJson(walletList)
                     editor.putString(walletsName,json).apply()
-                    println(json)
-                    Toast.makeText(this, "Saved: $newText", Toast.LENGTH_SHORT).show()
                 }
-                .setNegativeButton("Cancel") { dialog, which ->
+                .setNegativeButton(getString(R.string.cancel_text)) { dialog, which ->
                     dialog.cancel()
                 }
             builder.show()
@@ -209,7 +204,6 @@ class MyWalletActivity : AppCompatActivity() {
                 }
             }
         }
-        val reser = historyList.reversed().toMutableList()
-        binding.recHistory.adapter = HistoryAdapter(reser, spinnerPos)
+        binding.recHistory.adapter = HistoryAdapter(historyList, spinnerPos)
     }
 }

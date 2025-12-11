@@ -8,8 +8,6 @@
     android:inputType="numberDecimal"
     android:maxLines="1"
     android:gravity="end"
-
-
     >
 
 </EditText>
